@@ -1,0 +1,476 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		9E64CDD618BC8BB80043926E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E64CDD518BC8BB80043926E /* Foundation.framework */; };
+		9E64CDD818BC8BB80043926E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E64CDD718BC8BB80043926E /* CoreGraphics.framework */; };
+		9E64CDDA18BC8BB80043926E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E64CDD918BC8BB80043926E /* UIKit.framework */; };
+		9E64CDE018BC8BB80043926E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9E64CDDE18BC8BB80043926E /* InfoPlist.strings */; };
+		9E64CDE218BC8BB90043926E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E64CDE118BC8BB90043926E /* main.m */; };
+		9E64CDE618BC8BB90043926E /* JNAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E64CDE518BC8BB90043926E /* JNAppDelegate.m */; };
+		9E64CDE918BC8BB90043926E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9E64CDE718BC8BB90043926E /* Main.storyboard */; };
+		9E64CDEC18BC8BB90043926E /* JNViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E64CDEB18BC8BB90043926E /* JNViewController.m */; };
+		9E64CDEE18BC8BB90043926E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9E64CDED18BC8BB90043926E /* Images.xcassets */; };
+		9E64CDF518BC8BB90043926E /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E64CDF418BC8BB90043926E /* XCTest.framework */; };
+		9E64CDF618BC8BB90043926E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E64CDD518BC8BB80043926E /* Foundation.framework */; };
+		9E64CDF718BC8BB90043926E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E64CDD918BC8BB80043926E /* UIKit.framework */; };
+		9E64CDFF18BC8BB90043926E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9E64CDFD18BC8BB90043926E /* InfoPlist.strings */; };
+		9E64CE0118BC8BB90043926E /* StredmiOSTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E64CE0018BC8BB90043926E /* StredmiOSTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		9E64CDF818BC8BB90043926E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9E64CDCA18BC8BB80043926E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9E64CDD118BC8BB80043926E;
+			remoteInfo = StredmiOS;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		9E64CDD218BC8BB80043926E /* StredmiOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StredmiOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9E64CDD518BC8BB80043926E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		9E64CDD718BC8BB80043926E /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		9E64CDD918BC8BB80043926E /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		9E64CDDD18BC8BB80043926E /* StredmiOS-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "StredmiOS-Info.plist"; sourceTree = "<group>"; };
+		9E64CDDF18BC8BB80043926E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		9E64CDE118BC8BB90043926E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		9E64CDE318BC8BB90043926E /* StredmiOS-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "StredmiOS-Prefix.pch"; sourceTree = "<group>"; };
+		9E64CDE418BC8BB90043926E /* JNAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JNAppDelegate.h; sourceTree = "<group>"; };
+		9E64CDE518BC8BB90043926E /* JNAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JNAppDelegate.m; sourceTree = "<group>"; };
+		9E64CDE818BC8BB90043926E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		9E64CDEA18BC8BB90043926E /* JNViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JNViewController.h; sourceTree = "<group>"; };
+		9E64CDEB18BC8BB90043926E /* JNViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JNViewController.m; sourceTree = "<group>"; };
+		9E64CDED18BC8BB90043926E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		9E64CDF318BC8BB90043926E /* StredmiOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StredmiOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		9E64CDF418BC8BB90043926E /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		9E64CDFC18BC8BB90043926E /* StredmiOSTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "StredmiOSTests-Info.plist"; sourceTree = "<group>"; };
+		9E64CDFE18BC8BB90043926E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		9E64CE0018BC8BB90043926E /* StredmiOSTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StredmiOSTests.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		9E64CDCF18BC8BB80043926E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9E64CDD818BC8BB80043926E /* CoreGraphics.framework in Frameworks */,
+				9E64CDDA18BC8BB80043926E /* UIKit.framework in Frameworks */,
+				9E64CDD618BC8BB80043926E /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9E64CDF018BC8BB90043926E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9E64CDF518BC8BB90043926E /* XCTest.framework in Frameworks */,
+				9E64CDF718BC8BB90043926E /* UIKit.framework in Frameworks */,
+				9E64CDF618BC8BB90043926E /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		9E64CDC918BC8BB80043926E = {
+			isa = PBXGroup;
+			children = (
+				9E64CDDB18BC8BB80043926E /* StredmiOS */,
+				9E64CDFA18BC8BB90043926E /* StredmiOSTests */,
+				9E64CDD418BC8BB80043926E /* Frameworks */,
+				9E64CDD318BC8BB80043926E /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		9E64CDD318BC8BB80043926E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9E64CDD218BC8BB80043926E /* StredmiOS.app */,
+				9E64CDF318BC8BB90043926E /* StredmiOSTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		9E64CDD418BC8BB80043926E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				9E64CDD518BC8BB80043926E /* Foundation.framework */,
+				9E64CDD718BC8BB80043926E /* CoreGraphics.framework */,
+				9E64CDD918BC8BB80043926E /* UIKit.framework */,
+				9E64CDF418BC8BB90043926E /* XCTest.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		9E64CDDB18BC8BB80043926E /* StredmiOS */ = {
+			isa = PBXGroup;
+			children = (
+				9E64CDE418BC8BB90043926E /* JNAppDelegate.h */,
+				9E64CDE518BC8BB90043926E /* JNAppDelegate.m */,
+				9E64CDE718BC8BB90043926E /* Main.storyboard */,
+				9E64CDEA18BC8BB90043926E /* JNViewController.h */,
+				9E64CDEB18BC8BB90043926E /* JNViewController.m */,
+				9E64CDED18BC8BB90043926E /* Images.xcassets */,
+				9E64CDDC18BC8BB80043926E /* Supporting Files */,
+			);
+			path = StredmiOS;
+			sourceTree = "<group>";
+		};
+		9E64CDDC18BC8BB80043926E /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				9E64CDDD18BC8BB80043926E /* StredmiOS-Info.plist */,
+				9E64CDDE18BC8BB80043926E /* InfoPlist.strings */,
+				9E64CDE118BC8BB90043926E /* main.m */,
+				9E64CDE318BC8BB90043926E /* StredmiOS-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		9E64CDFA18BC8BB90043926E /* StredmiOSTests */ = {
+			isa = PBXGroup;
+			children = (
+				9E64CE0018BC8BB90043926E /* StredmiOSTests.m */,
+				9E64CDFB18BC8BB90043926E /* Supporting Files */,
+			);
+			path = StredmiOSTests;
+			sourceTree = "<group>";
+		};
+		9E64CDFB18BC8BB90043926E /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				9E64CDFC18BC8BB90043926E /* StredmiOSTests-Info.plist */,
+				9E64CDFD18BC8BB90043926E /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		9E64CDD118BC8BB80043926E /* StredmiOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9E64CE0418BC8BB90043926E /* Build configuration list for PBXNativeTarget "StredmiOS" */;
+			buildPhases = (
+				9E64CDCE18BC8BB80043926E /* Sources */,
+				9E64CDCF18BC8BB80043926E /* Frameworks */,
+				9E64CDD018BC8BB80043926E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = StredmiOS;
+			productName = StredmiOS;
+			productReference = 9E64CDD218BC8BB80043926E /* StredmiOS.app */;
+			productType = "com.apple.product-type.application";
+		};
+		9E64CDF218BC8BB90043926E /* StredmiOSTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9E64CE0718BC8BB90043926E /* Build configuration list for PBXNativeTarget "StredmiOSTests" */;
+			buildPhases = (
+				9E64CDEF18BC8BB90043926E /* Sources */,
+				9E64CDF018BC8BB90043926E /* Frameworks */,
+				9E64CDF118BC8BB90043926E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9E64CDF918BC8BB90043926E /* PBXTargetDependency */,
+			);
+			name = StredmiOSTests;
+			productName = StredmiOSTests;
+			productReference = 9E64CDF318BC8BB90043926E /* StredmiOSTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		9E64CDCA18BC8BB80043926E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = JN;
+				LastUpgradeCheck = 0500;
+				ORGANIZATIONNAME = Stredm;
+				TargetAttributes = {
+					9E64CDF218BC8BB90043926E = {
+						TestTargetID = 9E64CDD118BC8BB80043926E;
+					};
+				};
+			};
+			buildConfigurationList = 9E64CDCD18BC8BB80043926E /* Build configuration list for PBXProject "StredmiOS" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 9E64CDC918BC8BB80043926E;
+			productRefGroup = 9E64CDD318BC8BB80043926E /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				9E64CDD118BC8BB80043926E /* StredmiOS */,
+				9E64CDF218BC8BB90043926E /* StredmiOSTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		9E64CDD018BC8BB80043926E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9E64CDEE18BC8BB90043926E /* Images.xcassets in Resources */,
+				9E64CDE018BC8BB80043926E /* InfoPlist.strings in Resources */,
+				9E64CDE918BC8BB90043926E /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9E64CDF118BC8BB90043926E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9E64CDFF18BC8BB90043926E /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		9E64CDCE18BC8BB80043926E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9E64CDE618BC8BB90043926E /* JNAppDelegate.m in Sources */,
+				9E64CDEC18BC8BB90043926E /* JNViewController.m in Sources */,
+				9E64CDE218BC8BB90043926E /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9E64CDEF18BC8BB90043926E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9E64CE0118BC8BB90043926E /* StredmiOSTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		9E64CDF918BC8BB90043926E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9E64CDD118BC8BB80043926E /* StredmiOS */;
+			targetProxy = 9E64CDF818BC8BB90043926E /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		9E64CDDE18BC8BB80043926E /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9E64CDDF18BC8BB80043926E /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		9E64CDE718BC8BB90043926E /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9E64CDE818BC8BB90043926E /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		9E64CDFD18BC8BB90043926E /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9E64CDFE18BC8BB90043926E /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		9E64CE0218BC8BB90043926E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		9E64CE0318BC8BB90043926E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		9E64CE0518BC8BB90043926E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "StredmiOS/StredmiOS-Prefix.pch";
+				INFOPLIST_FILE = "StredmiOS/StredmiOS-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		9E64CE0618BC8BB90043926E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "StredmiOS/StredmiOS-Prefix.pch";
+				INFOPLIST_FILE = "StredmiOS/StredmiOS-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		9E64CE0818BC8BB90043926E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/StredmiOS.app/StredmiOS";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "StredmiOS/StredmiOS-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "StredmiOSTests/StredmiOSTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		9E64CE0918BC8BB90043926E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/StredmiOS.app/StredmiOS";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "StredmiOS/StredmiOS-Prefix.pch";
+				INFOPLIST_FILE = "StredmiOSTests/StredmiOSTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		9E64CDCD18BC8BB80043926E /* Build configuration list for PBXProject "StredmiOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9E64CE0218BC8BB90043926E /* Debug */,
+				9E64CE0318BC8BB90043926E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9E64CE0418BC8BB90043926E /* Build configuration list for PBXNativeTarget "StredmiOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9E64CE0518BC8BB90043926E /* Debug */,
+				9E64CE0618BC8BB90043926E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		9E64CE0718BC8BB90043926E /* Build configuration list for PBXNativeTarget "StredmiOSTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9E64CE0818BC8BB90043926E /* Debug */,
+				9E64CE0918BC8BB90043926E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 9E64CDCA18BC8BB80043926E /* Project object */;
+}
