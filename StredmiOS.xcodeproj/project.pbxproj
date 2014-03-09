@@ -14,13 +14,14 @@
 		9E64CDE218BC8BB90043926E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E64CDE118BC8BB90043926E /* main.m */; };
 		9E64CDE618BC8BB90043926E /* JNAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E64CDE518BC8BB90043926E /* JNAppDelegate.m */; };
 		9E64CDE918BC8BB90043926E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9E64CDE718BC8BB90043926E /* Main.storyboard */; };
-		9E64CDEC18BC8BB90043926E /* JNViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E64CDEB18BC8BB90043926E /* JNViewController.m */; };
 		9E64CDEE18BC8BB90043926E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9E64CDED18BC8BB90043926E /* Images.xcassets */; };
 		9E64CDF518BC8BB90043926E /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E64CDF418BC8BB90043926E /* XCTest.framework */; };
 		9E64CDF618BC8BB90043926E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E64CDD518BC8BB80043926E /* Foundation.framework */; };
 		9E64CDF718BC8BB90043926E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E64CDD918BC8BB80043926E /* UIKit.framework */; };
 		9E64CDFF18BC8BB90043926E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9E64CDFD18BC8BB90043926E /* InfoPlist.strings */; };
 		9E64CE0118BC8BB90043926E /* StredmiOSTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E64CE0018BC8BB90043926E /* StredmiOSTests.m */; };
+		9E9ABF7318CD1209007A9897 /* JNMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E9ABF7218CD1209007A9897 /* JNMenuViewController.m */; };
+		CB3C5242580F452B880A4C09 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 54F040432EC54C8082DFC594 /* libPods.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,6 +35,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		54F040432EC54C8082DFC594 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E64CDD218BC8BB80043926E /* StredmiOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StredmiOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E64CDD518BC8BB80043926E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		9E64CDD718BC8BB80043926E /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -45,14 +47,15 @@
 		9E64CDE418BC8BB90043926E /* JNAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JNAppDelegate.h; sourceTree = "<group>"; };
 		9E64CDE518BC8BB90043926E /* JNAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JNAppDelegate.m; sourceTree = "<group>"; };
 		9E64CDE818BC8BB90043926E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		9E64CDEA18BC8BB90043926E /* JNViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JNViewController.h; sourceTree = "<group>"; };
-		9E64CDEB18BC8BB90043926E /* JNViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JNViewController.m; sourceTree = "<group>"; };
 		9E64CDED18BC8BB90043926E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		9E64CDF318BC8BB90043926E /* StredmiOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StredmiOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E64CDF418BC8BB90043926E /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		9E64CDFC18BC8BB90043926E /* StredmiOSTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "StredmiOSTests-Info.plist"; sourceTree = "<group>"; };
 		9E64CDFE18BC8BB90043926E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		9E64CE0018BC8BB90043926E /* StredmiOSTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StredmiOSTests.m; sourceTree = "<group>"; };
+		9E9ABF7118CD1209007A9897 /* JNMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JNMenuViewController.h; sourceTree = "<group>"; };
+		9E9ABF7218CD1209007A9897 /* JNMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JNMenuViewController.m; sourceTree = "<group>"; };
+		F418191D88EB45B094D8E11F /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +66,7 @@
 				9E64CDD818BC8BB80043926E /* CoreGraphics.framework in Frameworks */,
 				9E64CDDA18BC8BB80043926E /* UIKit.framework in Frameworks */,
 				9E64CDD618BC8BB80043926E /* Foundation.framework in Frameworks */,
+				CB3C5242580F452B880A4C09 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -86,6 +90,7 @@
 				9E64CDFA18BC8BB90043926E /* StredmiOSTests */,
 				9E64CDD418BC8BB80043926E /* Frameworks */,
 				9E64CDD318BC8BB80043926E /* Products */,
+				F418191D88EB45B094D8E11F /* Pods.xcconfig */,
 			);
 			sourceTree = "<group>";
 		};
@@ -105,6 +110,7 @@
 				9E64CDD718BC8BB80043926E /* CoreGraphics.framework */,
 				9E64CDD918BC8BB80043926E /* UIKit.framework */,
 				9E64CDF418BC8BB90043926E /* XCTest.framework */,
+				54F040432EC54C8082DFC594 /* libPods.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -115,8 +121,8 @@
 				9E64CDE418BC8BB90043926E /* JNAppDelegate.h */,
 				9E64CDE518BC8BB90043926E /* JNAppDelegate.m */,
 				9E64CDE718BC8BB90043926E /* Main.storyboard */,
-				9E64CDEA18BC8BB90043926E /* JNViewController.h */,
-				9E64CDEB18BC8BB90043926E /* JNViewController.m */,
+				9E9ABF7118CD1209007A9897 /* JNMenuViewController.h */,
+				9E9ABF7218CD1209007A9897 /* JNMenuViewController.m */,
 				9E64CDED18BC8BB90043926E /* Images.xcassets */,
 				9E64CDDC18BC8BB80043926E /* Supporting Files */,
 			);
@@ -159,9 +165,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9E64CE0418BC8BB90043926E /* Build configuration list for PBXNativeTarget "StredmiOS" */;
 			buildPhases = (
+				6DC810BE980F4CCAB08A137F /* Check Pods Manifest.lock */,
 				9E64CDCE18BC8BB80043926E /* Sources */,
 				9E64CDCF18BC8BB80043926E /* Frameworks */,
 				9E64CDD018BC8BB80043926E /* Resources */,
+				F3C7D778A85541449CE56C46 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -245,13 +253,46 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		6DC810BE980F4CCAB08A137F /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		F3C7D778A85541449CE56C46 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		9E64CDCE18BC8BB80043926E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				9E64CDE618BC8BB90043926E /* JNAppDelegate.m in Sources */,
-				9E64CDEC18BC8BB90043926E /* JNViewController.m in Sources */,
+				9E9ABF7318CD1209007A9897 /* JNMenuViewController.m in Sources */,
 				9E64CDE218BC8BB90043926E /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -376,6 +417,7 @@
 		};
 		9E64CE0518BC8BB90043926E /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F418191D88EB45B094D8E11F /* Pods.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -389,6 +431,7 @@
 		};
 		9E64CE0618BC8BB90043926E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F418191D88EB45B094D8E11F /* Pods.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -461,6 +504,7 @@
 				9E64CE0618BC8BB90043926E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		9E64CE0718BC8BB90043926E /* Build configuration list for PBXNativeTarget "StredmiOSTests" */ = {
 			isa = XCConfigurationList;
@@ -469,6 +513,7 @@
 				9E64CE0918BC8BB90043926E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
