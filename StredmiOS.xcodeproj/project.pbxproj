@@ -22,6 +22,8 @@
 		9E64CE0118BC8BB90043926E /* StredmiOSTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E64CE0018BC8BB90043926E /* StredmiOSTests.m */; };
 		9E9ABF7318CD1209007A9897 /* JNMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E9ABF7218CD1209007A9897 /* JNMenuViewController.m */; };
 		CB3C5242580F452B880A4C09 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 54F040432EC54C8082DFC594 /* libPods.a */; };
+		F83112F818D0CE1C001F3B5E /* BrowseTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F83112F718D0CE1C001F3B5E /* BrowseTableCell.m */; };
+		F8FB476518D047FC00BA6EEE /* BrowseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F8FB476418D047FC00BA6EEE /* BrowseViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +58,10 @@
 		9E9ABF7118CD1209007A9897 /* JNMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JNMenuViewController.h; sourceTree = "<group>"; };
 		9E9ABF7218CD1209007A9897 /* JNMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JNMenuViewController.m; sourceTree = "<group>"; };
 		F418191D88EB45B094D8E11F /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		F83112F618D0CE1C001F3B5E /* BrowseTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrowseTableCell.h; sourceTree = "<group>"; };
+		F83112F718D0CE1C001F3B5E /* BrowseTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrowseTableCell.m; sourceTree = "<group>"; };
+		F8FB476318D047FC00BA6EEE /* BrowseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrowseViewController.h; sourceTree = "<group>"; };
+		F8FB476418D047FC00BA6EEE /* BrowseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrowseViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,6 +129,10 @@
 				9E64CDE718BC8BB90043926E /* Main.storyboard */,
 				9E9ABF7118CD1209007A9897 /* JNMenuViewController.h */,
 				9E9ABF7218CD1209007A9897 /* JNMenuViewController.m */,
+				F8FB476318D047FC00BA6EEE /* BrowseViewController.h */,
+				F8FB476418D047FC00BA6EEE /* BrowseViewController.m */,
+				F83112F618D0CE1C001F3B5E /* BrowseTableCell.h */,
+				F83112F718D0CE1C001F3B5E /* BrowseTableCell.m */,
 				9E64CDED18BC8BB90043926E /* Images.xcassets */,
 				9E64CDDC18BC8BB80043926E /* Supporting Files */,
 			);
@@ -205,7 +215,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = JN;
-				LastUpgradeCheck = 0500;
+				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = Stredm;
 				TargetAttributes = {
 					9E64CDF218BC8BB90043926E = {
@@ -293,6 +303,8 @@
 			files = (
 				9E64CDE618BC8BB90043926E /* JNAppDelegate.m in Sources */,
 				9E9ABF7318CD1209007A9897 /* JNMenuViewController.m in Sources */,
+				F83112F818D0CE1C001F3B5E /* BrowseTableCell.m in Sources */,
+				F8FB476518D047FC00BA6EEE /* BrowseViewController.m in Sources */,
 				9E64CDE218BC8BB90043926E /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -347,7 +359,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -386,7 +397,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -446,7 +456,6 @@
 		9E64CE0818BC8BB90043926E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/StredmiOS.app/StredmiOS";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
@@ -469,7 +478,6 @@
 		9E64CE0918BC8BB90043926E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/StredmiOS.app/StredmiOS";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
