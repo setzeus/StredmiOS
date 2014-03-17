@@ -9,6 +9,8 @@
 #import "JNAppDelegate.h"
 #import "JNMenuViewController.h"
 #import "JNSettingsViewController.h"
+#import <AVFoundation/AVFoundation.h>
+#import <AudioToolbox/AudioToolbox.h>
 
 @implementation JNAppDelegate
 
@@ -32,6 +34,12 @@
     
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
+    NSError *setCategoryErr = nil;
+    NSError *activationErr  = nil;
+    [[AVAudioSession sharedInstance] setDelegate:self];
+    [[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategoryPlayback error:&setCategoryErr];
+    [[AVAudioSession sharedInstance] setActive:YES error:&activationErr];
+
     
     return YES;
 }
