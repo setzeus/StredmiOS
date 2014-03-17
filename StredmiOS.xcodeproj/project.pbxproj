@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		137475B9019C43BEA67EE7A2 /* libPods-StredmiOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A6B8851ADB34244A46385BA /* libPods-StredmiOS.a */; };
+		7A6ACA4718D67F0500231692 /* JNSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A6ACA4618D67F0500231692 /* JNSettingsViewController.m */; };
 		9E64CDD618BC8BB80043926E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E64CDD518BC8BB80043926E /* Foundation.framework */; };
 		9E64CDD818BC8BB80043926E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E64CDD718BC8BB80043926E /* CoreGraphics.framework */; };
 		9E64CDDA18BC8BB80043926E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E64CDD918BC8BB80043926E /* UIKit.framework */; };
@@ -21,12 +23,40 @@
 		9E64CDFF18BC8BB90043926E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9E64CDFD18BC8BB90043926E /* InfoPlist.strings */; };
 		9E64CE0118BC8BB90043926E /* StredmiOSTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E64CE0018BC8BB90043926E /* StredmiOSTests.m */; };
 		9E9ABF7318CD1209007A9897 /* JNMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E9ABF7218CD1209007A9897 /* JNMenuViewController.m */; };
-		CB3C5242580F452B880A4C09 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 54F040432EC54C8082DFC594 /* libPods.a */; };
+		C34C1312E9E349758EDBC502 /* libPods-StredmiOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2114F187D3F14E8BB4D0B88F /* libPods-StredmiOSTests.a */; };
 		F83112F818D0CE1C001F3B5E /* BrowseTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F83112F718D0CE1C001F3B5E /* BrowseTableCell.m */; };
 		F8FB476518D047FC00BA6EEE /* BrowseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F8FB476418D047FC00BA6EEE /* BrowseViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		7AB394F818D7A32B0016AB70 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F418191D88EB45B094D8E11F /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = AA127694467D4A6E97C612BB;
+			remoteInfo = "Pods-StredmiOS";
+		};
+		7AB394FA18D7A32B0016AB70 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F418191D88EB45B094D8E11F /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 39BA1705906A4CB2B6FE4CE5;
+			remoteInfo = "Pods-StredmiOS-ECSlidingViewController";
+		};
+		7AB394FC18D7A32B0016AB70 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F418191D88EB45B094D8E11F /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = AAEE8CB53FE64C258E7F12D9;
+			remoteInfo = "Pods-StredmiOSTests";
+		};
+		7AB394FE18D7A32B0016AB70 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F418191D88EB45B094D8E11F /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 36936AB2FA04428199653F98;
+			remoteInfo = "Pods-StredmiOSTests-ECSlidingViewController";
+		};
 		9E64CDF818BC8BB90043926E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 9E64CDCA18BC8BB80043926E /* Project object */;
@@ -37,7 +67,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0A6B8851ADB34244A46385BA /* libPods-StredmiOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-StredmiOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2114F187D3F14E8BB4D0B88F /* libPods-StredmiOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-StredmiOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		54F040432EC54C8082DFC594 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		7A6ACA4518D67F0500231692 /* JNSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JNSettingsViewController.h; sourceTree = "<group>"; };
+		7A6ACA4618D67F0500231692 /* JNSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JNSettingsViewController.m; sourceTree = "<group>"; };
+		86C200B1F195462D8FFD62D8 /* Pods-StredmiOS.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StredmiOS.xcconfig"; path = "Pods/Pods-StredmiOS.xcconfig"; sourceTree = "<group>"; };
 		9E64CDD218BC8BB80043926E /* StredmiOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StredmiOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E64CDD518BC8BB80043926E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		9E64CDD718BC8BB80043926E /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -57,11 +92,12 @@
 		9E64CE0018BC8BB90043926E /* StredmiOSTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StredmiOSTests.m; sourceTree = "<group>"; };
 		9E9ABF7118CD1209007A9897 /* JNMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JNMenuViewController.h; sourceTree = "<group>"; };
 		9E9ABF7218CD1209007A9897 /* JNMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JNMenuViewController.m; sourceTree = "<group>"; };
-		F418191D88EB45B094D8E11F /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		F418191D88EB45B094D8E11F /* Pods.xcodeproj */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "wrapper.pb-project"; name = Pods.xcodeproj; path = Pods/Pods.xcodeproj; sourceTree = SOURCE_ROOT; };
 		F83112F618D0CE1C001F3B5E /* BrowseTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrowseTableCell.h; sourceTree = "<group>"; };
 		F83112F718D0CE1C001F3B5E /* BrowseTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrowseTableCell.m; sourceTree = "<group>"; };
 		F8FB476318D047FC00BA6EEE /* BrowseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrowseViewController.h; sourceTree = "<group>"; };
 		F8FB476418D047FC00BA6EEE /* BrowseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrowseViewController.m; sourceTree = "<group>"; };
+		FCAE31B8CAA443559BD537EC /* Pods-StredmiOSTests.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StredmiOSTests.xcconfig"; path = "Pods/Pods-StredmiOSTests.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,7 +108,7 @@
 				9E64CDD818BC8BB80043926E /* CoreGraphics.framework in Frameworks */,
 				9E64CDDA18BC8BB80043926E /* UIKit.framework in Frameworks */,
 				9E64CDD618BC8BB80043926E /* Foundation.framework in Frameworks */,
-				CB3C5242580F452B880A4C09 /* libPods.a in Frameworks */,
+				137475B9019C43BEA67EE7A2 /* libPods-StredmiOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,12 +119,24 @@
 				9E64CDF518BC8BB90043926E /* XCTest.framework in Frameworks */,
 				9E64CDF718BC8BB90043926E /* UIKit.framework in Frameworks */,
 				9E64CDF618BC8BB90043926E /* Foundation.framework in Frameworks */,
+				C34C1312E9E349758EDBC502 /* libPods-StredmiOSTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7AB394F218D7A32B0016AB70 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7AB394F918D7A32B0016AB70 /* libPods-StredmiOS.a */,
+				7AB394FB18D7A32B0016AB70 /* libPods-StredmiOS-ECSlidingViewController.a */,
+				7AB394FD18D7A32B0016AB70 /* libPods-StredmiOSTests.a */,
+				7AB394FF18D7A32B0016AB70 /* libPods-StredmiOSTests-ECSlidingViewController.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		9E64CDC918BC8BB80043926E = {
 			isa = PBXGroup;
 			children = (
@@ -96,7 +144,9 @@
 				9E64CDFA18BC8BB90043926E /* StredmiOSTests */,
 				9E64CDD418BC8BB80043926E /* Frameworks */,
 				9E64CDD318BC8BB80043926E /* Products */,
-				F418191D88EB45B094D8E11F /* Pods.xcconfig */,
+				F418191D88EB45B094D8E11F /* Pods.xcodeproj */,
+				86C200B1F195462D8FFD62D8 /* Pods-StredmiOS.xcconfig */,
+				FCAE31B8CAA443559BD537EC /* Pods-StredmiOSTests.xcconfig */,
 			);
 			sourceTree = "<group>";
 		};
@@ -117,6 +167,8 @@
 				9E64CDD918BC8BB80043926E /* UIKit.framework */,
 				9E64CDF418BC8BB90043926E /* XCTest.framework */,
 				54F040432EC54C8082DFC594 /* libPods.a */,
+				0A6B8851ADB34244A46385BA /* libPods-StredmiOS.a */,
+				2114F187D3F14E8BB4D0B88F /* libPods-StredmiOSTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -127,6 +179,8 @@
 				9E64CDE418BC8BB90043926E /* JNAppDelegate.h */,
 				9E64CDE518BC8BB90043926E /* JNAppDelegate.m */,
 				9E64CDE718BC8BB90043926E /* Main.storyboard */,
+				7A6ACA4518D67F0500231692 /* JNSettingsViewController.h */,
+				7A6ACA4618D67F0500231692 /* JNSettingsViewController.m */,
 				F8FB476318D047FC00BA6EEE /* BrowseViewController.h */,
 				F8FB476418D047FC00BA6EEE /* BrowseViewController.m */,
 				9E9ABF7118CD1209007A9897 /* JNMenuViewController.h */,
@@ -194,9 +248,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9E64CE0718BC8BB90043926E /* Build configuration list for PBXNativeTarget "StredmiOSTests" */;
 			buildPhases = (
+				E90FFEB522494608A70630AB /* Check Pods Manifest.lock */,
 				9E64CDEF18BC8BB90043926E /* Sources */,
 				9E64CDF018BC8BB90043926E /* Frameworks */,
 				9E64CDF118BC8BB90043926E /* Resources */,
+				2B7E610DF44D49129D06A038 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -234,6 +290,12 @@
 			mainGroup = 9E64CDC918BC8BB80043926E;
 			productRefGroup = 9E64CDD318BC8BB80043926E /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 7AB394F218D7A32B0016AB70 /* Products */;
+					ProjectRef = F418191D88EB45B094D8E11F /* Pods.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				9E64CDD118BC8BB80043926E /* StredmiOS */,
@@ -241,6 +303,37 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		7AB394F918D7A32B0016AB70 /* libPods-StredmiOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libPods-StredmiOS.a";
+			remoteRef = 7AB394F818D7A32B0016AB70 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		7AB394FB18D7A32B0016AB70 /* libPods-StredmiOS-ECSlidingViewController.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libPods-StredmiOS-ECSlidingViewController.a";
+			remoteRef = 7AB394FA18D7A32B0016AB70 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		7AB394FD18D7A32B0016AB70 /* libPods-StredmiOSTests.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libPods-StredmiOSTests.a";
+			remoteRef = 7AB394FC18D7A32B0016AB70 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		7AB394FF18D7A32B0016AB70 /* libPods-StredmiOSTests-ECSlidingViewController.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libPods-StredmiOSTests-ECSlidingViewController.a";
+			remoteRef = 7AB394FE18D7A32B0016AB70 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		9E64CDD018BC8BB80043926E /* Resources */ = {
@@ -264,7 +357,37 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		2B7E610DF44D49129D06A038 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Pods-StredmiOSTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		6DC810BE980F4CCAB08A137F /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		E90FFEB522494608A70630AB /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -291,7 +414,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Pods-StredmiOS-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -302,6 +425,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9E64CDE618BC8BB90043926E /* JNAppDelegate.m in Sources */,
+				7A6ACA4718D67F0500231692 /* JNSettingsViewController.m in Sources */,
 				9E9ABF7318CD1209007A9897 /* JNMenuViewController.m in Sources */,
 				F83112F818D0CE1C001F3B5E /* BrowseTableCell.m in Sources */,
 				F8FB476518D047FC00BA6EEE /* BrowseViewController.m in Sources */,
@@ -427,13 +551,13 @@
 		};
 		9E64CE0518BC8BB90043926E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F418191D88EB45B094D8E11F /* Pods.xcconfig */;
+			baseConfigurationReference = 86C200B1F195462D8FFD62D8 /* Pods-StredmiOS.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "StredmiOS/StredmiOS-Prefix.pch";
-				INFOPLIST_FILE = "StredmiOS/StredmiOS-Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/StredmiOS/StredmiOS-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -441,13 +565,13 @@
 		};
 		9E64CE0618BC8BB90043926E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F418191D88EB45B094D8E11F /* Pods.xcconfig */;
+			baseConfigurationReference = 86C200B1F195462D8FFD62D8 /* Pods-StredmiOS.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "StredmiOS/StredmiOS-Prefix.pch";
-				INFOPLIST_FILE = "StredmiOS/StredmiOS-Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/StredmiOS/StredmiOS-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -455,6 +579,7 @@
 		};
 		9E64CE0818BC8BB90043926E /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FCAE31B8CAA443559BD537EC /* Pods-StredmiOSTests.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/StredmiOS.app/StredmiOS";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -477,6 +602,7 @@
 		};
 		9E64CE0918BC8BB90043926E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FCAE31B8CAA443559BD537EC /* Pods-StredmiOSTests.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/StredmiOS.app/StredmiOS";
 				FRAMEWORK_SEARCH_PATHS = (

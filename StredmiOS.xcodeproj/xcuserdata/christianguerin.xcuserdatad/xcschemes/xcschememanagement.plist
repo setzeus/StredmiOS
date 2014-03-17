@@ -4,25 +4,20 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>Pods-ECSlidingViewController.xcscheme</key>
+		<key>StredmiOS.xcscheme</key>
 		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
-		<key>Pods.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
+			<key>orderHint</key>
+			<integer>0</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>6E88CEBAD756456F8C8A7ACA</key>
+		<key>9E64CDD118BC8BB80043926E</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>9B7B1F3D57D44E1D93AE7CB5</key>
+		<key>9E64CDF218BC8BB90043926E</key>
 		<dict>
 			<key>primary</key>
 			<true/>

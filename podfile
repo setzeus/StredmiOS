@@ -1,3 +1,12 @@
-platform:ios, '7.0'
-pod 'ECSlidingViewController'
+platform :ios, '7.0'
 
+xcodeproj "StredmiOS"
+
+
+target "StredmiOS" do
+    pod 'ECSlidingViewController'
+end
+
+target "StredmiOSTests" do
+    pod 'ECSlidingViewController'
+end

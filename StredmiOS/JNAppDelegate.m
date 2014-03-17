@@ -7,12 +7,32 @@
 //
 
 #import "JNAppDelegate.h"
+#import "JNMenuViewController.h"
+#import "JNSettingsViewController.h"
 
 @implementation JNAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
     // Override point for customization after application launch.
+    
+    // Create a JNMenuViewController
+    //JNMenuViewController *menuViewController = [[JNMenuViewController alloc] init];
+    
+    // Create a JNSettingsViewController
+    JNSettingsViewController *settingsViewController = [[JNSettingsViewController alloc] init];
+    
+    // Create an instance of a UINavigationController
+    // its stack contains settingsViewController
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:settingsViewController];
+    
+    // Place navigation controller's view in the window hierarchy
+    self.window.rootViewController = navController;
+    
+    self.window.backgroundColor = [UIColor whiteColor];
+    [self.window makeKeyAndVisible];
+    
     return YES;
 }
 							
