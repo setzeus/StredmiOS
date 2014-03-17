@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "BrowseTableCell.h"
+#import "SearchResultViewController.h"
 
-@interface BrowseViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate>
+@interface BrowseViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, UINavigationControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UISegmentedControl *browseSegCont;
 

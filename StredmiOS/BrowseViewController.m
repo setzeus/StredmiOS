@@ -12,6 +12,9 @@
 
 @property (nonatomic) NSInteger currentMode;
 
+@property (strong, nonatomic) NSString *searchString;
+@property (strong, nonatomic) NSArray *searchArray;
+
 @property (strong, nonatomic) NSArray *artistArray;
 @property (strong, nonatomic) NSArray *eventArray;
 @property (strong, nonatomic) NSArray *radioArray;
@@ -33,7 +36,7 @@
 
 
 -(NSData *)dataFromURL:(NSString *)url {
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:[url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
     NSError *error = nil;
     NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:&error];
     if ( error != nil ) [NSException raise:@"Error retrieving data" format:@"Could not reach %@", url];
@@ -60,6 +63,13 @@
 - (void)changeBrowseMode {
     self.currentMode = (NSInteger)self.browseSegCont.selectedSegmentIndex;
     [self.tableView reloadData];
+}
+
+
+-(NSArray *)searchArray {
+    NSString *searchURL = [NSString stringWithFormat:@"http://stredm.com/scripts/mobile/search.php?label=%@", self.searchString];
+    _searchArray = [self safeJSONParseArray:searchURL];
+    return _searchArray;
 }
 
 -(NSArray *)artistArray {
@@ -97,7 +107,8 @@
     self.currentMode = (NSInteger)self.browseSegCont.selectedSegmentIndex;
     [self.browseSegCont addTarget:self action:@selector( changeBrowseMode ) forControlEvents:UIControlEventValueChanged];
     
-    [self.tableView registerClass: [BrowseTableCell class] forCellReuseIdentifier:@"Cell"];
+    
+//    [self.tableView registerClass: [BrowseTableCell class] forCellReuseIdentifier:@"BrowseTableCell"];
     
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -142,32 +153,63 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    static NSString *CellIdentifier = @"BrowseTableCell";
+    BrowseTableCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
-    if ( cell == nil ) {
-        cell = [[BrowseTableCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
-    }
+//    if ( cell == nil ) {
+//        cell = [[BrowseTableCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+//    }
     
     switch (self.currentMode) {
         case 0:
             cell.textLabel.text = [[self.artistArray objectAtIndex:indexPath.row] objectForKey:@"artist"];
-            [[self.artistArray objectAtIndex:indexPath.row] objectForKey:@"id"];
+            cell.idNum = (NSInteger)[[self.artistArray objectAtIndex:indexPath.row] objectForKey:@"id"];
             break;
         case 1:
             cell.textLabel.text = [[self.eventArray objectAtIndex:indexPath.row] objectForKey:@"event"];
+            cell.idNum = (NSInteger)[[self.artistArray objectAtIndex:indexPath.row] objectForKey:@"id"];
             break;
         case 2:
             cell.textLabel.text = [[self.radioArray objectAtIndex:indexPath.row] objectForKey:@"radiomix"];
+            cell.idNum = (NSInteger)[[self.artistArray objectAtIndex:indexPath.row] objectForKey:@"id"];
             break;
         case 3:
             cell.textLabel.text = [[self.genreArray objectAtIndex:indexPath.row] objectForKey:@"genre"];
+            cell.idNum = (NSInteger)[[self.artistArray objectAtIndex:indexPath.row] objectForKey:@"id"];
             break;
         default:
             cell.textLabel.text = @"An error occured";
     }
     
     return cell;
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([[segue identifier] isEqualToString:@"BrowseToSearch"]) {
+        SearchResultViewController *srvc = [segue destinationViewController];
+        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+        
+        switch (self.currentMode) {
+            case 0:
+                self.searchString = [[self.artistArray objectAtIndex:indexPath.row] objectForKey:@"artist"];
+                break;
+            case 1:
+                self.searchString = [[self.eventArray objectAtIndex:indexPath.row] objectForKey:@"event"];
+                break;
+            case 2:
+                self.searchString = [[self.radioArray objectAtIndex:indexPath.row] objectForKey:@"radiomix"];
+                break;
+            case 3:
+                self.searchString = [[self.genreArray objectAtIndex:indexPath.row] objectForKey:@"genre"];
+                break;
+                
+            default:
+                self.searchString = @"";
+        }
+        srvc.title = self.searchString;
+        srvc.searchArray = self.searchArray;
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {

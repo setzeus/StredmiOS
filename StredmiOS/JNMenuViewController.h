@@ -7,7 +7,19 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <AudioToolbox/AudioToolbox.h>
+#import <AVFoundation/AVFoundation.h>
+#import "HomeViewController.h"
 
-@interface JNMenuViewController : UITableViewController
-- (IBAction)unwindToMenuViewController:(UIStoryboardSegue *)segue;
+@interface JNMenuViewController : UITableViewController <AVAudioPlayerDelegate>
+
+@property (weak, nonatomic) AVPlayerLayer *playerLayer;
+@property (nonatomic) float percentageOfSong;
+@property (strong, nonatomic) NSTimer *timer;
+
+@property (strong, nonatomic) IBOutlet HomeViewController *hvc;
+
+-(IBAction)unwindToMenuViewController:(UIStoryboardSegue *)segue;
+-(void)playSongWithQuery:(NSString *)query row:(NSInteger)row;
+
 @end
