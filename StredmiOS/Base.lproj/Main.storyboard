@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4514" systemVersion="13B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="N67-2v-HLn">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="N67-2v-HLn">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <scenes>
         <!--Menu View Controller-->
@@ -222,6 +222,7 @@
                                 </state>
                                 <connections>
                                     <action selector="playPush:" destination="NxX-ND-QQb" eventType="touchUpInside" id="dT7-Kx-bwD"/>
+                                    <action selector="scrub:forEvent:" destination="NxX-ND-QQb" eventType="touchDragInside" id="kYT-4u-J3t"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -575,10 +576,10 @@
             </objects>
             <point key="canvasLocation" x="1793" y="3067"/>
         </scene>
-        <!--Table View Controller - Settings-->
+        <!--Settings View Controller - Settings-->
         <scene sceneID="lUR-aK-dAZ">
             <objects>
-                <tableViewController id="KoV-By-718" sceneMemberID="viewController">
+                <tableViewController id="KoV-By-718" customClass="JNSettingsViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="OjW-Dm-rNV">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

@@ -8,6 +8,8 @@
 
 #import "HomeViewController.h"
 
+#import <math.h>
+
 @interface HomeViewController ()
 
 @property (nonatomic) BOOL isPlaying;
@@ -54,12 +56,33 @@
 
 
 -(IBAction)playPush:(id)sender {
-    self.isPlaying = !self.isPlaying;
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setBool:self.isPlaying forKey:@"isPlaying"];
+    if (![[defaults stringForKey:@"scrubbing"] isEqualToString:@"yes"]) {
+        self.isPlaying = !self.isPlaying;
+        [defaults setBool:self.isPlaying forKey:@"isPlaying"];
+        [defaults synchronize];
+        self.playButton.isPlaying = self.isPlaying;
+        [self.playButton setNeedsDisplay];
+    }
+}
+
+-(IBAction)scrub:(PlayButton *)sender forEvent:(UIEvent *)event {
+    NSSet *touches = [event touchesForView:sender];
+    UITouch *touch = [touches anyObject];
+    CGPoint point = [touch locationInView:sender];
+    float x = point.x - 120.0;
+    float y = point.y - 120.0;
+    float per = -atan(x/y);
+    if (y > 0) per += 3.1415926535;
+    if (per < 0) per += 2*3.1415926535;
+    per /= 2*3.141592653;
+    
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:@"yes" forKey:@"scrubbing"];
+    [defaults setFloat:per forKey:@"percent"];
     [defaults synchronize];
-    self.playButton.isPlaying = self.isPlaying;
-    [self.playButton setNeedsDisplay];
+    
 }
 
 - (void)viewDidLoad

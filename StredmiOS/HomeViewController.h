@@ -24,5 +24,8 @@
 -(void)updateCurrentSong:(NSString*)songTitle;
 
 
+-(IBAction)playPush:(id)sender;
+-(IBAction)scrub:(PlayButton *)sender forEvent:(UIEvent *)event;
+
 
 @end
