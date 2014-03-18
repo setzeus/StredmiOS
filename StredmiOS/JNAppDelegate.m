@@ -16,24 +16,24 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
+//    self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
     // Override point for customization after application launch.
     
     // Create a JNMenuViewController
     //JNMenuViewController *menuViewController = [[JNMenuViewController alloc] init];
     
     // Create a JNSettingsViewController
-    JNSettingsViewController *settingsViewController = [[JNSettingsViewController alloc] init];
+//    JNSettingsViewController *settingsViewController = [[JNSettingsViewController alloc] init];
     
     // Create an instance of a UINavigationController
     // its stack contains settingsViewController
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:settingsViewController];
+//    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:settingsViewController];
     
     // Place navigation controller's view in the window hierarchy
-    self.window.rootViewController = navController;
-    
-    self.window.backgroundColor = [UIColor whiteColor];
-    [self.window makeKeyAndVisible];
+//    self.window.rootViewController = navController;
+//    
+//    self.window.backgroundColor = [UIColor whiteColor];
+//    [self.window makeKeyAndVisible];
     NSError *setCategoryErr = nil;
     NSError *activationErr  = nil;
     [[AVAudioSession sharedInstance] setDelegate:self];
