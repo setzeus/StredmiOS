@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		137475B9019C43BEA67EE7A2 /* libPods-StredmiOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A6B8851ADB34244A46385BA /* libPods-StredmiOS.a */; };
+		52D4D81818D92D23009676CB /* DiscoverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52D4D81718D92D23009676CB /* DiscoverViewController.m */; };
+		52D4D81B18D92E2F009676CB /* DiscoverTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 52D4D81A18D92E2F009676CB /* DiscoverTableCell.m */; };
 		7A6ACA4718D67F0500231692 /* JNSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A6ACA4618D67F0500231692 /* JNSettingsViewController.m */; };
 		9E64CDD618BC8BB80043926E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E64CDD518BC8BB80043926E /* Foundation.framework */; };
 		9E64CDD818BC8BB80043926E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E64CDD718BC8BB80043926E /* CoreGraphics.framework */; };
@@ -78,6 +80,10 @@
 /* Begin PBXFileReference section */
 		0A6B8851ADB34244A46385BA /* libPods-StredmiOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-StredmiOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2114F187D3F14E8BB4D0B88F /* libPods-StredmiOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-StredmiOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		52D4D81618D92D23009676CB /* DiscoverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DiscoverViewController.h; sourceTree = "<group>"; };
+		52D4D81718D92D23009676CB /* DiscoverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DiscoverViewController.m; sourceTree = "<group>"; };
+		52D4D81918D92E2F009676CB /* DiscoverTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DiscoverTableCell.h; sourceTree = "<group>"; };
+		52D4D81A18D92E2F009676CB /* DiscoverTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DiscoverTableCell.m; sourceTree = "<group>"; };
 		54F040432EC54C8082DFC594 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A6ACA4518D67F0500231692 /* JNSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JNSettingsViewController.h; sourceTree = "<group>"; };
 		7A6ACA4618D67F0500231692 /* JNSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JNSettingsViewController.m; sourceTree = "<group>"; };
@@ -222,6 +228,8 @@
 				F8D9AB2018D6571E006C1143 /* SearchResultCell.m */,
 				F8FB476318D047FC00BA6EEE /* BrowseViewController.h */,
 				F8FB476418D047FC00BA6EEE /* BrowseViewController.m */,
+				52D4D81618D92D23009676CB /* DiscoverViewController.h */,
+				52D4D81718D92D23009676CB /* DiscoverViewController.m */,
 				F82346DA18D5A54D00E804BD /* SearchResultViewController.h */,
 				F82346DB18D5A54D00E804BD /* SearchResultViewController.m */,
 				F83112F618D0CE1C001F3B5E /* BrowseTableCell.h */,
@@ -232,6 +240,8 @@
 				F8A9942618DB679B00EC810A /* shuffle_icon.png */,
 				F8A9942718DB679B00EC810A /* shuffle_icon@2x.png */,
 				9E64CDDC18BC8BB80043926E /* Supporting Files */,
+				52D4D81918D92E2F009676CB /* DiscoverTableCell.h */,
+				52D4D81A18D92E2F009676CB /* DiscoverTableCell.m */,
 			);
 			path = StredmiOS;
 			sourceTree = "<group>";
@@ -471,6 +481,7 @@
 			files = (
 				9E64CDE618BC8BB90043926E /* JNAppDelegate.m in Sources */,
 				F803A54B18DAF72F00FB7AE4 /* UIImage+ImageEffects.m in Sources */,
+				52D4D81818D92D23009676CB /* DiscoverViewController.m in Sources */,
 				7A6ACA4718D67F0500231692 /* JNSettingsViewController.m in Sources */,
 				9E9ABF7318CD1209007A9897 /* JNMenuViewController.m in Sources */,
 				F8D9AB2118D6571E006C1143 /* SearchResultCell.m in Sources */,
@@ -481,6 +492,8 @@
 				9E64CDE218BC8BB90043926E /* main.m in Sources */,
 				F87CDB0318D4F80500D0C1A8 /* PlayButton.m in Sources */,
 				F89EA6C018DAD1E60013901A /* HomeView.m in Sources */,
+				52D4D81B18D92E2F009676CB /* DiscoverTableCell.m in Sources */,
+				F8D9AB1E18D649EB006C1143 /* PlayerView.m in Sources */,
 				F87CDB0018D4E6ED00D0C1A8 /* HomeViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

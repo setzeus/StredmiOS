@@ -10,6 +10,8 @@
 
 @interface JNMenuViewController ()
 
+@property (strong, nonatomic) NSArray *playlistArray;
+
 @end
 
 @implementation JNMenuViewController
@@ -19,6 +21,7 @@
     if (self) {
         self.percentageOfSong = 0.0;
         [[NSUserDefaults standardUserDefaults] addObserver:self forKeyPath:@"search" options:NSKeyValueObservingOptionNew context:nil];
+        [[NSUserDefaults standardUserDefaults] addObserver:self forKeyPath:@"playlist" options:NSKeyValueObservingOptionNew context:nil];
         [[NSUserDefaults standardUserDefaults] addObserver:self forKeyPath:@"isPlaying" options:NSKeyValueObservingOptionNew context:nil];
         [[NSUserDefaults standardUserDefaults] addObserver:self forKeyPath:@"isScrubbing" options:NSKeyValueObservingOptionNew context:nil];
         [self.playerLayer.player addObserver:self forKeyPath:@"status" options:NSKeyValueObservingOptionNew context:nil];
@@ -27,17 +30,63 @@
 }
 -(IBAction)unwindToMenuViewController:(UIStoryboardSegue *)segue; { }
 
+-(void)playSong:(NSInteger)row {
+    
+    id song = [_playlistArray objectAtIndex:row];
+    NSString *artist = [song objectForKey:@"artist"];
+    NSString *event = [song objectForKey:@"event"];
+    NSString *title = [NSString stringWithFormat:@"%@ - %@", artist, event];
+    NSString *songLabel = [NSString stringWithFormat:@"%@ - %@", artist, event];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:title forKey:@"title"];
+    [defaults setObject:songLabel forKey:@"song"];
+    [defaults setBool:true forKey:@"isPlaying"];
+    [defaults setObject:@"no" forKey:@"startup"];
+    [defaults setBool:false forKey:@"invisible"];
+    [defaults synchronize];
+    
+    NSString *setPath = [NSString stringWithFormat:@"http://stredm.com/uploads/%@", [song objectForKey:@"songURL"]];
+    NSURL *setURL = [NSURL URLWithString:setPath];
+    
+    @try {
+        if (self.playerLayer) {
+            [self.playerLayer.player removeObserver:self forKeyPath:@"status"];
+            [self.playerLayer.player pause];
+            self.playerLayer = nil;
+            [self.playerLayer removeFromSuperlayer];
+        }
+    }
+    @catch (NSException *exception) {
+        
+    }
+    if (self.timer)
+        [self.timer invalidate];
+    
+    
+    if (!self.playerLayer) {
+        AVPlayer *player = [[AVPlayer alloc] init];
+        self.playerLayer = [AVPlayerLayer playerLayerWithPlayer:player];
+        [self.view.layer addSublayer:self.playerLayer];
+    }
+    [self.playerLayer.player replaceCurrentItemWithPlayerItem:[AVPlayerItem playerItemWithURL:setURL]];
+    [self.playerLayer.player addObserver:self forKeyPath:@"status" options:0 context:nil];
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(updateProgress) userInfo:nil repeats:YES];
+    [self.playerLayer.player play];
+    
+}
+
 -(void)playSongWithQuery:(NSString *)query row:(NSInteger)row {
     NSString *songPath = [NSString stringWithFormat:@"http://stredm.com/scripts/mobile/search.php?label=%@", query];
     NSArray *songArray = [self safeJSONParseArray:songPath];
     
-    NSString *artist = [[songArray objectAtIndex:row] objectForKey:@"artist"];
-    NSString *event = [[songArray objectAtIndex:row] objectForKey:@"event"];
+    id song = [songArray objectAtIndex:row];
+    NSString *artist = [song objectForKey:@"artist"];
+    NSString *event = [song objectForKey:@"event"];
     NSString *title = [NSString stringWithFormat:@"%@ - %@", artist, event];
-    NSString *song = [NSString stringWithFormat:@"%@ - %@", artist, event];
+    NSString *songLabel = [NSString stringWithFormat:@"%@ - %@", artist, event];
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setObject:title forKey:@"title"];
-    [defaults setObject:song forKey:@"song"];
+    [defaults setObject:songLabel forKey:@"song"];
     [defaults setBool:true forKey:@"isPlaying"];
     [defaults setObject:@"no" forKey:@"startup"];
     [defaults setBool:false forKey:@"invisible"];
@@ -133,6 +182,11 @@
         NSString *query = [defaults stringForKey:@"search"];
         NSInteger row = [defaults integerForKey:@"row"];
         [self playSongWithQuery:query row:row];
+    }
+    else if ([keyPath isEqualToString:@"playlist"]) {
+        _playlistArray = [defaults arrayForKey:@"playlist"];
+        NSInteger row = [defaults integerForKey:@"row"];
+        [self playSong:row];
     }
     else if ([keyPath isEqualToString:@"isPlaying"]) {
         BOOL playing = [defaults boolForKey:@"isPlaying"];
