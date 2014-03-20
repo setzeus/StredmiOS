@@ -70,7 +70,6 @@
     [self.playerLayer.player addObserver:self forKeyPath:@"status" options:0 context:nil];
     self.timer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(updateProgress) userInfo:nil repeats:YES];
     [self.playerLayer.player play];
-    
 }
 
 
@@ -156,7 +155,6 @@
                 [defaults setBool:false forKey:@"isScrubbing"];
                 [defaults synchronize];
                 [self.playerLayer.player play];
-
             }];
             
         }

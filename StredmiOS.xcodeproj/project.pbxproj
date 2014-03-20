@@ -24,12 +24,15 @@
 		9E64CE0118BC8BB90043926E /* StredmiOSTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E64CE0018BC8BB90043926E /* StredmiOSTests.m */; };
 		9E9ABF7318CD1209007A9897 /* JNMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E9ABF7218CD1209007A9897 /* JNMenuViewController.m */; };
 		C34C1312E9E349758EDBC502 /* libPods-StredmiOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2114F187D3F14E8BB4D0B88F /* libPods-StredmiOSTests.a */; };
-		CB3C5242580F452B880A4C09 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 54F040432EC54C8082DFC594 /* libPods.a */; };
+		F803A54818DAEADF00FB7AE4 /* PlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = F803A54718DAEADF00FB7AE4 /* PlayerView.m */; };
+		F803A54B18DAF72F00FB7AE4 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = F803A54A18DAF72F00FB7AE4 /* UIImage+ImageEffects.m */; };
 		F82346DC18D5A54D00E804BD /* SearchResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F82346DB18D5A54D00E804BD /* SearchResultViewController.m */; };
 		F83112F818D0CE1C001F3B5E /* BrowseTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F83112F718D0CE1C001F3B5E /* BrowseTableCell.m */; };
 		F87CDB0018D4E6ED00D0C1A8 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F87CDAFF18D4E6ED00D0C1A8 /* HomeViewController.m */; };
 		F87CDB0318D4F80500D0C1A8 /* PlayButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F87CDB0218D4F80500D0C1A8 /* PlayButton.m */; };
-		F8D9AB1E18D649EB006C1143 /* HomeDrawerView.m in Sources */ = {isa = PBXBuildFile; fileRef = F8D9AB1D18D649EB006C1143 /* HomeDrawerView.m */; };
+		F89EA6C018DAD1E60013901A /* HomeView.m in Sources */ = {isa = PBXBuildFile; fileRef = F89EA6BF18DAD1E60013901A /* HomeView.m */; };
+		F8A9942818DB679B00EC810A /* shuffle_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F8A9942618DB679B00EC810A /* shuffle_icon.png */; };
+		F8A9942918DB679B00EC810A /* shuffle_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F8A9942718DB679B00EC810A /* shuffle_icon@2x.png */; };
 		F8D9AB2118D6571E006C1143 /* SearchResultCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F8D9AB2018D6571E006C1143 /* SearchResultCell.m */; };
 		F8FB476518D047FC00BA6EEE /* BrowseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F8FB476418D047FC00BA6EEE /* BrowseViewController.m */; };
 /* End PBXBuildFile section */
@@ -37,28 +40,28 @@
 /* Begin PBXContainerItemProxy section */
 		7AB394F818D7A32B0016AB70 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = F418191D88EB45B094D8E11F /* Pods.xcodeproj */;
+			containerPortal = F418191D88EB45B094D8E11F /* Pods.xcconfig */;
 			proxyType = 2;
 			remoteGlobalIDString = AA127694467D4A6E97C612BB;
 			remoteInfo = "Pods-StredmiOS";
 		};
 		7AB394FA18D7A32B0016AB70 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = F418191D88EB45B094D8E11F /* Pods.xcodeproj */;
+			containerPortal = F418191D88EB45B094D8E11F /* Pods.xcconfig */;
 			proxyType = 2;
 			remoteGlobalIDString = 39BA1705906A4CB2B6FE4CE5;
 			remoteInfo = "Pods-StredmiOS-ECSlidingViewController";
 		};
 		7AB394FC18D7A32B0016AB70 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = F418191D88EB45B094D8E11F /* Pods.xcodeproj */;
+			containerPortal = F418191D88EB45B094D8E11F /* Pods.xcconfig */;
 			proxyType = 2;
 			remoteGlobalIDString = AAEE8CB53FE64C258E7F12D9;
 			remoteInfo = "Pods-StredmiOSTests";
 		};
 		7AB394FE18D7A32B0016AB70 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = F418191D88EB45B094D8E11F /* Pods.xcodeproj */;
+			containerPortal = F418191D88EB45B094D8E11F /* Pods.xcconfig */;
 			proxyType = 2;
 			remoteGlobalIDString = 36936AB2FA04428199653F98;
 			remoteInfo = "Pods-StredmiOSTests-ECSlidingViewController";
@@ -98,8 +101,11 @@
 		9E64CE0018BC8BB90043926E /* StredmiOSTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StredmiOSTests.m; sourceTree = "<group>"; };
 		9E9ABF7118CD1209007A9897 /* JNMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JNMenuViewController.h; sourceTree = "<group>"; };
 		9E9ABF7218CD1209007A9897 /* JNMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JNMenuViewController.m; sourceTree = "<group>"; };
-		F418191D88EB45B094D8E11F /* Pods.xcodeproj */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "wrapper.pb-project"; name = Pods.xcodeproj; path = Pods/Pods.xcodeproj; sourceTree = SOURCE_ROOT; };
 		F418191D88EB45B094D8E11F /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		F803A54618DAEADF00FB7AE4 /* PlayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerView.h; sourceTree = "<group>"; };
+		F803A54718DAEADF00FB7AE4 /* PlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerView.m; sourceTree = "<group>"; };
+		F803A54918DAF72F00FB7AE4 /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageEffects.h"; sourceTree = "<group>"; };
+		F803A54A18DAF72F00FB7AE4 /* UIImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageEffects.m"; sourceTree = "<group>"; };
 		F82346DA18D5A54D00E804BD /* SearchResultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchResultViewController.h; sourceTree = "<group>"; };
 		F82346DB18D5A54D00E804BD /* SearchResultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchResultViewController.m; sourceTree = "<group>"; };
 		F83112F618D0CE1C001F3B5E /* BrowseTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrowseTableCell.h; sourceTree = "<group>"; };
@@ -108,8 +114,10 @@
 		F87CDAFF18D4E6ED00D0C1A8 /* HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeViewController.m; sourceTree = "<group>"; };
 		F87CDB0118D4F80500D0C1A8 /* PlayButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayButton.h; sourceTree = "<group>"; };
 		F87CDB0218D4F80500D0C1A8 /* PlayButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayButton.m; sourceTree = "<group>"; };
-		F8D9AB1C18D649EB006C1143 /* HomeDrawerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeDrawerView.h; sourceTree = "<group>"; };
-		F8D9AB1D18D649EB006C1143 /* HomeDrawerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeDrawerView.m; sourceTree = "<group>"; };
+		F89EA6BE18DAD1E60013901A /* HomeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeView.h; sourceTree = "<group>"; };
+		F89EA6BF18DAD1E60013901A /* HomeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeView.m; sourceTree = "<group>"; };
+		F8A9942618DB679B00EC810A /* shuffle_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shuffle_icon.png; sourceTree = "<group>"; };
+		F8A9942718DB679B00EC810A /* shuffle_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shuffle_icon@2x.png"; sourceTree = "<group>"; };
 		F8D9AB1F18D6571E006C1143 /* SearchResultCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchResultCell.h; sourceTree = "<group>"; };
 		F8D9AB2018D6571E006C1143 /* SearchResultCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchResultCell.m; sourceTree = "<group>"; };
 		F8FB476318D047FC00BA6EEE /* BrowseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrowseViewController.h; sourceTree = "<group>"; };
@@ -161,7 +169,7 @@
 				9E64CDFA18BC8BB90043926E /* StredmiOSTests */,
 				9E64CDD418BC8BB80043926E /* Frameworks */,
 				9E64CDD318BC8BB80043926E /* Products */,
-				F418191D88EB45B094D8E11F /* Pods.xcodeproj */,
+				F418191D88EB45B094D8E11F /* Pods.xcconfig */,
 				86C200B1F195462D8FFD62D8 /* Pods-StredmiOS.xcconfig */,
 				FCAE31B8CAA443559BD537EC /* Pods-StredmiOSTests.xcconfig */,
 			);
@@ -202,10 +210,12 @@
 				F8FB476418D047FC00BA6EEE /* BrowseViewController.m */,
 				F87CDAFE18D4E6ED00D0C1A8 /* HomeViewController.h */,
 				F87CDAFF18D4E6ED00D0C1A8 /* HomeViewController.m */,
-				F8D9AB1C18D649EB006C1143 /* HomeDrawerView.h */,
-				F8D9AB1D18D649EB006C1143 /* HomeDrawerView.m */,
+				F89EA6BE18DAD1E60013901A /* HomeView.h */,
+				F89EA6BF18DAD1E60013901A /* HomeView.m */,
 				F87CDB0118D4F80500D0C1A8 /* PlayButton.h */,
 				F87CDB0218D4F80500D0C1A8 /* PlayButton.m */,
+				F803A54618DAEADF00FB7AE4 /* PlayerView.h */,
+				F803A54718DAEADF00FB7AE4 /* PlayerView.m */,
 				9E9ABF7118CD1209007A9897 /* JNMenuViewController.h */,
 				9E9ABF7218CD1209007A9897 /* JNMenuViewController.m */,
 				F8D9AB1F18D6571E006C1143 /* SearchResultCell.h */,
@@ -216,7 +226,11 @@
 				F82346DB18D5A54D00E804BD /* SearchResultViewController.m */,
 				F83112F618D0CE1C001F3B5E /* BrowseTableCell.h */,
 				F83112F718D0CE1C001F3B5E /* BrowseTableCell.m */,
+				F803A54918DAF72F00FB7AE4 /* UIImage+ImageEffects.h */,
+				F803A54A18DAF72F00FB7AE4 /* UIImage+ImageEffects.m */,
 				9E64CDED18BC8BB90043926E /* Images.xcassets */,
+				F8A9942618DB679B00EC810A /* shuffle_icon.png */,
+				F8A9942718DB679B00EC810A /* shuffle_icon@2x.png */,
 				9E64CDDC18BC8BB80043926E /* Supporting Files */,
 			);
 			path = StredmiOS;
@@ -322,7 +336,7 @@
 			projectReferences = (
 				{
 					ProductGroup = 7AB394F218D7A32B0016AB70 /* Products */;
-					ProjectRef = F418191D88EB45B094D8E11F /* Pods.xcodeproj */;
+					ProjectRef = F418191D88EB45B094D8E11F /* Pods.xcconfig */;
 				},
 			);
 			projectRoot = "";
@@ -370,8 +384,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				9E64CDEE18BC8BB90043926E /* Images.xcassets in Resources */,
+				F8A9942818DB679B00EC810A /* shuffle_icon.png in Resources */,
 				9E64CDE018BC8BB80043926E /* InfoPlist.strings in Resources */,
 				9E64CDE918BC8BB90043926E /* Main.storyboard in Resources */,
+				F8A9942918DB679B00EC810A /* shuffle_icon@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -454,15 +470,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				9E64CDE618BC8BB90043926E /* JNAppDelegate.m in Sources */,
+				F803A54B18DAF72F00FB7AE4 /* UIImage+ImageEffects.m in Sources */,
 				7A6ACA4718D67F0500231692 /* JNSettingsViewController.m in Sources */,
 				9E9ABF7318CD1209007A9897 /* JNMenuViewController.m in Sources */,
 				F8D9AB2118D6571E006C1143 /* SearchResultCell.m in Sources */,
 				F83112F818D0CE1C001F3B5E /* BrowseTableCell.m in Sources */,
 				F82346DC18D5A54D00E804BD /* SearchResultViewController.m in Sources */,
 				F8FB476518D047FC00BA6EEE /* BrowseViewController.m in Sources */,
+				F803A54818DAEADF00FB7AE4 /* PlayerView.m in Sources */,
 				9E64CDE218BC8BB90043926E /* main.m in Sources */,
 				F87CDB0318D4F80500D0C1A8 /* PlayButton.m in Sources */,
-				F8D9AB1E18D649EB006C1143 /* HomeDrawerView.m in Sources */,
+				F89EA6C018DAD1E60013901A /* HomeView.m in Sources */,
 				F87CDB0018D4E6ED00D0C1A8 /* HomeViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

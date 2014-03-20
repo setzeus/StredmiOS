@@ -8,9 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "PlayButton.h"
-#import "HomeDrawerView.h"
+#import "PlayerView.h"
 
-@interface HomeViewController : UIViewController
+@interface HomeViewController : UIViewController <UIGestureRecognizerDelegate, UIToolbarDelegate, UIGestureRecognizerDelegate>
 
 @property (strong, nonatomic) IBOutlet UIButton *randomButton;
 @property (strong, nonatomic) IBOutlet UIButton *searchButton;
@@ -20,7 +20,7 @@
 @property (strong, nonatomic) IBOutlet PlayButton *playButton;
 @property (strong, nonatomic) IBOutlet UILabel *titleLabel;
 @property (strong, nonatomic) IBOutlet UILabel *currentTimeLabel;
-@property (strong, nonatomic) HomeDrawerView *homeDrawer;
+@property (strong, nonatomic) PlayerView *playerView;
 
 -(void)updateCurrentTimeLabel:(float)currTime;
 -(void)updateDurationLabel:(float)duration;

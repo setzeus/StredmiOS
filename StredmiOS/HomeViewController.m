@@ -22,13 +22,10 @@
     self = [super initWithCoder:aDecoder];
     if (self) {
         // Custom initialization
-        self.homeDrawer = [[HomeDrawerView alloc] initWithFrame:CGRectMake(0, 600, 320, 600)];
-//        self.homeDrawer.backgroundColor = [UIColor colorWithRed:(247/255.0) green:(247/255.0) blue:(247/255.0) alpha:1.0];
         
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         self.isPlaying = [defaults boolForKey:@"isPlaying"];
         [self.playButton setNeedsDisplay];
-
     }
     return self;
 }
@@ -54,6 +51,10 @@
     }   else {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
+}
+
+-(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+    return !(touch.view == self.playerView);
 }
 
 
@@ -99,9 +100,41 @@
 - (IBAction)search:(id)sender {
 }
 
+-(void)handleSwipe:(UISwipeGestureRecognizer *)swipe {
+    if (swipe.direction == UISwipeGestureRecognizerDirectionUp) {
+        self.playerView.frame = CGRectMake(0, self.view.frame.size.height-64, 320, self.view.frame.size.height-64);
+        [UIView animateWithDuration:0.25 animations:^(void) {
+            [self.playerView openPlayer:CGSizeMake(320, self.view.frame.size.height-64)];
+            self.playerView.frame = CGRectMake(0, 64, 320, self.view.frame.size.height-64);
+        }];
+    }
+    else if (!self.playerView.isScrubbing) {
+        [UIView animateWithDuration:0.25 animations:^(void) {
+            self.playerView.frame = CGRectMake(0, self.view.frame.size.height-60, 320, 60);
+            [self.playerView closePlayer];
+            
+        } completion:^(BOOL completion) {
+        
+        }];
+    }
+}
+
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.playerView = [[PlayerView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-60, 320, self.view.frame.size.height-64)];
+    [self.playerView closePlayer];
+    UISwipeGestureRecognizer *openSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipe:)];
+    UISwipeGestureRecognizer *closeSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipe:)];
+    [openSwipe setDirection:UISwipeGestureRecognizerDirectionUp];
+    [closeSwipe setDirection:UISwipeGestureRecognizerDirectionDown];
+    openSwipe.cancelsTouchesInView = NO;
+    closeSwipe.cancelsTouchesInView = NO;
+    [self.playerView.playerToolbar addGestureRecognizer:openSwipe];
+    [self.playerView.swipeDownView addGestureRecognizer:closeSwipe];
+    [self.view addSubview:self.playerView];
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     self.playButton.invisible = [defaults boolForKey:@"invisible"];
@@ -115,8 +148,8 @@
         self.randomButton.hidden = YES;
         self.searchButton.hidden = YES;
         
-        self.homeDrawer.frame =CGRectMake(0, self.view.frame.size.height-60, 320, self.view.frame.size.height);
-        [self.view addSubview:self.homeDrawer];
+        self.playerView.frame =CGRectMake(0, self.view.frame.size.height-64, 320, self.view.frame.size.height);
+        [self.view addSubview:self.playerView];
         
         [self updateTitleLabel:[[defaults objectForKey:@"title"] copy]];
         [self updateCurrentSong:[[defaults objectForKey:@"song"] copy]];
@@ -133,6 +166,8 @@
         self.randomButton.hidden = NO;
         self.searchButton.hidden = NO;
     }
+    
+    [self.playerView loadSongWithQuery:@"3LAU" row:0];
     
     // Do any additional setup after loading the view.
 }
@@ -174,7 +209,7 @@
     if (minutes < 0.0) minutes = 0.0;
     if (seconds < 0) seconds = 0.0;
     self.currentTimeLabel.text = [NSString stringWithFormat:@"%02d:%02d", minutes, seconds];
-    self.homeDrawer.currentTimeLabel.text = [NSString stringWithFormat:@"%02d:%02d", minutes, seconds];
+    self.playerView.currentTimeLabel.text = [NSString stringWithFormat:@"%02d:%02d", minutes, seconds];
 }
 
 -(void)updateDurationLabel:(float)duration {
@@ -182,27 +217,27 @@
     int seconds = (int)duration%60;
     if (minutes < 0) minutes = 0.0;
     if (seconds < 0) seconds = 0.0;
-    self.homeDrawer.durationLabel.text = [NSString stringWithFormat:@"%02d:%02d", minutes, seconds];
+    self.playerView.durationLabel.text = [NSString stringWithFormat:@"%02d:%02d", minutes, seconds];
 }
 -(void)updateTitleLabel:(NSString*)title {
     self.titleLabel.text = title;
 }
 -(void)updateCurrentSong:(NSString*)songTitle {
-    self.homeDrawer.songTitleLabel.text = songTitle;
-    [self.homeDrawer.songTitleLabel sizeToFit];
-    self.homeDrawer.songTitleLabel.frame = CGRectMake(0, 0, self.homeDrawer.songTitleLabel.frame.size.width, self.homeDrawer.songScrollView.frame.size.height);
-    self.homeDrawer.songScrollView.contentSize = self.homeDrawer.songTitleLabel.frame.size;
-    if (self.homeDrawer.songTitleLabel.frame.size.width > self.homeDrawer.songScrollView.frame.size.width) {
+    self.playerView.songTitleLabel.text = songTitle;
+    [self.playerView.songTitleLabel sizeToFit];
+    self.playerView.songTitleLabel.frame = CGRectMake(0, 0, self.playerView.songTitleLabel.frame.size.width, self.playerView.songScrollView.frame.size.height);
+    self.playerView.songScrollView.contentSize = self.playerView.songTitleLabel.frame.size;
+    if (self.playerView.songTitleLabel.frame.size.width > self.playerView.songScrollView.frame.size.width) {
         [self slideText];
     }
 }
 
 -(void)slideText {
     [UIView animateWithDuration:4.0 animations:^(void) {
-        self.homeDrawer.songScrollView.contentOffset = CGPointMake(self.homeDrawer.songTitleLabel.frame.size.width - self.homeDrawer.songScrollView.frame.size.width, 0);
+        self.playerView.songScrollView.contentOffset = CGPointMake(self.playerView.songTitleLabel.frame.size.width - self.playerView.songScrollView.frame.size.width, 0);
     } completion:^(BOOL complete) {
         [UIView animateWithDuration:4.0 animations:^(void) {
-            self.homeDrawer.songScrollView.contentOffset = CGPointMake(0.0, 0.0);
+            self.playerView.songScrollView.contentOffset = CGPointMake(0.0, 0.0);
         } completion:^(BOOL complete){
             [self performSelector:@selector(slideText) withObject:nil afterDelay:0.0];
         }];
