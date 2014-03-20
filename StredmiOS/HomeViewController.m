@@ -25,7 +25,7 @@
         
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         self.isPlaying = [defaults boolForKey:@"isPlaying"];
-        [self.playButton setNeedsDisplay];
+//        [self.playButton setNeedsDisplay];
     }
     return self;
 }
@@ -33,21 +33,21 @@
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     if ([keyPath isEqualToString:@"current"]) {
-        [self updateCurrentTimeLabel:[defaults floatForKey:@"current"]];
+//        [self updateCurrentTimeLabel:[defaults floatForKey:@"current"]];
     } else if ([keyPath isEqualToString:@"duration"]) {
-        [self updateDurationLabel:[defaults floatForKey:@"duration"]];
+//        [self updateDurationLabel:[defaults floatForKey:@"duration"]];
     } else if ([keyPath isEqualToString:@"title"]) {
-        [self updateTitleLabel:[[defaults stringForKey:@"title"] copy]];
+//        [self updateTitleLabel:[[defaults stringForKey:@"title"] copy]];
     } else if ([keyPath isEqualToString:@"song"]) {
-        [self updateCurrentSong:[[defaults stringForKey:@"song"] copy]];
+//        [self updateCurrentSong:[[defaults stringForKey:@"song"] copy]];
     } else if ([keyPath isEqualToString:@"percent"]) {
-        self.playButton.percentageOfSong = [defaults floatForKey:@"percent"];
-        [self.playButton setNeedsDisplay];
+//        self.playButton.percentageOfSong = [defaults floatForKey:@"percent"];
+//        [self.playButton setNeedsDisplay];
     } else if ([keyPath isEqualToString:@"isPlaying"]) {
-        self.playButton.isPlaying = [defaults boolForKey:@"isPlaying"];
-        [self.playButton setNeedsDisplay];
+//        self.playButton.isPlaying = [defaults boolForKey:@"isPlaying"];
+//        [self.playButton setNeedsDisplay];
     } else if ([keyPath isEqualToString:@"invisible"]) {
-        self.playButton.invisible = [defaults boolForKey:@"invisible"];
+//        self.playButton.invisible = [defaults boolForKey:@"invisible"];
     }   else {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
@@ -58,41 +58,41 @@
 }
 
 
--(IBAction)playPush:(id)sender {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    if (![defaults boolForKey:@"isScrubbing"]) {
-        self.isPlaying = !self.isPlaying;
-        [defaults setBool:self.isPlaying forKey:@"isPlaying"];
-        [defaults synchronize];
-        self.playButton.isPlaying = self.isPlaying;
-        [self.playButton setNeedsDisplay];
-    } else {
-        [defaults setBool:false forKey:@"isScrubbing"];
-        [defaults synchronize];
-    }
-}
+//-(IBAction)playPush:(id)sender {
+//    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+//    if (![defaults boolForKey:@"isScrubbing"]) {
+//        self.isPlaying = !self.isPlaying;
+//        [defaults setBool:self.isPlaying forKey:@"isPlaying"];
+//        [defaults synchronize];
+//        self.playButton.isPlaying = self.isPlaying;
+//        [self.playButton setNeedsDisplay];
+//    } else {
+//        [defaults setBool:false forKey:@"isScrubbing"];
+//        [defaults synchronize];
+//    }
+//}
 
--(IBAction)scrub:(PlayButton *)sender forEvent:(UIEvent *)event {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setBool:true forKey:@"isScrubbing"];
-    [defaults synchronize];
-    
-    NSSet *touches = [event touchesForView:sender];
-    UITouch *touch = [touches anyObject];
-    CGPoint point = [touch locationInView:sender];
-    float x = point.x - 120.0;
-    float y = point.y - 120.0;
-    float per = -atan(x/y);
-    if (y > 0) per += 3.1415926535;
-    if (per < 0) per += 2*3.1415926535;
-    per /= 2*3.141592653;
-
-    self.playButton.percentageOfSong = per;
-
-    [defaults setFloat:per forKey:@"percent"];
-    [defaults synchronize];
-
-}
+//-(IBAction)scrub:(PlayButton *)sender forEvent:(UIEvent *)event {
+//    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+//    [defaults setBool:true forKey:@"isScrubbing"];
+//    [defaults synchronize];
+//    
+//    NSSet *touches = [event touchesForView:sender];
+//    UITouch *touch = [touches anyObject];
+//    CGPoint point = [touch locationInView:sender];
+//    float x = point.x - 120.0;
+//    float y = point.y - 120.0;
+//    float per = -atan(x/y);
+//    if (y > 0) per += 3.1415926535;
+//    if (per < 0) per += 2*3.1415926535;
+//    per /= 2*3.141592653;
+//
+//    self.playButton.percentageOfSong = per;
+//
+//    [defaults setFloat:per forKey:@"percent"];
+//    [defaults synchronize];
+//
+//}
 
 - (IBAction)random:(id)sender {
 }
@@ -136,40 +136,12 @@
     [self.playerView.swipeDownView addGestureRecognizer:closeSwipe];
     [self.view addSubview:self.playerView];
     
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    self.playButton.invisible = [defaults boolForKey:@"invisible"];
     
-    if (![[defaults stringForKey:@"startup"] isEqualToString:@"yes"]) {
-        self.titleLabel.hidden = NO;
-        self.currentTimeLabel.hidden = NO;
-        
-        self.stredmLabel.hidden = YES;
-        self.pronunciationLabel.hidden = YES;
-        self.randomButton.hidden = YES;
-        self.searchButton.hidden = YES;
-        
-        self.playerView.frame =CGRectMake(0, self.view.frame.size.height-64, 320, self.view.frame.size.height);
-        [self.view addSubview:self.playerView];
-        
-        [self updateTitleLabel:[[defaults objectForKey:@"title"] copy]];
-        [self updateCurrentSong:[[defaults objectForKey:@"song"] copy]];
-        [self updateDurationLabel:[defaults floatForKey:@"duration"]];
-        [self updateCurrentTimeLabel:[defaults floatForKey:@"current"]];
-        self.playButton.isPlaying = [defaults boolForKey:@"isPlaying"];
-        self.playButton.percentageOfSong = [defaults floatForKey:@"percent"];
-    }
-    else {
-        self.titleLabel.hidden = YES;
-        self.currentTimeLabel.hidden = YES;
-        self.stredmLabel.hidden = NO;
-        self.pronunciationLabel.hidden = NO;
-        self.randomButton.hidden = NO;
-        self.searchButton.hidden = NO;
-    }
-    
+    self.playerView.frame =CGRectMake(0, self.view.frame.size.height-64, 320, self.view.frame.size.height);
+    [self.view addSubview:self.playerView];
+
     [self.playerView loadSongWithQuery:@"3LAU" row:0];
     
-    // Do any additional setup after loading the view.
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -202,7 +174,7 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
+/*
 -(void)updateCurrentTimeLabel:(float)currTime {
     int minutes = (int)currTime/60;
     int seconds = (int)currTime%60;
@@ -243,5 +215,6 @@
         }];
     }];
 }
+ */
 
 @end
