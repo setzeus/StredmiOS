@@ -9,9 +9,14 @@
 #import <UIKit/UIKit.h>
 #import <AudioToolbox/AudioToolbox.h>
 #import <AVFoundation/AVFoundation.h>
+#import "PlayerView.h"
 
 @interface JNAppDelegate : UIResponder <UIApplicationDelegate, AVAudioPlayerDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
+@property (strong, nonatomic) PlayerView *playerView;
+
+
+-(void)bringPlayerToFront;
 
 @end

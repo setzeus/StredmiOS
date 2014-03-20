@@ -56,7 +56,7 @@
         UIRectFill(CGRectMake(130, 80, 30, 80));
     }
     
-    CGContextSetLineWidth(ctx, 8.0);
+    CGContextSetLineWidth(ctx, 10.0);
     
     CGContextSetStrokeColorWithColor(ctx, [[UIColor colorWithRed:0/255.0 green:122/255.0 blue:1.0 alpha:.9] CGColor]);
     

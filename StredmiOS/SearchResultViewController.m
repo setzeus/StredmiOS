@@ -7,6 +7,8 @@
 //
 
 #import "SearchResultViewController.h"
+#import "JNAppDelegate.h"
+
 
 @interface SearchResultViewController ()
 
@@ -42,11 +44,9 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSString *searchString = [NSString stringWithFormat:@"%@", [self title]];
-    [defaults setInteger:indexPath.row forKey:@"row"];
-    [defaults setObject:searchString forKey:@"search"];
-    [defaults synchronize];
+    JNAppDelegate *jnad = (JNAppDelegate*)[[UIApplication sharedApplication] delegate];
+    jnad.playerView.playlistArray = self.searchArray;
+    [jnad.playerView playSong:indexPath.row];
     
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -54,11 +54,7 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *reuseIdentifier = @"SearchResultCell";
     SearchResultCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
-    
-//    if ( cell == nil ) {
-//        cell = [[SearchResultCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:reuseIdentifier];
-//    }
-    
+        
     NSString *matchType = [[self.searchArray objectAtIndex:indexPath.row] objectForKey:@"match_type"];
     if ( [matchType isEqual: @"artist"]) {
         cell.textLabel.text = [[self.searchArray objectAtIndex:indexPath.row] objectForKey:@"event"];

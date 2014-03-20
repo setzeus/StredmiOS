@@ -12,6 +12,10 @@
 #import <AVFoundation/AVFoundation.h>
 #import <AudioToolbox/AudioToolbox.h>
 
+@interface JNAppDelegate()
+
+@end
+
 @implementation JNAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -53,11 +57,53 @@
     [defaults setBool:true forKey:@"invisible"];
     
     [defaults synchronize];
-
+    
+//    if (!self.playerView) {
+    
+//    }
+    
+    self.playerView = [[PlayerView alloc] initWithFrame:CGRectMake(0, self.window.frame.size.height-60, 320, self.window.frame.size.height-64)];
+    [self.playerView closePlayer];
+    UISwipeGestureRecognizer *openSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipe:)];
+    UISwipeGestureRecognizer *closeSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipe:)];
+    [openSwipe setDirection:UISwipeGestureRecognizerDirectionUp];
+    [closeSwipe setDirection:UISwipeGestureRecognizerDirectionDown];
+    openSwipe.cancelsTouchesInView = NO;
+    closeSwipe.cancelsTouchesInView = NO;
+    [self.playerView.playerToolbar addGestureRecognizer:openSwipe];
+    [self.playerView.swipeDownView addGestureRecognizer:closeSwipe];
+    
+    
+    [self.window addSubview:self.playerView];
+    
+    [self.playerView loadSongWithQuery:@"Disclosure" row:0];
     
     return YES;
 }
-							
+
+-(void)bringPlayerToFront {
+    [self.window bringSubviewToFront:self.playerView];
+}
+
+-(void)handleSwipe:(UISwipeGestureRecognizer *)swipe {
+    if (swipe.direction == UISwipeGestureRecognizerDirectionUp) {
+        self.playerView.frame = CGRectMake(0, self.window.frame.size.height-64, 320, self.window.frame.size.height-64);
+        [UIView animateWithDuration:0.25 animations:^(void) {
+            [self.playerView openPlayer:CGSizeMake(320, self.window.frame.size.height-64)];
+            self.playerView.frame = CGRectMake(0, 64, 320, self.window.frame.size.height-64);
+        }];
+    }
+    else if (!self.playerView.isScrubbing) {
+        [UIView animateWithDuration:0.25 animations:^(void) {
+            self.playerView.frame = CGRectMake(0, self.window.frame.size.height-60, 320, 60);
+            [self.playerView closePlayer];
+            
+        } completion:^(BOOL completion) {
+            
+        }];
+    }
+}
+
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

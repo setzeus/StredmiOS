@@ -43,9 +43,13 @@
 
 @property (strong, nonatomic) UIView *swipeDownView;
 
+@property (strong, nonatomic) NSArray *playlistArray;
+
+
 -(void)openPlayer:(CGSize)size;
 -(void)closePlayer;
 
 -(void)loadSongWithQuery:(NSString*)query row:(NSInteger)row;
+-(void)playSong:(NSInteger)row;
 
 @end

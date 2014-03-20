@@ -30,6 +30,31 @@
 }
 -(IBAction)unwindToMenuViewController:(UIStoryboardSegue *)segue; { }
 
+
+-(void)handleSwipe:(UISwipeGestureRecognizer *)swipe {
+    if (swipe.direction == UISwipeGestureRecognizerDirectionUp) {
+        self.playerView.frame = CGRectMake(0, self.view.frame.size.height-64, 320, self.view.frame.size.height-64);
+        [UIView animateWithDuration:0.25 animations:^(void) {
+            [self.playerView openPlayer:CGSizeMake(320, self.view.frame.size.height-64)];
+            self.playerView.frame = CGRectMake(0, 64, 320, self.view.frame.size.height-64);
+        }];
+    }
+    else if (!self.playerView.isScrubbing) {
+        [UIView animateWithDuration:0.25 animations:^(void) {
+            self.playerView.frame = CGRectMake(0, self.view.frame.size.height-60, 320, 60);
+            [self.playerView closePlayer];
+            
+        } completion:^(BOOL completion) {
+            
+        }];
+    }
+}
+
+-(void)viewDidLoad {
+    [super viewDidLoad];
+        
+}
+
 -(void)playSong:(NSInteger)row {
     
     id song = [_playlistArray objectAtIndex:row];

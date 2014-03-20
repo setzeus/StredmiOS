@@ -10,12 +10,15 @@
 #import <AudioToolbox/AudioToolbox.h>
 #import <AVFoundation/AVFoundation.h>
 #import "HomeViewController.h"
+#import "PlayerView.h"
 
 @interface JNMenuViewController : UITableViewController <AVAudioPlayerDelegate>
 
 @property (weak, nonatomic) AVPlayerLayer *playerLayer;
 @property (nonatomic) float percentageOfSong;
 @property (strong, nonatomic) NSTimer *timer;
+
+@property (strong, nonatomic)  PlayerView *playerView;
 
 @property (strong, nonatomic) IBOutlet HomeViewController *hvc;
 

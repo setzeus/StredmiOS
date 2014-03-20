@@ -34,11 +34,22 @@
     return self;
 }
 
+-(void)playlistArray:(NSArray *)pl {
+    _playlistArray = [NSArray arrayWithArray:pl];
+}
+
+-(NSArray *)playlistArray {
+    if (!_playlistArray) {
+        _playlistArray = [[NSArray alloc] init];
+    }
+    return _playlistArray;
+}
+
 -(void)openPlayer:(CGSize)size {
     self.isOpen = true;
     
-    self.titleLabel.frame = CGRectMake(10, 10, 300, 55);
-    self.currentTimeLabel.frame = CGRectMake(20, 65, 280, 20);
+    self.titleLabel.frame = CGRectMake(10, 10, 300, 60);
+    self.currentTimeLabel.frame = CGRectMake(20, 70, 280, 20);
     
     self.eventLabel.alpha = 0.0;
     self.artistLabel.alpha = 0.0;
@@ -59,7 +70,6 @@
     self.artistLabel.frame = CGRectMake(65, 32, 200, 18);
     
     self.artwork.frame = CGRectMake(5, 5, 50, 50);
-    [self.artwork setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://stredm.com/uploads/d1e1dba7f8d6739862295ed7cb68d3ee68547544.jpg"]]]];
     
     self.eventLabel.alpha = 1.0;
     self.artistLabel.alpha = 1.0;
@@ -334,6 +344,46 @@
     
     
     [self.playerLayer.player addObserver:self forKeyPath:@"status" options:0 context:nil];
+}
+
+-(void)playSong:(NSInteger)row {
+    
+    id song = [self.playlistArray objectAtIndex:row];
+    self.artistLabel.text = [song objectForKey:@"artist"];
+    self.eventLabel.text = [song objectForKey:@"event"];
+    self.titleLabel.text = [NSString stringWithFormat:@"%@ - %@", self.artistLabel.text, self.eventLabel.text];
+    
+    NSURL *imageURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://stredm.com/uploads/%@", [song objectForKey:@"imageURL"]]];
+    [self.artwork setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:imageURL]]];
+    
+    NSString *setPath = [NSString stringWithFormat:@"http://stredm.com/uploads/%@", [song objectForKey:@"songURL"]];
+    NSURL *setURL = [NSURL URLWithString:setPath];
+    
+    @try {
+        if (self.playerLayer) {
+            [self.playerLayer.player removeObserver:self forKeyPath:@"status"];
+            [self.playerLayer.player pause];
+            self.playerLayer = nil;
+            [self.playerLayer removeFromSuperlayer];
+        }
+    }
+    @catch (NSException *exception) {
+        
+    }
+    if (self.timer)
+        [self.timer invalidate];
+    
+    
+    if (!self.playerLayer) {
+        AVPlayer *player = [[AVPlayer alloc] init];
+        self.playerLayer = [AVPlayerLayer playerLayerWithPlayer:player];
+        [self.layer addSublayer:self.playerLayer];
+    }
+    [self.playerLayer.player replaceCurrentItemWithPlayerItem:[AVPlayerItem playerItemWithURL:setURL]];
+    [self.playerLayer.player addObserver:self forKeyPath:@"status" options:0 context:nil];
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(updateProgress) userInfo:nil repeats:YES];
+    [self.playerLayer.player play];
+    
 }
 
 -(void)dealloc {
