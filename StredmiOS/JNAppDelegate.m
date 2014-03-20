@@ -39,6 +39,20 @@
     [[AVAudioSession sharedInstance] setDelegate:self];
     [[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategoryPlayback error:&setCategoryErr];
     [[AVAudioSession sharedInstance] setActive:YES error:&activationErr];
+    
+    NSUserDefaults * defaults  = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:@"yes" forKey:@"startup"];
+    [defaults setObject:@"" forKey:@"title"];
+    [defaults setObject:@"" forKey:@"song"];
+    [defaults setInteger:0.0 forKey:@"row"];
+    [defaults setBool:false forKey:@"isScrubbing"];
+    [defaults setBool:false forKey:@"isPlaying"];
+    [defaults setFloat:0.0 forKey:@"current"];
+    [defaults setFloat:0.0 forKey:@"duration"];
+    [defaults setFloat:0.0 forKey:@"percent"];
+    [defaults setBool:true forKey:@"invisible"];
+    
+    [defaults synchronize];
 
     
     return YES;

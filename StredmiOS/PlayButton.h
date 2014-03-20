@@ -12,5 +12,6 @@
 
 @property (nonatomic) BOOL isPlaying;
 @property (nonatomic) float percentageOfSong;
+@property (nonatomic) BOOL invisible;
 
 @end

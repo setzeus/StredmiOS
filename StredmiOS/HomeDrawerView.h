@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HomeDrawerView : UIView
+@interface HomeDrawerView : UIView <UIScrollViewDelegate>
 
+@property (strong, nonatomic) UIScrollView *songScrollView;
 @property (strong, nonatomic) UILabel *currentTimeLabel;
 @property (strong, nonatomic) UILabel *durationLabel;
 @property (strong, nonatomic) UILabel *songTitleLabel;

@@ -12,6 +12,10 @@
 
 @interface HomeViewController : UIViewController
 
+@property (strong, nonatomic) IBOutlet UIButton *randomButton;
+@property (strong, nonatomic) IBOutlet UIButton *searchButton;
+@property (strong, nonatomic) IBOutlet UILabel *stredmLabel;
+@property (strong, nonatomic) IBOutlet UILabel *pronunciationLabel;
 
 @property (strong, nonatomic) IBOutlet PlayButton *playButton;
 @property (strong, nonatomic) IBOutlet UILabel *titleLabel;
@@ -26,6 +30,7 @@
 
 -(IBAction)playPush:(id)sender;
 -(IBAction)scrub:(PlayButton *)sender forEvent:(UIEvent *)event;
-
+- (IBAction)random:(id)sender;
+- (IBAction)search:(id)sender;
 
 @end

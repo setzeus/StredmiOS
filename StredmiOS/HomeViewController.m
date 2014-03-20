@@ -23,7 +23,7 @@
     if (self) {
         // Custom initialization
         self.homeDrawer = [[HomeDrawerView alloc] initWithFrame:CGRectMake(0, 600, 320, 600)];
-        self.homeDrawer.backgroundColor = [UIColor colorWithRed:(247/255.0) green:(247/255.0) blue:(247/255.0) alpha:1.0];
+//        self.homeDrawer.backgroundColor = [UIColor colorWithRed:(247/255.0) green:(247/255.0) blue:(247/255.0) alpha:1.0];
         
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         self.isPlaying = [defaults boolForKey:@"isPlaying"];
@@ -49,7 +49,9 @@
     } else if ([keyPath isEqualToString:@"isPlaying"]) {
         self.playButton.isPlaying = [defaults boolForKey:@"isPlaying"];
         [self.playButton setNeedsDisplay];
-    }else {
+    } else if ([keyPath isEqualToString:@"invisible"]) {
+        self.playButton.invisible = [defaults boolForKey:@"invisible"];
+    }   else {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
 }
@@ -57,16 +59,23 @@
 
 -(IBAction)playPush:(id)sender {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    if (![[defaults stringForKey:@"scrubbing"] isEqualToString:@"yes"]) {
+    if (![defaults boolForKey:@"isScrubbing"]) {
         self.isPlaying = !self.isPlaying;
         [defaults setBool:self.isPlaying forKey:@"isPlaying"];
         [defaults synchronize];
         self.playButton.isPlaying = self.isPlaying;
         [self.playButton setNeedsDisplay];
+    } else {
+        [defaults setBool:false forKey:@"isScrubbing"];
+        [defaults synchronize];
     }
 }
 
 -(IBAction)scrub:(PlayButton *)sender forEvent:(UIEvent *)event {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setBool:true forKey:@"isScrubbing"];
+    [defaults synchronize];
+    
     NSSet *touches = [event touchesForView:sender];
     UITouch *touch = [touches anyObject];
     CGPoint point = [touch locationInView:sender];
@@ -76,30 +85,54 @@
     if (y > 0) per += 3.1415926535;
     if (per < 0) per += 2*3.1415926535;
     per /= 2*3.141592653;
-    
-    
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setObject:@"yes" forKey:@"scrubbing"];
+
+    self.playButton.percentageOfSong = per;
+
     [defaults setFloat:per forKey:@"percent"];
     [defaults synchronize];
-    
+
+}
+
+- (IBAction)random:(id)sender {
+}
+
+- (IBAction)search:(id)sender {
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    self.homeDrawer.frame =CGRectMake(0, self.view.frame.size.height-60, 320, self.view.frame.size.height);
-    [self.view addSubview:self.homeDrawer];
-    
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [self updateTitleLabel:[[defaults objectForKey:@"title"] copy]];
-    [self updateCurrentSong:[[defaults objectForKey:@"song"] copy]];
-    [self updateDurationLabel:[defaults floatForKey:@"duration"]];
-    [self updateCurrentTimeLabel:[defaults floatForKey:@"current"]];
-    self.playButton.isPlaying = [defaults boolForKey:@"isPlaying"];
-    self.playButton.percentageOfSong = [defaults floatForKey:@"percent"];
+    self.playButton.invisible = [defaults boolForKey:@"invisible"];
     
+    if (![[defaults stringForKey:@"startup"] isEqualToString:@"yes"]) {
+        self.titleLabel.hidden = NO;
+        self.currentTimeLabel.hidden = NO;
+        
+        self.stredmLabel.hidden = YES;
+        self.pronunciationLabel.hidden = YES;
+        self.randomButton.hidden = YES;
+        self.searchButton.hidden = YES;
+        
+        self.homeDrawer.frame =CGRectMake(0, self.view.frame.size.height-60, 320, self.view.frame.size.height);
+        [self.view addSubview:self.homeDrawer];
+        
+        [self updateTitleLabel:[[defaults objectForKey:@"title"] copy]];
+        [self updateCurrentSong:[[defaults objectForKey:@"song"] copy]];
+        [self updateDurationLabel:[defaults floatForKey:@"duration"]];
+        [self updateCurrentTimeLabel:[defaults floatForKey:@"current"]];
+        self.playButton.isPlaying = [defaults boolForKey:@"isPlaying"];
+        self.playButton.percentageOfSong = [defaults floatForKey:@"percent"];
+    }
+    else {
+        self.titleLabel.hidden = YES;
+        self.currentTimeLabel.hidden = YES;
+        self.stredmLabel.hidden = NO;
+        self.pronunciationLabel.hidden = NO;
+        self.randomButton.hidden = NO;
+        self.searchButton.hidden = NO;
+    }
     
     // Do any additional setup after loading the view.
 }
@@ -112,7 +145,8 @@
     [[NSUserDefaults standardUserDefaults] addObserver:self forKeyPath:@"title" options:NSKeyValueObservingOptionNew context:nil];
     [[NSUserDefaults standardUserDefaults] addObserver:self forKeyPath:@"song" options:NSKeyValueObservingOptionNew context:nil];
     [[NSUserDefaults standardUserDefaults] addObserver:self forKeyPath:@"percent" options:NSKeyValueObservingOptionNew context:nil];
-    [[NSUserDefaults standardUserDefaults] addObserver:self forKeyPath:@"isPlaying" options:NSKeyValueObservingOptionInitial context:nil];
+    [[NSUserDefaults standardUserDefaults] addObserver:self forKeyPath:@"isPlaying" options:NSKeyValueObservingOptionNew context:nil];
+    [[NSUserDefaults standardUserDefaults] addObserver:self forKeyPath:@"invisible" options:NSKeyValueObservingOptionNew context:nil];
 
 }
 
@@ -125,7 +159,7 @@
     [[NSUserDefaults standardUserDefaults] removeObserver:self forKeyPath:@"song"];
     [[NSUserDefaults standardUserDefaults] removeObserver:self forKeyPath:@"percent"];
     [[NSUserDefaults standardUserDefaults] removeObserver:self forKeyPath:@"isPlaying"];
-    
+    [[NSUserDefaults standardUserDefaults] removeObserver:self forKeyPath:@"invisible"];
 }
 
 - (void)didReceiveMemoryWarning
@@ -135,18 +169,44 @@
 }
 
 -(void)updateCurrentTimeLabel:(float)currTime {
-    self.currentTimeLabel.text = [NSString stringWithFormat:@"%02d:%02d", ((int)currTime)/60, (int)currTime%60];
-    self.homeDrawer.currentTimeLabel.text = [NSString stringWithFormat:@"%02d:%02d", (int)currTime/60, (int)currTime%60];
+    int minutes = (int)currTime/60;
+    int seconds = (int)currTime%60;
+    if (minutes < 0.0) minutes = 0.0;
+    if (seconds < 0) seconds = 0.0;
+    self.currentTimeLabel.text = [NSString stringWithFormat:@"%02d:%02d", minutes, seconds];
+    self.homeDrawer.currentTimeLabel.text = [NSString stringWithFormat:@"%02d:%02d", minutes, seconds];
 }
 
 -(void)updateDurationLabel:(float)duration {
-    self.homeDrawer.durationLabel.text = [NSString stringWithFormat:@"%02d:%02d", (int)duration/60, (int)duration%60];
+    int minutes = (int)duration/60;
+    int seconds = (int)duration%60;
+    if (minutes < 0) minutes = 0.0;
+    if (seconds < 0) seconds = 0.0;
+    self.homeDrawer.durationLabel.text = [NSString stringWithFormat:@"%02d:%02d", minutes, seconds];
 }
 -(void)updateTitleLabel:(NSString*)title {
     self.titleLabel.text = title;
 }
 -(void)updateCurrentSong:(NSString*)songTitle {
     self.homeDrawer.songTitleLabel.text = songTitle;
+    [self.homeDrawer.songTitleLabel sizeToFit];
+    self.homeDrawer.songTitleLabel.frame = CGRectMake(0, 0, self.homeDrawer.songTitleLabel.frame.size.width, self.homeDrawer.songScrollView.frame.size.height);
+    self.homeDrawer.songScrollView.contentSize = self.homeDrawer.songTitleLabel.frame.size;
+    if (self.homeDrawer.songTitleLabel.frame.size.width > self.homeDrawer.songScrollView.frame.size.width) {
+        [self slideText];
+    }
+}
+
+-(void)slideText {
+    [UIView animateWithDuration:4.0 animations:^(void) {
+        self.homeDrawer.songScrollView.contentOffset = CGPointMake(self.homeDrawer.songTitleLabel.frame.size.width - self.homeDrawer.songScrollView.frame.size.width, 0);
+    } completion:^(BOOL complete) {
+        [UIView animateWithDuration:4.0 animations:^(void) {
+            self.homeDrawer.songScrollView.contentOffset = CGPointMake(0.0, 0.0);
+        } completion:^(BOOL complete){
+            [self performSelector:@selector(slideText) withObject:nil afterDelay:0.0];
+        }];
+    }];
 }
 
 @end

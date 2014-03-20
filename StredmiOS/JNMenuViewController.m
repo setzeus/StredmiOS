@@ -20,7 +20,7 @@
         self.percentageOfSong = 0.0;
         [[NSUserDefaults standardUserDefaults] addObserver:self forKeyPath:@"search" options:NSKeyValueObservingOptionNew context:nil];
         [[NSUserDefaults standardUserDefaults] addObserver:self forKeyPath:@"isPlaying" options:NSKeyValueObservingOptionNew context:nil];
-        [[NSUserDefaults standardUserDefaults] addObserver:self forKeyPath:@"scrubbing" options:NSKeyValueObservingOptionNew context:nil];
+        [[NSUserDefaults standardUserDefaults] addObserver:self forKeyPath:@"isScrubbing" options:NSKeyValueObservingOptionNew context:nil];
         [self.playerLayer.player addObserver:self forKeyPath:@"status" options:NSKeyValueObservingOptionNew context:nil];
     }
     return self;
@@ -39,7 +39,8 @@
     [defaults setObject:title forKey:@"title"];
     [defaults setObject:song forKey:@"song"];
     [defaults setBool:true forKey:@"isPlaying"];
-    [defaults setObject:@"no" forKey:@"scrubbing"];
+    [defaults setObject:@"no" forKey:@"startup"];
+    [defaults setBool:false forKey:@"invisible"];
     [defaults synchronize];
     
     NSString *setPath = [NSString stringWithFormat:@"http://stredm.com/uploads/%@", [[songArray objectAtIndex:row] objectForKey:@"songURL"]];
@@ -75,7 +76,7 @@
 
 -(void)updateProgress {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    if (![[defaults stringForKey:@"scrubbing"] isEqualToString:@"yes"]) {
+    if (![[defaults stringForKey:@"isScrubbing"] isEqualToString:@"yes"]) {
         if (CMTimeGetSeconds([[self.playerLayer.player currentItem] duration]) != 0.0) {
             [defaults setFloat:CMTimeGetSeconds([[self.playerLayer.player currentItem] currentTime])/CMTimeGetSeconds([[self.playerLayer.player currentItem] duration]) forKey:@"percent"];
             [defaults setFloat:CMTimeGetSeconds([[self.playerLayer.player currentItem] currentTime]) forKey:@"current"];
@@ -143,23 +144,21 @@
             [self.playerLayer.player pause];
         }
     }
-    else if ([keyPath isEqualToString:@"scrubbing"]) {
-        if ([[defaults stringForKey:@"scrubbing"] isEqualToString:@"yes"]) {
+    else if ([keyPath isEqualToString:@"isScrubbing"]) {
+        if ([defaults boolForKey:@"isScrubbing"]) {
             float percent = [defaults floatForKey:@"percent"];
             NSLog(@"percent: %f", percent);
             float duration = [defaults floatForKey:@"duration"];
             int timeScale = self.playerLayer.player.currentItem.asset.duration.timescale;
             CMTime time = CMTimeMakeWithSeconds(duration * percent, timeScale);
-            NSLog(@"seeking");
             [self.playerLayer.player seekToTime:time completionHandler:^(BOOL complete){
-                NSLog(@"playing");
-                [self.playerLayer.player play];
                 [defaults setBool:true forKey:@"isPlaying"];
+                [defaults setBool:false forKey:@"isScrubbing"];
                 [defaults synchronize];
-                NSLog(@"play called");
+                [self.playerLayer.player play];
+
             }];
-            [defaults setObject:@"no" forKey:@"scrubbing"];
-            [defaults synchronize];
+            
         }
     }
     else {
