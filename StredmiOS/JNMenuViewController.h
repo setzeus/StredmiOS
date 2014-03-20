@@ -21,5 +21,6 @@
 
 -(IBAction)unwindToMenuViewController:(UIStoryboardSegue *)segue;
 -(void)playSongWithQuery:(NSString *)query row:(NSInteger)row;
+-(void)playSong:(NSInteger)row;
 
 @end

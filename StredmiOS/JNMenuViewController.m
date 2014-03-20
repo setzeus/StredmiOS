@@ -21,6 +21,7 @@
     if (self) {
         self.percentageOfSong = 0.0;
         [[NSUserDefaults standardUserDefaults] addObserver:self forKeyPath:@"search" options:NSKeyValueObservingOptionNew context:nil];
+        [[NSUserDefaults standardUserDefaults] addObserver:self forKeyPath:@"playlist" options:NSKeyValueObservingOptionNew context:nil];
         [[NSUserDefaults standardUserDefaults] addObserver:self forKeyPath:@"isPlaying" options:NSKeyValueObservingOptionNew context:nil];
         [[NSUserDefaults standardUserDefaults] addObserver:self forKeyPath:@"isScrubbing" options:NSKeyValueObservingOptionNew context:nil];
         [self.playerLayer.player addObserver:self forKeyPath:@"status" options:NSKeyValueObservingOptionNew context:nil];
@@ -40,10 +41,11 @@
     [defaults setObject:title forKey:@"title"];
     [defaults setObject:songLabel forKey:@"song"];
     [defaults setBool:true forKey:@"isPlaying"];
-    [defaults setObject:@"no" forKey:@"scrubbing"];
+    [defaults setObject:@"no" forKey:@"startup"];
+    [defaults setBool:false forKey:@"invisible"];
     [defaults synchronize];
     
-    NSString *setPath = [NSString stringWithFormat:@"http://stredm.com/uploads/%@", [[song objectAtIndex:row] objectForKey:@"songURL"]];
+    NSString *setPath = [NSString stringWithFormat:@"http://stredm.com/uploads/%@", [song objectForKey:@"songURL"]];
     NSURL *setURL = [NSURL URLWithString:setPath];
     
     @try {
