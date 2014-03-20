@@ -21,7 +21,7 @@
         self.durationLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 70, 40)];
         self.durationLabel.textColor = [UIColor whiteColor];
         self.durationLabel.textAlignment = NSTextAlignmentCenter;
-        
+                
         self.songScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(90, 10, 220, 40)];
         self.songScrollView.clipsToBounds = YES;
         
