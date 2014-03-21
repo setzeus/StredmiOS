@@ -7,6 +7,7 @@
 //
 
 #import "DiscoverViewController.h"
+#import "JNAppDelegate.h"
 
 @interface DiscoverViewController ()
 
@@ -166,22 +167,23 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setInteger:indexPath.row forKey:@"row"];
+    JNAppDelegate *jnad = (JNAppDelegate*)[[UIApplication sharedApplication] delegate];
     switch (self.currentMode) {
         case 0:
-            [defaults setObject:self.recentArray forKey:@"playlist"];
+            jnad.playerView.playlistArray = self.recentArray;
             break;
         case 1:
-            [defaults setObject:self.featuredArray forKey:@"playlist"];
+            jnad.playerView.playlistArray = self.featuredArray;
             break;
         case 2:
-            [defaults setObject:self.popularArray forKey:@"playlist"];
+            jnad.playerView.playlistArray = self.popularArray;
             break;
         default:
             break;
     }
-    [defaults synchronize];
+    [jnad.playerView playSong:indexPath.row];
+    
+    [self.navigationController popViewControllerAnimated:YES];
     
 }
 

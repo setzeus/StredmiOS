@@ -21,8 +21,6 @@
     self = [super initWithCoder:aDecoder];
     if (self) {
         self.percentageOfSong = 0.0;
-        [[NSUserDefaults standardUserDefaults] addObserver:self forKeyPath:@"search" options:NSKeyValueObservingOptionNew context:nil];
-        [[NSUserDefaults standardUserDefaults] addObserver:self forKeyPath:@"playlist" options:NSKeyValueObservingOptionNew context:nil];
         [[NSUserDefaults standardUserDefaults] addObserver:self forKeyPath:@"isPlaying" options:NSKeyValueObservingOptionNew context:nil];
         [[NSUserDefaults standardUserDefaults] addObserver:self forKeyPath:@"isScrubbing" options:NSKeyValueObservingOptionNew context:nil];
         [self.playerLayer.player addObserver:self forKeyPath:@"status" options:NSKeyValueObservingOptionNew context:nil];
@@ -202,16 +200,6 @@
         else if ( self.playerLayer.player.status == AVPlayerItemStatusUnknown ) {
             NSLog(@"AVPlayer Unknown");
         }
-    }
-    else if ([keyPath isEqualToString:@"search"] ) {
-        NSString *query = [defaults stringForKey:@"search"];
-        NSInteger row = [defaults integerForKey:@"row"];
-        [self playSongWithQuery:query row:row];
-    }
-    else if ([keyPath isEqualToString:@"playlist"]) {
-        _playlistArray = [defaults arrayForKey:@"playlist"];
-        NSInteger row = [defaults integerForKey:@"row"];
-        [self playSong:row];
     }
     else if ([keyPath isEqualToString:@"isPlaying"]) {
         BOOL playing = [defaults boolForKey:@"isPlaying"];
