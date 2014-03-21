@@ -327,6 +327,9 @@
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = Stredm;
 				TargetAttributes = {
+					9E64CDD118BC8BB80043926E = {
+						DevelopmentTeam = 7JQM8M6QG2;
+					};
 					9E64CDF218BC8BB90043926E = {
 						TestTargetID = 9E64CDD118BC8BB80043926E;
 					};
@@ -493,7 +496,6 @@
 				F87CDB0318D4F80500D0C1A8 /* PlayButton.m in Sources */,
 				F89EA6C018DAD1E60013901A /* HomeView.m in Sources */,
 				52D4D81B18D92E2F009676CB /* DiscoverTableCell.m in Sources */,
-				F8D9AB1E18D649EB006C1143 /* PlayerView.m in Sources */,
 				F87CDB0018D4E6ED00D0C1A8 /* HomeViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -620,6 +622,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "StredmiOS/StredmiOS-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/StredmiOS/StredmiOS-Info.plist";
@@ -634,6 +637,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "StredmiOS/StredmiOS-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/StredmiOS/StredmiOS-Info.plist";
