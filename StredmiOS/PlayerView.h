@@ -29,6 +29,7 @@
 @property (nonatomic) BOOL isPlaying;
 @property (nonatomic) BOOL isScrubbing;
 @property (nonatomic) BOOL justScrubbed;
+@property (nonatomic) BOOL isOpen;
 
 @property (strong, nonatomic) UIImageView *artwork;
 @property (strong, nonatomic) UIImageView *background;
@@ -49,7 +50,6 @@
 -(void)openPlayer:(CGSize)size;
 -(void)closePlayer;
 
--(void)loadSongWithQuery:(NSString*)query row:(NSInteger)row;
 -(void)playSong:(NSInteger)row;
 -(void)playRandom;
 

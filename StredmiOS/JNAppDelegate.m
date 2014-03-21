@@ -30,13 +30,15 @@
     [self.playerView closePlayer];
     UISwipeGestureRecognizer *openSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipe:)];
     UISwipeGestureRecognizer *closeSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipe:)];
+    UITapGestureRecognizer *openTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
     [openSwipe setDirection:UISwipeGestureRecognizerDirectionUp];
     [closeSwipe setDirection:UISwipeGestureRecognizerDirectionDown];
     openSwipe.cancelsTouchesInView = NO;
     closeSwipe.cancelsTouchesInView = NO;
+    openTap.cancelsTouchesInView = NO;
     [self.playerView.playerToolbar addGestureRecognizer:openSwipe];
     [self.playerView.swipeDownView addGestureRecognizer:closeSwipe];
-    
+    [self.playerView.playerToolbar addGestureRecognizer:openTap];
     
     [self.window addSubview:self.playerView];
     
@@ -47,6 +49,19 @@
 
 -(void)bringPlayerToFront {
     [self.window bringSubviewToFront:self.playerView];
+}
+
+-(void)handleTap:(UITapGestureRecognizer*)tap {
+    CGPoint tapCoords = [tap locationInView:self.playerView];
+    NSLog(@"coords: %f %f", tapCoords.x, tapCoords.y);
+    if (!self.playerView.isOpen && !CGRectContainsPoint(CGRectMake(260, 0, 60, 60), tapCoords)) {
+        self.playerView.frame = CGRectMake(0, self.window.frame.size.height-60, 320, self.window.frame.size.height);
+        [UIView animateWithDuration:0.25 animations:^(void) {
+            [self.playerView openPlayer:CGSizeMake(320, self.window.frame.size.height)];
+            self.playerView.frame = CGRectMake(0, 0, 320, self.window.frame.size.height);
+        }];
+    }
+    
 }
 
 -(void)handleSwipe:(UISwipeGestureRecognizer *)swipe {

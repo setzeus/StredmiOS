@@ -10,8 +10,6 @@
 
 @interface PlayerView()
 
-@property (nonatomic) BOOL isOpen;
-
 @end
 
 @implementation PlayerView
