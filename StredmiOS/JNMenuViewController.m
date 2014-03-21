@@ -7,6 +7,7 @@
 //
 
 #import "JNMenuViewController.h"
+#import "JNAppDelegate.h"
 
 @interface JNMenuViewController ()
 
@@ -52,7 +53,6 @@
 
 -(void)viewDidLoad {
     [super viewDidLoad];
-        
 }
 
 -(void)playSong:(NSInteger)row {

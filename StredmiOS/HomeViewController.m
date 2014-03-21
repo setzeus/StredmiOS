@@ -33,12 +33,6 @@
     return self;
 }
 
-- (IBAction)random:(id)sender {
-}
-
-- (IBAction)search:(id)sender {
-}
-
 -(void)handleSwipe:(UISwipeGestureRecognizer *)swipe {
     if (swipe.direction == UISwipeGestureRecognizerDirectionUp) {
         self.playerView.frame = CGRectMake(0, self.view.frame.size.height-64, 320, self.view.frame.size.height-64);

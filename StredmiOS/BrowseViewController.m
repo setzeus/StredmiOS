@@ -7,6 +7,7 @@
 //
 
 #import "BrowseViewController.h"
+#import "JNAppDelegate.h"
 
 @interface BrowseViewController ()
 

@@ -20,49 +20,13 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-//    self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
-    // Override point for customization after application launch.
-    
-    // Create a JNMenuViewController
-    //JNMenuViewController *menuViewController = [[JNMenuViewController alloc] init];
-    
-    // Create a JNSettingsViewController
-//    JNSettingsViewController *settingsViewController = [[JNSettingsViewController alloc] init];
-    
-    // Create an instance of a UINavigationController
-    // its stack contains settingsViewController
-//    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:settingsViewController];
-    
-    // Place navigation controller's view in the window hierarchy
-//    self.window.rootViewController = navController;
-//    
-//    self.window.backgroundColor = [UIColor whiteColor];
-//    [self.window makeKeyAndVisible];
     NSError *setCategoryErr = nil;
     NSError *activationErr  = nil;
     [[AVAudioSession sharedInstance] setDelegate:self];
     [[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategoryPlayback error:&setCategoryErr];
     [[AVAudioSession sharedInstance] setActive:YES error:&activationErr];
     
-    NSUserDefaults * defaults  = [NSUserDefaults standardUserDefaults];
-    [defaults setObject:@"yes" forKey:@"startup"];
-    [defaults setObject:@"" forKey:@"title"];
-    [defaults setObject:@"" forKey:@"song"];
-    [defaults setInteger:0.0 forKey:@"row"];
-    [defaults setBool:false forKey:@"isScrubbing"];
-    [defaults setBool:false forKey:@"isPlaying"];
-    [defaults setFloat:0.0 forKey:@"current"];
-    [defaults setFloat:0.0 forKey:@"duration"];
-    [defaults setFloat:0.0 forKey:@"percent"];
-    [defaults setBool:true forKey:@"invisible"];
-    
-    [defaults synchronize];
-    
-//    if (!self.playerView) {
-    
-//    }
-    
-    self.playerView = [[PlayerView alloc] initWithFrame:CGRectMake(0, self.window.frame.size.height-60, 320, self.window.frame.size.height-64)];
+    self.playerView = [[PlayerView alloc] initWithFrame:CGRectMake(0, self.window.frame.size.height-60, 320, self.window.frame.size.height)];
     [self.playerView closePlayer];
     UISwipeGestureRecognizer *openSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipe:)];
     UISwipeGestureRecognizer *closeSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipe:)];
@@ -76,7 +40,7 @@
     
     [self.window addSubview:self.playerView];
     
-    [self.playerView loadSongWithQuery:@"Disclosure" row:0];
+    self.playerView.hidden = YES;
     
     return YES;
 }
@@ -87,10 +51,10 @@
 
 -(void)handleSwipe:(UISwipeGestureRecognizer *)swipe {
     if (swipe.direction == UISwipeGestureRecognizerDirectionUp) {
-        self.playerView.frame = CGRectMake(0, self.window.frame.size.height-64, 320, self.window.frame.size.height-64);
+        self.playerView.frame = CGRectMake(0, self.window.frame.size.height-60, 320, self.window.frame.size.height);
         [UIView animateWithDuration:0.25 animations:^(void) {
-            [self.playerView openPlayer:CGSizeMake(320, self.window.frame.size.height-64)];
-            self.playerView.frame = CGRectMake(0, 64, 320, self.window.frame.size.height-64);
+            [self.playerView openPlayer:CGSizeMake(320, self.window.frame.size.height)];
+            self.playerView.frame = CGRectMake(0, 0, 320, self.window.frame.size.height);
         }];
     }
     else if (!self.playerView.isScrubbing) {
@@ -102,6 +66,10 @@
             
         }];
     }
+}
+
+-(BOOL)isPlaying {
+    return self.playerView.isPlaying;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

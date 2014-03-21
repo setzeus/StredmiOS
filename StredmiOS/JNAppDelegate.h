@@ -16,7 +16,7 @@
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) PlayerView *playerView;
 
-
 -(void)bringPlayerToFront;
+-(BOOL)isPlaying;
 
 @end

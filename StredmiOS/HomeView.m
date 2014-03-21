@@ -7,6 +7,7 @@
 //
 
 #import "HomeView.h"
+#import "JNAppDelegate.h"
 
 @implementation HomeView
 
@@ -27,21 +28,31 @@
     return self;
 }
 
+-(void)random:(id)sender {
+    JNAppDelegate *jnad = (JNAppDelegate*)[[UIApplication sharedApplication] delegate];
+    [jnad.playerView playRandom];
+}
+
+-(void)search:(id)sender {
+}
+
 -(void)initMethod {
     self.randomButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    self.randomButton.frame = CGRectMake(0, self.frame.size.height/2 -80, 320, 80);
+    self.randomButton.frame = CGRectMake(0, self.frame.size.height/2 -100, 320, 100);
     self.randomButton.titleLabel.font = [UIFont fontWithName:@"Helvetica" size:28.0];
     [self.randomButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.randomButton setTitle:@"random" forState:UIControlStateNormal];
-    self.searchButton.backgroundColor = [UIColor clearColor];
+    self.randomButton.backgroundColor = [UIColor clearColor];
+    [self.randomButton addTarget:self action:@selector(random:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:self.randomButton];
     
     self.searchButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    self.searchButton.frame = CGRectMake(0, self.frame.size.height/2, 320, 80);
+    self.searchButton.frame = CGRectMake(0, self.frame.size.height/2, 320, 100);
     self.searchButton.titleLabel.font = [UIFont fontWithName:@"Helvetica" size:28.0];
     [self.searchButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.searchButton setTitle:@"search" forState:UIControlStateNormal];
     self.searchButton.backgroundColor = [UIColor clearColor];
+    [self.searchButton addTarget:self action:@selector(search:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:self.searchButton];
     
 }

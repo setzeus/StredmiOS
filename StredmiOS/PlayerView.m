@@ -48,8 +48,8 @@
 -(void)openPlayer:(CGSize)size {
     self.isOpen = true;
     
-    self.titleLabel.frame = CGRectMake(10, 10, 300, 60);
-    self.currentTimeLabel.frame = CGRectMake(20, 70, 280, 20);
+    self.titleLabel.frame = CGRectMake(10, 20, 300, 60);
+    self.currentTimeLabel.frame = CGRectMake(20, 80, 280, 20);
     
     self.eventLabel.alpha = 0.0;
     self.artistLabel.alpha = 0.0;
@@ -109,36 +109,6 @@
     }
 }
 
--(void)loadSongWithQuery:(NSString*)query row:(NSInteger)row {
-    NSString *songPath = [NSString stringWithFormat:@"http://stredm.com/scripts/mobile/search.php?label=%@", query];
-    NSArray *songArray = [self safeJSONParseArray:songPath];
-    
-    self.artistLabel.text = [[songArray objectAtIndex:row] objectForKey:@"artist"];
-    self.eventLabel.text = [[songArray objectAtIndex:row] objectForKey:@"event"];
-    self.titleLabel.text = [NSString stringWithFormat:@"%@ - %@", self.artistLabel.text, self.eventLabel.text];
-    
-    NSString *setPath = [NSString stringWithFormat:@"http://stredm.com/uploads/%@", [[songArray objectAtIndex:row] objectForKey:@"songURL"]];
-    NSURL *setURL = [NSURL URLWithString:setPath];
-    
-    if (self.timer)
-        [self.timer invalidate];
-    
-    
-    if (!self.playerLayer) {
-        AVPlayer *player = [[AVPlayer alloc] init];
-        self.playerLayer = [AVPlayerLayer playerLayerWithPlayer:player];
-        [self.layer addSublayer:self.playerLayer];
-    }
-    [self.playerLayer.player replaceCurrentItemWithPlayerItem:[AVPlayerItem playerItemWithURL:setURL]];
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(updateProgress) userInfo:nil repeats:YES];
-    [self.playerLayer.player play];
-    self.isPlaying = true;
-    self.playButton.isPlaying = self.isPlaying;
-    [self updatePlayerToolbar];
-    [self.playButton setNeedsDisplay];
-
-}
-
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     if ( object == self.playerLayer.player && [keyPath isEqualToString:@"status"] ) {
         if ( self.playerLayer.player.status == AVPlayerStatusFailed ) {
@@ -149,6 +119,7 @@
             [self.playerLayer.player play];
             self.isPlaying = true;
             self.playButton.isPlaying = self.isPlaying;
+            self.isScrubbing = false;
             [self.playButton setNeedsDisplay];
             [self updatePlayerToolbar];
         }
@@ -194,9 +165,9 @@
 }
 
 -(void)playPush:(id)sender {
-    NSLog(@"self.isScrubbing = %d", self.isScrubbing);
     if (!self.isScrubbing && !self.justScrubbed) {
-        self.playButton.isPlaying = !self.playButton.isPlaying;
+        self.isPlaying = !self.isPlaying;
+        self.playButton.isPlaying = self.isPlaying;
         if (self.playButton.isPlaying ) {
             UIBarButtonItem *playPauseBarItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPause target:self action:@selector(playPush:)];
             playPauseBarItem.tintColor = [UIColor grayColor];
@@ -215,7 +186,7 @@
 }
 
 -(void)updatePlayerToolbar {
-    if (self.playButton.isPlaying ) {
+    if (self.playButton.isPlaying) {
         UIBarButtonItem *playPauseBarItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPause target:self action:@selector(playPush:)];
         playPauseBarItem.tintColor = [UIColor grayColor];
         [self.playerToolbar setItems:@[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:@selector(playPush:)], playPauseBarItem]];
@@ -280,6 +251,8 @@
     
     self.bottomToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, self.frame.size.height-60, 320, 60)];
     UIBarButtonItem *shuffle = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"shuffle_icon.png"] style:UIBarButtonItemStylePlain target:self action:nil];
+    shuffle.target = self;
+    shuffle.action = @selector(playRandom);
     UIBarButtonItem *ffw = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFastForward target:self action:nil];
     UIBarButtonItem *rewind = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRewind target:self action:nil];
     UIBarButtonItem *add = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemOrganize target:self action:nil];
@@ -356,20 +329,11 @@
     NSURL *imageURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://stredm.com/uploads/%@", [song objectForKey:@"imageURL"]]];
     [self.artwork setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:imageURL]]];
     
+    self.hidden = NO;
+    
     NSString *setPath = [NSString stringWithFormat:@"http://stredm.com/uploads/%@", [song objectForKey:@"songURL"]];
     NSURL *setURL = [NSURL URLWithString:setPath];
-    
-    @try {
-        if (self.playerLayer) {
-            [self.playerLayer.player removeObserver:self forKeyPath:@"status"];
-            [self.playerLayer.player pause];
-            self.playerLayer = nil;
-            [self.playerLayer removeFromSuperlayer];
-        }
-    }
-    @catch (NSException *exception) {
-        
-    }
+
     if (self.timer)
         [self.timer invalidate];
     
@@ -380,11 +344,42 @@
         [self.layer addSublayer:self.playerLayer];
     }
     [self.playerLayer.player replaceCurrentItemWithPlayerItem:[AVPlayerItem playerItemWithURL:setURL]];
-    [self.playerLayer.player addObserver:self forKeyPath:@"status" options:0 context:nil];
     self.timer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(updateProgress) userInfo:nil repeats:YES];
     [self.playerLayer.player play];
-    
 }
+
+-(void)playRandom {
+    self.playlistArray = [self safeJSONParseArray:@"http://stredm.com/scripts/mobile/random.php"];
+    id song = [self.playlistArray objectAtIndex:0];
+    self.artistLabel.text = [song objectForKey:@"artist"];
+    self.eventLabel.text = [song objectForKey:@"event"];
+    self.titleLabel.text = [NSString stringWithFormat:@"%@ - %@", self.artistLabel.text, self.eventLabel.text];
+    
+    NSURL *imageURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://stredm.com/uploads/%@", [song objectForKey:@"imageURL"]]];
+    [self.artwork setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:imageURL]]];
+    
+    self.hidden = NO;
+    
+    NSString *setPath = [NSString stringWithFormat:@"http://stredm.com/uploads/%@", [song objectForKey:@"songURL"]];
+    NSURL *setURL = [NSURL URLWithString:setPath];
+    
+    if (self.timer)
+        [self.timer invalidate];
+    
+    
+    if (!self.playerLayer) {
+        AVPlayer *player = [[AVPlayer alloc] init];
+        self.playerLayer = [AVPlayerLayer playerLayerWithPlayer:player];
+        [self.layer addSublayer:self.playerLayer];
+    }
+    [self.playerLayer.player replaceCurrentItemWithPlayerItem:[AVPlayerItem playerItemWithURL:setURL]];
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(updateProgress) userInfo:nil repeats:YES];
+    [self.playerLayer.player play];
+    self.isPlaying = true;
+    self.playButton.isPlaying = self.isPlaying;
+    [self updatePlayerToolbar];
+}
+
 
 -(void)dealloc {
     [self.playerLayer.player removeObserver:self forKeyPath:@"status"];

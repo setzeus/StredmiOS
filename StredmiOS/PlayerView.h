@@ -51,5 +51,6 @@
 
 -(void)loadSongWithQuery:(NSString*)query row:(NSInteger)row;
 -(void)playSong:(NSInteger)row;
+-(void)playRandom;
 
 @end
