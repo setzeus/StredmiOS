@@ -8,6 +8,7 @@
 
 #import "DiscoverViewController.h"
 #import "JNAppDelegate.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 
 @interface DiscoverViewController ()
 
@@ -142,26 +143,28 @@
     static NSString *CellIdentifier = @"DiscoverTableCell";
     DiscoverTableCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
-    //    if ( cell == nil ) {
-    //        cell = [[BrowseTableCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
-    //    }
+    if ( cell == nil ) {
+        cell = [[DiscoverTableCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+    }
+    id songObject;
     
     switch (self.currentMode) {
         case 0:
-            cell.textLabel.text = [[self.recentArray objectAtIndex:indexPath.row] objectForKey:@"event"];
-            cell.idNum = (NSInteger)[[self.recentArray objectAtIndex:indexPath.row] objectForKey:@"id"];
+            songObject = [self.recentArray objectAtIndex:indexPath.row];
             break;
         case 1:
-            cell.textLabel.text = [[self.featuredArray objectAtIndex:indexPath.row] objectForKey:@"event"];
-            cell.idNum = (NSInteger)[[self.featuredArray objectAtIndex:indexPath.row] objectForKey:@"id"];
+            songObject = [self.featuredArray objectAtIndex:indexPath.row];
             break;
         case 2:
-            cell.textLabel.text = [[self.popularArray objectAtIndex:indexPath.row] objectForKey:@"event"];
-            cell.idNum = (NSInteger)[[self.popularArray objectAtIndex:indexPath.row] objectForKey:@"id"];
+            songObject = [self.popularArray objectAtIndex:indexPath.row];
             break;
         default:
             cell.textLabel.text = @"An error occured";
     }
+    NSString* url = [NSString stringWithFormat:@"%@%@", @"http://stredm.com/uploads/", [songObject objectForKey:@"imageURL"]];
+    cell.textLabel.text = [songObject objectForKey:@"event"];
+    cell.idNum = (NSInteger)[songObject objectForKey:@"id"];
+    [cell.imageView setImageWithURL:[NSURL URLWithString:url]];
     
     return cell;
 }

@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		137475B9019C43BEA67EE7A2 /* libPods-StredmiOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A6B8851ADB34244A46385BA /* libPods-StredmiOS.a */; };
+		52078D7818DD04AB0060F875 /* SDWebImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52078D7718DD04AB0060F875 /* SDWebImage.framework */; };
+		52078D7A18DD055F0060F875 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52078D7918DD055F0060F875 /* ImageIO.framework */; };
 		52D4D81818D92D23009676CB /* DiscoverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52D4D81718D92D23009676CB /* DiscoverViewController.m */; };
 		52D4D81B18D92E2F009676CB /* DiscoverTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 52D4D81A18D92E2F009676CB /* DiscoverTableCell.m */; };
 		7A6ACA4718D67F0500231692 /* JNSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A6ACA4618D67F0500231692 /* JNSettingsViewController.m */; };
@@ -80,6 +82,8 @@
 /* Begin PBXFileReference section */
 		0A6B8851ADB34244A46385BA /* libPods-StredmiOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-StredmiOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2114F187D3F14E8BB4D0B88F /* libPods-StredmiOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-StredmiOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		52078D7718DD04AB0060F875 /* SDWebImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SDWebImage.framework; sourceTree = "<group>"; };
+		52078D7918DD055F0060F875 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		52D4D81618D92D23009676CB /* DiscoverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DiscoverViewController.h; sourceTree = "<group>"; };
 		52D4D81718D92D23009676CB /* DiscoverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DiscoverViewController.m; sourceTree = "<group>"; };
 		52D4D81918D92E2F009676CB /* DiscoverTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DiscoverTableCell.h; sourceTree = "<group>"; };
@@ -136,6 +140,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				52078D7A18DD055F0060F875 /* ImageIO.framework in Frameworks */,
+				52078D7818DD04AB0060F875 /* SDWebImage.framework in Frameworks */,
 				9E64CDD818BC8BB80043926E /* CoreGraphics.framework in Frameworks */,
 				9E64CDDA18BC8BB80043926E /* UIKit.framework in Frameworks */,
 				9E64CDD618BC8BB80043926E /* Foundation.framework in Frameworks */,
@@ -193,6 +199,8 @@
 		9E64CDD418BC8BB80043926E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				52078D7918DD055F0060F875 /* ImageIO.framework */,
+				52078D7718DD04AB0060F875 /* SDWebImage.framework */,
 				9E64CDD518BC8BB80043926E /* Foundation.framework */,
 				9E64CDD718BC8BB80043926E /* CoreGraphics.framework */,
 				9E64CDD918BC8BB80043926E /* UIKit.framework */,
@@ -623,8 +631,16 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "StredmiOS/StredmiOS-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"\"${PODS_ROOT}/Headers\"",
+					"\"${PODS_ROOT}/Headers/ECSlidingViewController\"",
+				);
 				INFOPLIST_FILE = "$(SRCROOT)/StredmiOS/StredmiOS-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
@@ -638,6 +654,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "StredmiOS/StredmiOS-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/StredmiOS/StredmiOS-Info.plist";
