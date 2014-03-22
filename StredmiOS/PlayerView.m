@@ -334,37 +334,7 @@
 
     if (self.timer)
         [self.timer invalidate];
-    
-    
-    if (!self.playerLayer) {
-        AVPlayer *player = [[AVPlayer alloc] init];
-        self.playerLayer = [AVPlayerLayer playerLayerWithPlayer:player];
-        [self.layer addSublayer:self.playerLayer];
-    }
-    [self.playerLayer.player replaceCurrentItemWithPlayerItem:[AVPlayerItem playerItemWithURL:setURL]];
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(updateProgress) userInfo:nil repeats:YES];
-    [self.playerLayer.player play];
-}
 
--(void)playRandom {
-    self.playlistArray = [self safeJSONParseArray:@"http://stredm.com/scripts/mobile/random.php"];
-    id song = [self.playlistArray objectAtIndex:0];
-    self.artistLabel.text = [song objectForKey:@"artist"];
-    self.eventLabel.text = [song objectForKey:@"event"];
-    self.titleLabel.text = [NSString stringWithFormat:@"%@ - %@", self.artistLabel.text, self.eventLabel.text];
-    
-    NSURL *imageURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://stredm.com/uploads/%@", [song objectForKey:@"imageURL"]]];
-    [self.artwork setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:imageURL]]];
-    
-    self.hidden = NO;
-    
-    NSString *setPath = [NSString stringWithFormat:@"http://stredm.com/uploads/%@", [song objectForKey:@"songURL"]];
-    NSURL *setURL = [NSURL URLWithString:setPath];
-    
-    if (self.timer)
-        [self.timer invalidate];
-    
-    
     if (!self.playerLayer) {
         AVPlayer *player = [[AVPlayer alloc] init];
         self.playerLayer = [AVPlayerLayer playerLayerWithPlayer:player];
@@ -376,6 +346,11 @@
     self.isPlaying = true;
     self.playButton.isPlaying = self.isPlaying;
     [self updatePlayerToolbar];
+}
+
+-(void)playRandom {
+    self.playlistArray = [self safeJSONParseArray:@"http://stredm.com/scripts/mobile/random.php"];
+    [self playSong: 0];
 }
 
 
