@@ -59,8 +59,8 @@
         cell = [[SearchResultCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
 
-    NSString *matchType = [[self.searchArray objectAtIndex:indexPath.row] objectForKey:@"match_type"];
     id songObject = [self.searchArray objectAtIndex:indexPath.row];
+    NSString *matchType = [songObject objectForKey:@"match_type"];
     if ( [matchType isEqual: @"artist"]) {
         cell.textLabel.text = [songObject objectForKey:@"event"];
         cell.detailTextLabel.text = @"";

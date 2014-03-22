@@ -163,7 +163,7 @@
     }
     NSString* url = [NSString stringWithFormat:@"%@%@", @"http://stredm.com/uploads/", [songObject objectForKey:@"imageURL"]];
     cell.textLabel.text = [songObject objectForKey:@"event"];
-    cell.idNum = (NSInteger)[songObject objectForKey:@"id"];
+    cell.detailTextLabel.text = [songObject objectForKey:@"artist"];
     [cell.imageView setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"placeholder.jpg"]];
     
     return cell;
