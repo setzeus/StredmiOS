@@ -10,7 +10,7 @@
 		137475B9019C43BEA67EE7A2 /* libPods-StredmiOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A6B8851ADB34244A46385BA /* libPods-StredmiOS.a */; };
 		52078D7818DD04AB0060F875 /* SDWebImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52078D7718DD04AB0060F875 /* SDWebImage.framework */; };
 		52078D7A18DD055F0060F875 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52078D7918DD055F0060F875 /* ImageIO.framework */; };
-		52078D7C18DD350E0060F875 /* placeholder.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 52078D7B18DD350E0060F875 /* placeholder.jpg */; };
+		52078D7E18DD52500060F875 /* placeholder.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 52078D7D18DD52500060F875 /* placeholder.jpg */; };
 		52D4D81818D92D23009676CB /* DiscoverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52D4D81718D92D23009676CB /* DiscoverViewController.m */; };
 		52D4D81B18D92E2F009676CB /* DiscoverTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 52D4D81A18D92E2F009676CB /* DiscoverTableCell.m */; };
 		7A6ACA4718D67F0500231692 /* JNSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A6ACA4618D67F0500231692 /* JNSettingsViewController.m */; };
@@ -85,7 +85,7 @@
 		2114F187D3F14E8BB4D0B88F /* libPods-StredmiOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-StredmiOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		52078D7718DD04AB0060F875 /* SDWebImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SDWebImage.framework; sourceTree = "<group>"; };
 		52078D7918DD055F0060F875 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
-		52078D7B18DD350E0060F875 /* placeholder.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = placeholder.jpg; path = ../../Downloads/placeholder.jpg; sourceTree = "<group>"; };
+		52078D7D18DD52500060F875 /* placeholder.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = placeholder.jpg; sourceTree = "<group>"; };
 		52D4D81618D92D23009676CB /* DiscoverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DiscoverViewController.h; sourceTree = "<group>"; };
 		52D4D81718D92D23009676CB /* DiscoverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DiscoverViewController.m; sourceTree = "<group>"; };
 		52D4D81918D92E2F009676CB /* DiscoverTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DiscoverTableCell.h; sourceTree = "<group>"; };
@@ -217,7 +217,7 @@
 		9E64CDDB18BC8BB80043926E /* StredmiOS */ = {
 			isa = PBXGroup;
 			children = (
-				52078D7B18DD350E0060F875 /* placeholder.jpg */,
+				52078D7D18DD52500060F875 /* placeholder.jpg */,
 				9E64CDE418BC8BB90043926E /* JNAppDelegate.h */,
 				9E64CDE518BC8BB90043926E /* JNAppDelegate.m */,
 				9E64CDE718BC8BB90043926E /* Main.storyboard */,
@@ -408,7 +408,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9E64CDEE18BC8BB90043926E /* Images.xcassets in Resources */,
-				52078D7C18DD350E0060F875 /* placeholder.jpg in Resources */,
+				52078D7E18DD52500060F875 /* placeholder.jpg in Resources */,
 				F8A9942818DB679B00EC810A /* shuffle_icon.png in Resources */,
 				9E64CDE018BC8BB80043926E /* InfoPlist.strings in Resources */,
 				9E64CDE918BC8BB90043926E /* Main.storyboard in Resources */,
