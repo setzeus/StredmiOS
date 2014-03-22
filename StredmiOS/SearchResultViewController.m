@@ -8,7 +8,7 @@
 
 #import "SearchResultViewController.h"
 #import "JNAppDelegate.h"
-
+#import <SDWebImage/UIImageView+WebCache.h>
 
 @interface SearchResultViewController ()
 
@@ -52,21 +52,28 @@
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *reuseIdentifier = @"SearchResultCell";
-    SearchResultCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
-        
+    static NSString *CellIdentifier = @"SearchResultCell";
+    SearchResultCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+
+    if ( cell == nil ) {
+        cell = [[SearchResultCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+    }
+
     NSString *matchType = [[self.searchArray objectAtIndex:indexPath.row] objectForKey:@"match_type"];
+    id songObject = [self.searchArray objectAtIndex:indexPath.row];
     if ( [matchType isEqual: @"artist"]) {
-        cell.textLabel.text = [[self.searchArray objectAtIndex:indexPath.row] objectForKey:@"event"];
+        cell.textLabel.text = [songObject objectForKey:@"event"];
         cell.detailTextLabel.text = @"";
     } else if ( [matchType isEqual:@"event"] || [matchType isEqual:@"radiomix"] ) {
-        cell.textLabel.text = [[self.searchArray objectAtIndex:indexPath.row] objectForKey:@"artist"];
+        cell.textLabel.text = [songObject objectForKey:@"artist"];
         cell.detailTextLabel.text = @"";
     }
     else {
-        cell.textLabel.text = [[self.searchArray objectAtIndex:indexPath.row] objectForKey:@"artist"];
-        cell.detailTextLabel.text = [[self.searchArray objectAtIndex:indexPath.row] objectForKey:@"event"];
+        cell.textLabel.text = [songObject objectForKey:@"artist"];
+        cell.detailTextLabel.text = [songObject objectForKey:@"event"];
     }
+    NSString* url = [NSString stringWithFormat:@"%@%@", @"http://stredm.com/uploads/", [songObject objectForKey:@"imageURL"]];
+    [cell.imageView setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"placeholder.jpg"]];
     return cell;
 }
 
