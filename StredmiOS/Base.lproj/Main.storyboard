@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4514" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="N67-2v-HLn">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="N67-2v-HLn">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <scenes>
         <!--Menu View Controller-->
@@ -224,9 +224,13 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="search" id="cof-yr-qWQ">
                             <color key="tintColor" red="0.0" green="0.4839373911" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <segue destination="YXS-rk-hHI" kind="modal" identifier="SearchSegue" id="QKd-hb-UyW"/>
+                            </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="homeView" destination="Lg6-Vv-Nbu" id="XZr-OC-5ES"/>
                         <outlet property="pronunciationLabel" destination="TYC-Dv-9T8" id="Xvg-wx-3uR"/>
                         <outlet property="stredmLabel" destination="BgB-TK-bVQ" id="IKq-59-hhH"/>
                     </connections>
@@ -235,6 +239,76 @@
                 <exit id="YZH-8F-bys" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1098" y="3"/>
+        </scene>
+        <!--Search Result View Controller - Search-->
+        <scene sceneID="2NA-X6-1DQ">
+            <objects>
+                <tableViewController id="8Ao-fe-GtO" customClass="SearchResultViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="8Cl-v8-hgj">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <searchBar key="tableHeaderView" contentMode="redraw" id="Cdk-Gp-caa">
+                            <rect key="frame" x="0.0" y="64" width="320" height="44"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <textInputTraits key="textInputTraits"/>
+                            <connections>
+                                <outlet property="delegate" destination="8Ao-fe-GtO" id="qWM-AF-hJp"/>
+                            </connections>
+                        </searchBar>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="4hF-fr-cT3">
+                                <rect key="frame" x="0.0" y="130" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="4hF-fr-cT3" id="CM5-61-qzQ">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="8Ao-fe-GtO" id="R4s-io-ixr"/>
+                            <outlet property="delegate" destination="8Ao-fe-GtO" id="hAX-an-ASq"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Search" id="sjK-Vf-epR">
+                        <barButtonItem key="rightBarButtonItem" title="Done" id="pEN-L5-1oS">
+                            <connections>
+                                <action selector="close:" destination="8Ao-fe-GtO" id="Whp-Mr-bi9"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="searchDisplayController" destination="eoR-sR-Yjc" id="7Te-Yl-trK"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="BNe-o1-PjS" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <searchDisplayController id="eoR-sR-Yjc">
+                    <connections>
+                        <outlet property="delegate" destination="8Ao-fe-GtO" id="HFJ-lq-zyd"/>
+                        <outlet property="searchBar" destination="Cdk-Gp-caa" id="mOc-ZS-cW0"/>
+                        <outlet property="searchContentsController" destination="8Ao-fe-GtO" id="J2T-TU-GFG"/>
+                        <outlet property="searchResultsDataSource" destination="8Ao-fe-GtO" id="ZCV-Ys-IPq"/>
+                        <outlet property="searchResultsDelegate" destination="8Ao-fe-GtO" id="fei-io-Uo7"/>
+                    </connections>
+                </searchDisplayController>
+            </objects>
+            <point key="canvasLocation" x="2180" y="56"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="QsH-uJ-kbh">
+            <objects>
+                <navigationController definesPresentationContext="YES" id="YXS-rk-hHI" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="1Wl-Tr-29a">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="8Ao-fe-GtO" kind="relationship" relationship="rootViewController" id="egZ-MM-j3k"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tBo-BU-1eN" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1636" y="109"/>
         </scene>
         <!--Browse View Controller - Browse-->
         <scene sceneID="JBG-vy-9D1">
@@ -291,7 +365,11 @@
                                 <segue destination="HqI-HM-GyP" kind="unwind" unwindAction="unwindToMenuViewController:" id="LYv-58-tsq"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="search" id="60k-p1-U9k"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="search" id="60k-p1-U9k">
+                            <connections>
+                                <segue destination="YXS-rk-hHI" kind="modal" id="GDw-Zt-GUf"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="browseSegCont" destination="V0r-qg-Omu" id="g5Z-TG-PG0"/>
@@ -383,7 +461,11 @@
                                 <segue destination="wwT-Yf-wWx" kind="unwind" unwindAction="unwindToMenuViewController:" id="6vN-9w-MSF"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="search" id="1Yh-BT-BeN"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="search" id="1Yh-BT-BeN">
+                            <connections>
+                                <segue destination="YXS-rk-hHI" kind="modal" id="d8d-rb-aqw"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
@@ -509,7 +591,11 @@
                                 <segue destination="xk1-kv-xvC" kind="unwind" unwindAction="unwindToMenuViewController:" id="8C7-kA-Wwj"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="search" id="dgu-1a-7KB"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="search" id="dgu-1a-7KB">
+                            <connections>
+                                <segue destination="YXS-rk-hHI" kind="modal" id="WQD-ps-fnd"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BXE-4w-aaL" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -914,4 +1000,7 @@
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
+    <inferredMetricsTieBreakers>
+        <segue reference="WQD-ps-fnd"/>
+    </inferredMetricsTieBreakers>
 </document>

@@ -33,9 +33,6 @@
     [jnad.playerView playRandom];
 }
 
--(void)search:(id)sender {
-}
-
 -(void)initMethod {
     self.randomButton = [UIButton buttonWithType:UIButtonTypeSystem];
     self.randomButton.frame = CGRectMake(0, self.frame.size.height/2 -100, 320, 100);
@@ -52,7 +49,6 @@
     [self.searchButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.searchButton setTitle:@"search" forState:UIControlStateNormal];
     self.searchButton.backgroundColor = [UIColor clearColor];
-    [self.searchButton addTarget:self action:@selector(search:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:self.searchButton];
     
 }

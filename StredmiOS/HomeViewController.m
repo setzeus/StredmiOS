@@ -26,11 +26,17 @@
         
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         self.isPlaying = [defaults boolForKey:@"isPlaying"];
-//        [self.playButton setNeedsDisplay];
+        [self.homeView.searchButton addTarget:self action:@selector(search:) forControlEvents:UIControlEventTouchUpInside];
+
     }
     
     
     return self;
+}
+
+-(void)search:(id)sender {
+    NSLog(@"performing segue ...");
+    [self performSegueWithIdentifier:@"SearchSegue" sender:sender];
 }
 
 -(void)handleSwipe:(UISwipeGestureRecognizer *)swipe {
@@ -52,12 +58,17 @@
     }
 }
 
+
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
     JNAppDelegate *jnad = (JNAppDelegate*) [[UIApplication sharedApplication] delegate];
     [jnad bringPlayerToFront];
+    
+    [self.homeView.searchButton addTarget:self action:@selector(search:) forControlEvents:UIControlEventTouchUpInside];
+
 }
 
 - (void)didReceiveMemoryWarning

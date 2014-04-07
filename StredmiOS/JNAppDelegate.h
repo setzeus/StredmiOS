@@ -18,5 +18,5 @@
 
 -(void)bringPlayerToFront;
 -(BOOL)isPlaying;
-
+-(void)searchClick:(id)sender;
 @end

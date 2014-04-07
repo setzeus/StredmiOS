@@ -235,24 +235,24 @@
 				F803A54718DAEADF00FB7AE4 /* PlayerView.m */,
 				9E9ABF7118CD1209007A9897 /* JNMenuViewController.h */,
 				9E9ABF7218CD1209007A9897 /* JNMenuViewController.m */,
+				F82346DA18D5A54D00E804BD /* SearchResultViewController.h */,
+				F82346DB18D5A54D00E804BD /* SearchResultViewController.m */,
 				F8D9AB1F18D6571E006C1143 /* SearchResultCell.h */,
 				F8D9AB2018D6571E006C1143 /* SearchResultCell.m */,
 				F8FB476318D047FC00BA6EEE /* BrowseViewController.h */,
 				F8FB476418D047FC00BA6EEE /* BrowseViewController.m */,
-				52D4D81618D92D23009676CB /* DiscoverViewController.h */,
-				52D4D81718D92D23009676CB /* DiscoverViewController.m */,
-				F82346DA18D5A54D00E804BD /* SearchResultViewController.h */,
-				F82346DB18D5A54D00E804BD /* SearchResultViewController.m */,
 				F83112F618D0CE1C001F3B5E /* BrowseTableCell.h */,
 				F83112F718D0CE1C001F3B5E /* BrowseTableCell.m */,
+				52D4D81618D92D23009676CB /* DiscoverViewController.h */,
+				52D4D81718D92D23009676CB /* DiscoverViewController.m */,
+				52D4D81918D92E2F009676CB /* DiscoverTableCell.h */,
+				52D4D81A18D92E2F009676CB /* DiscoverTableCell.m */,
 				F803A54918DAF72F00FB7AE4 /* UIImage+ImageEffects.h */,
 				F803A54A18DAF72F00FB7AE4 /* UIImage+ImageEffects.m */,
 				9E64CDED18BC8BB90043926E /* Images.xcassets */,
 				F8A9942618DB679B00EC810A /* shuffle_icon.png */,
 				F8A9942718DB679B00EC810A /* shuffle_icon@2x.png */,
 				9E64CDDC18BC8BB80043926E /* Supporting Files */,
-				52D4D81918D92E2F009676CB /* DiscoverTableCell.h */,
-				52D4D81A18D92E2F009676CB /* DiscoverTableCell.m */,
 			);
 			path = StredmiOS;
 			sourceTree = "<group>";
@@ -339,7 +339,7 @@
 				ORGANIZATIONNAME = Stredm;
 				TargetAttributes = {
 					9E64CDD118BC8BB80043926E = {
-						DevelopmentTeam = 7JQM8M6QG2;
+						DevelopmentTeam = BJP6BA75L7;
 					};
 					9E64CDF218BC8BB90043926E = {
 						TestTargetID = 9E64CDD118BC8BB80043926E;

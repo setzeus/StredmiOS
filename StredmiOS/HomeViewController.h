@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "PlayButton.h"
 #import "PlayerView.h"
+#import "HomeView.h"
 
 @interface HomeViewController : UIViewController <UIGestureRecognizerDelegate, UIToolbarDelegate, UIGestureRecognizerDelegate>
 
@@ -16,5 +17,6 @@
 @property (strong, nonatomic) IBOutlet UILabel *pronunciationLabel;
 
 @property (strong, nonatomic) PlayerView *playerView;
+@property (strong, nonatomic) IBOutlet HomeView *homeView;
 
 @end

@@ -9,6 +9,8 @@
 #import "JNAppDelegate.h"
 #import "JNMenuViewController.h"
 #import "JNSettingsViewController.h"
+#import "SearchResultViewController.h"
+
 #import <AVFoundation/AVFoundation.h>
 #import <AudioToolbox/AudioToolbox.h>
 
@@ -81,6 +83,11 @@
             
         }];
     }
+}
+
+-(void)searchClick:(id)sender {
+    NSLog(@"search clicked");
+
 }
 
 -(BOOL)isPlaying {
