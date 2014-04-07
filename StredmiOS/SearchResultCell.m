@@ -43,7 +43,6 @@
     if(limgW > 0) {
         self.textLabel.frame = CGRectMake(49, 5, 261, 20);
         self.detailTextLabel.frame = CGRectMake(49, 25, 261, 14);
-        
     }
 }
 

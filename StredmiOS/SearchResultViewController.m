@@ -117,6 +117,7 @@
     [jnad.playerView playSong:indexPath.row];
     
 //    [self.navigationController popViewControllerAnimated:YES];
+    [self.navigationController popViewControllerAnimated:YES];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -154,6 +155,7 @@
 }
 
 -(void)close:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
