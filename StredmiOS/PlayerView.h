@@ -46,11 +46,15 @@
 
 @property (strong, nonatomic) NSArray *playlistArray;
 
+@property (strong, nonatomic) NSURL *setURL;
+
 
 -(void)openPlayer:(CGSize)size;
 -(void)closePlayer;
 
 -(void)playSong:(NSInteger)row;
 -(void)playRandom;
+
+-(void)addSet;
 
 @end

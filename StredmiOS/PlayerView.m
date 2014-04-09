@@ -7,6 +7,7 @@
 //
 
 #import "PlayerView.h"
+#import <AFNetworking/AFURLSessionManager.h>
 
 @interface PlayerView()
 
@@ -253,7 +254,7 @@
     shuffle.action = @selector(playRandom);
     UIBarButtonItem *ffw = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFastForward target:self action:nil];
     UIBarButtonItem *rewind = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRewind target:self action:nil];
-    UIBarButtonItem *add = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemOrganize target:self action:nil];
+    UIBarButtonItem *add = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemOrganize target:self action:@selector(addSet)];
     UIBarButtonItem *flex = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     [self.bottomToolbar setItems:@[shuffle, flex, rewind, ffw, flex, add]];
     [self.bottomToolbar setTintColor:[UIColor whiteColor]];
@@ -317,6 +318,21 @@
     [self.playerLayer.player addObserver:self forKeyPath:@"status" options:0 context:nil];
 }
 
+-(void)addSet {
+    NSLog(@"Starting download of %@", [_setURL absoluteString]);
+    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+    AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
+    NSURLRequest *request = [NSURLRequest requestWithURL:_setURL];
+    
+    NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:nil destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
+        NSURL *documentsDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
+        return [documentsDirectoryURL URLByAppendingPathComponent:[response suggestedFilename]];
+    } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
+        NSLog(@"File downloaded to: %@", filePath);
+    }];
+    [downloadTask resume];
+}
+
 -(void)playSong:(NSInteger)row {
     
     id song = [self.playlistArray objectAtIndex:row];
@@ -330,7 +346,7 @@
     self.hidden = NO;
     
     NSString *setPath = [NSString stringWithFormat:@"http://stredm.com/uploads/%@", [song objectForKey:@"songURL"]];
-    NSURL *setURL = [NSURL URLWithString:setPath];
+    _setURL = [NSURL URLWithString:setPath];
 
     if (self.timer)
         [self.timer invalidate];
@@ -340,7 +356,7 @@
         self.playerLayer = [AVPlayerLayer playerLayerWithPlayer:player];
         [self.layer addSublayer:self.playerLayer];
     }
-    [self.playerLayer.player replaceCurrentItemWithPlayerItem:[AVPlayerItem playerItemWithURL:setURL]];
+    [self.playerLayer.player replaceCurrentItemWithPlayerItem:[AVPlayerItem playerItemWithURL:_setURL]];
     self.timer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(updateProgress) userInfo:nil repeats:YES];
     [self.playerLayer.player play];
     self.isPlaying = true;

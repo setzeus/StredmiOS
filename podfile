@@ -5,8 +5,10 @@ xcodeproj "StredmiOS"
 
 target "StredmiOS" do
     pod 'ECSlidingViewController'
+    pod 'AFNetworking', '~> 2.0'
 end
 
 target "StredmiOSTests" do
     pod 'ECSlidingViewController'
+    pod 'AFNetworking', '~> 2.0'
 end
