@@ -23,7 +23,9 @@
         self.percentageOfSong = 0.0;
         [[NSUserDefaults standardUserDefaults] addObserver:self forKeyPath:@"isPlaying" options:NSKeyValueObservingOptionNew context:nil];
         [[NSUserDefaults standardUserDefaults] addObserver:self forKeyPath:@"isScrubbing" options:NSKeyValueObservingOptionNew context:nil];
-        [self.playerLayer.player addObserver:self forKeyPath:@"status" options:NSKeyValueObservingOptionNew context:nil];
+        
+        JNAppDelegate* jnad = (JNAppDelegate*) [[UIApplication sharedApplication] delegate];
+        [jnad.playerView.playerLayer.player addObserver:self forKeyPath:@"status" options:NSKeyValueObservingOptionNew context:nil];
     }
     return self;
 }
@@ -57,13 +59,14 @@
     
     NSError* myErr;
     if (![[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:&myErr]) {
-        // Handle the error here.
         NSLog(@"Audio Session error %@, %@", myErr, [myErr userInfo]);
-    }
-    else{
-        // Since there were no errors initializing the session, we'll allow begin receiving remote control events
+    } else{
         [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
     }
+    
+    JNAppDelegate* jnad = (JNAppDelegate*) [[UIApplication sharedApplication] delegate];
+    [jnad.playerView.playerLayer.player addObserver:self forKeyPath:@"status" options:NSKeyValueObservingOptionNew context:nil];
+
 }
 
 - (void)remoteControlReceivedWithEvent:(UIEvent *)receivedEvent {
@@ -97,53 +100,6 @@
     }
 }
 
--(void)playSong:(NSInteger)row {
-    
-    NSLog(@"play song don't delete me");
-    
-    
-    id song = [_playlistArray objectAtIndex:row];
-    NSString *artist = [song objectForKey:@"artist"];
-    NSString *event = [song objectForKey:@"event"];
-    NSString *title = [NSString stringWithFormat:@"%@ - %@", artist, event];
-    NSString *songLabel = [NSString stringWithFormat:@"%@ - %@", artist, event];
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setObject:title forKey:@"title"];
-    [defaults setObject:songLabel forKey:@"song"];
-    [defaults setBool:true forKey:@"isPlaying"];
-    [defaults setObject:@"no" forKey:@"startup"];
-    [defaults setBool:false forKey:@"invisible"];
-    [defaults synchronize];
-    
-    NSString *setPath = [NSString stringWithFormat:@"http://stredm.com/uploads/%@", [song objectForKey:@"songURL"]];
-    NSURL *setURL = [NSURL URLWithString:setPath];
-    
-    @try {
-        if (self.playerLayer) {
-            [self.playerLayer.player removeObserver:self forKeyPath:@"status"];
-            [self.playerLayer.player pause];
-            self.playerLayer = nil;
-            [self.playerLayer removeFromSuperlayer];
-        }
-    }
-    @catch (NSException *exception) {
-        
-    }
-    if (self.timer)
-        [self.timer invalidate];
-    
-    
-    if (!self.playerLayer) {
-        AVPlayer *player = [[AVPlayer alloc] init];
-        self.playerLayer = [AVPlayerLayer playerLayerWithPlayer:player];
-        [self.view.layer addSublayer:self.playerLayer];
-    }
-    [self.playerLayer.player replaceCurrentItemWithPlayerItem:[AVPlayerItem playerItemWithURL:setURL]];
-    [self.playerLayer.player addObserver:self forKeyPath:@"status" options:0 context:nil];
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(updateProgress) userInfo:nil repeats:YES];
-    [self.playerLayer.player play];
-    
-}
 
 
 -(void)updateProgress {
@@ -189,6 +145,7 @@
 }
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    NSLog(@"key value observed %@", keyPath);
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     if ( object == self.playerLayer.player && [keyPath isEqualToString:@"status"] ) {
         if ( self.playerLayer.player.status == AVPlayerStatusFailed ) {
@@ -226,8 +183,10 @@
             }];
             
         }
-    }
-    else {
+    } else if ([keyPath isEqual:@"rate"]) {
+        NSLog(@"rate change");
+        [self.playerView updateLockscreen];
+    } else {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
 }

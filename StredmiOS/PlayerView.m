@@ -13,6 +13,8 @@
 
 @interface PlayerView()
 
+@property (nonatomic) BOOL durationUndefined;
+
 @end
 
 @implementation PlayerView
@@ -111,6 +113,7 @@
 }
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    NSLog(@"Key value observed");
     if ( object == self.playerLayer.player && [keyPath isEqualToString:@"status"] ) {
         if ( self.playerLayer.player.status == AVPlayerStatusFailed ) {
             NSLog(@"AVPlayer Failed");
@@ -133,6 +136,11 @@
 -(void)updateProgress {
     if (!self.isScrubbing) {
         if (CMTimeGetSeconds([[self.playerLayer.player currentItem] duration]) != 0.0) {
+            if (self.durationUndefined) {
+                NSLog(@"update lockscreen");
+                [self updateLockscreen];
+                self.durationUndefined = false;
+            }
             float currTime = CMTimeGetSeconds([[self.playerLayer.player currentItem] currentTime]);
             float duration = CMTimeGetSeconds([[self.playerLayer.player currentItem] duration]);
             self.percentageOfSong = currTime/duration;
@@ -140,6 +148,7 @@
             [self updateCurrentTimeLabel:currTime duration:duration];
         } else {
             [self updateCurrentTimeLabel:0.0 duration:0.0];
+            self.durationUndefined = true;
         }
         [self.playButton setNeedsDisplay];
     }
@@ -175,6 +184,7 @@
             [self pause];
         }
         [self.playButton setNeedsDisplay];
+        [self updateLockscreen];
     }
     else {
         self.justScrubbed = false;
@@ -182,15 +192,14 @@
 }
 
 -(void)play {
-    UIBarButtonItem *playPauseBarItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPause target:self action:@selector(playPush:)];
-    playPauseBarItem.tintColor = [UIColor grayColor];
-    [self.playerToolbar setItems:@[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:@selector(playPush:)], playPauseBarItem]];
+    [self updatePlayerToolbar];
     [self.playerLayer.player play];
+    
 }
 
+
 -(void)pause {
-    UIBarButtonItem *playPauseBarItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPlay target:self action:@selector(playPush:)];            playPauseBarItem.tintColor = [UIColor grayColor];
-    [self.playerToolbar setItems:@[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:@selector(playPush:)], playPauseBarItem]];
+    [self updatePlayerToolbar];
     [self.playerLayer.player pause];
 }
 
@@ -231,6 +240,9 @@
         self.isScrubbing = false;
         [self.playButton setNeedsDisplay];
         [self updatePlayerToolbar];
+        
+        [self updateLockscreen];
+
     }];
     self.justScrubbed = true;
 }
@@ -239,6 +251,7 @@
     self.backgroundColor = [UIColor whiteColor];
     self.isPlaying = false;
     self.justScrubbed = false;
+    self.durationUndefined = true;
     
     self.background = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"ios7"] applyLightEffect]];
     self.background.contentMode = UIViewContentModeScaleAspectFill;
@@ -315,9 +328,7 @@
     [self.playButton addTarget:self action:@selector(playPush:) forControlEvents:UIControlEventTouchUpInside];
     [self.playButton addTarget:self action:@selector(scrub:forEvent:) forControlEvents:UIControlEventTouchDragInside];
     [self addSubview:self.songScrollView];
-    
-    
-    [self.playerLayer.player addObserver:self forKeyPath:@"status" options:0 context:nil];
+
 }
 
 -(void)addSet {
@@ -336,6 +347,8 @@
 }
 
 -(void)playSong:(NSInteger)row {
+    
+    NSLog(@"playing song");
     
     id song = [self.playlistArray objectAtIndex:row];
     self.artistLabel.text = [song objectForKey:@"artist"];
@@ -364,7 +377,15 @@
     self.isPlaying = true;
     self.playButton.isPlaying = self.isPlaying;
     [self updatePlayerToolbar];
-    
+}
+
+-(void)playRandom {
+    self.playlistArray = [self safeJSONParseArray:@"http://stredm.com/scripts/mobile/random.php"];
+    [self playSong: 0];
+}
+
+
+-(void)updateLockscreen {
     
     Class playingInfoCenter = NSClassFromString(@"MPNowPlayingInfoCenter");
     
@@ -372,25 +393,16 @@
         
         NSLog(@"setting lock screen info");
         
-        NSMutableDictionary *songInfo = [[NSMutableDictionary alloc] init];
+        NSDictionary *songInfo2 = @{MPMediaItemPropertyTitle: self.artistLabel.text,
+                                    MPMediaItemPropertyArtist:self.eventLabel.text,
+                                    MPMediaItemPropertyArtwork: [[MPMediaItemArtwork alloc] initWithImage:self.artwork.image],
+                                    MPMediaItemPropertyPlaybackDuration:[NSNumber numberWithDouble:(double)CMTimeGetSeconds([[self.playerLayer.player currentItem] duration])],
+                                    MPNowPlayingInfoPropertyElapsedPlaybackTime:[NSNumber numberWithDouble:(double)CMTimeGetSeconds([[self.playerLayer.player currentItem] currentTime])],
+                                    MPNowPlayingInfoPropertyPlaybackRate:@1.0
+                                    };
         
-        MPMediaItemArtwork *albumArt = [[MPMediaItemArtwork alloc] initWithImage: self.artwork.image];
-        
-        [songInfo setObject:@"Audio Title" forKey:MPMediaItemPropertyTitle];
-        [songInfo setObject:@"Audio Author" forKey:MPMediaItemPropertyArtist];
-        [songInfo setObject:@"Audio Album" forKey:MPMediaItemPropertyAlbumTitle];
-        [songInfo setObject:albumArt forKey:MPMediaItemPropertyArtwork];
-        [[MPNowPlayingInfoCenter defaultCenter] setNowPlayingInfo:songInfo];
-        NSLog(@"audio shit set");
-
+        [[MPNowPlayingInfoCenter defaultCenter] setNowPlayingInfo:songInfo2];
     }
-    NSLog(@"audio shit set");
-
-}
-
--(void)playRandom {
-    self.playlistArray = [self safeJSONParseArray:@"http://stredm.com/scripts/mobile/random.php"];
-    [self playSong: 0];
 }
 
 

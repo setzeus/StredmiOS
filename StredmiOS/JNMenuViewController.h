@@ -23,6 +23,5 @@
 @property (strong, nonatomic) IBOutlet HomeViewController *hvc;
 
 -(IBAction)unwindToMenuViewController:(UIStoryboardSegue *)segue;
--(void)playSong:(NSInteger)row;
 
 @end

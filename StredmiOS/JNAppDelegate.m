@@ -85,11 +85,6 @@
     }
 }
 
--(void)searchClick:(id)sender {
-    NSLog(@"search clicked");
-
-}
-
 -(BOOL)isPlaying {
     return self.playerView.isPlaying;
 }

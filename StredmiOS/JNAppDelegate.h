@@ -10,6 +10,7 @@
 #import <AudioToolbox/AudioToolbox.h>
 #import <AVFoundation/AVFoundation.h>
 #import "PlayerView.h"
+#import <AFNetworking/AFHTTPRequestOperation.h>
 
 @interface JNAppDelegate : UIResponder <UIApplicationDelegate, AVAudioPlayerDelegate>
 
@@ -18,5 +19,5 @@
 
 -(void)bringPlayerToFront;
 -(BOOL)isPlaying;
--(void)searchClick:(id)sender;
+
 @end

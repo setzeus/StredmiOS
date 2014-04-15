@@ -62,4 +62,6 @@
 -(void)play;
 -(void)pause;
 
+-(void)updateLockscreen;
+
 @end

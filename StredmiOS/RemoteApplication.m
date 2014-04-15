@@ -18,10 +18,12 @@
         switch (receivedEvent.subtype) {
             case UIEventSubtypeRemoteControlPause:
                 [jnad.playerView pause];
+                [jnad.playerView updateLockscreen];
                 break;
                 
             case UIEventSubtypeRemoteControlPlay:
                 [jnad.playerView play];
+                [jnad.playerView updateLockscreen];
                 break;
                 
             case UIEventSubtypeRemoteControlPreviousTrack:
