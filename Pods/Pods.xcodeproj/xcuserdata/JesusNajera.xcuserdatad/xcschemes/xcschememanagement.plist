@@ -4,6 +4,11 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>Pods-StredmiOS-AFNetworking.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>5</integer>
+		</dict>
 		<key>Pods-StredmiOS-ECSlidingViewController.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -13,6 +18,11 @@
 		<dict>
 			<key>orderHint</key>
 			<integer>1</integer>
+		</dict>
+		<key>Pods-StredmiOSTests-AFNetworking.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>6</integer>
 		</dict>
 		<key>Pods-StredmiOSTests-ECSlidingViewController.xcscheme</key>
 		<dict>
@@ -27,6 +37,16 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>2145D06CD74B4542B0284C3A</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>2D5A43AE6FCC41E4A2D716B0</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>4D766D40AF6E44E2A6C0FD31</key>
 		<dict>
 			<key>primary</key>
@@ -37,7 +57,27 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>7612BC748D5A4B09AFACB964</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>7BAC3817B96A42C590C40B08</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>805E706EC11D46B1A3948C7F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>B8EB72A5911548C28311FF4A</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>E697A269E5E54CC0BB4D67AB</key>
 		<dict>
 			<key>primary</key>
 			<true/>
