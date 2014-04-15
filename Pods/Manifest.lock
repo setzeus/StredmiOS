@@ -19,13 +19,16 @@ PODS:
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
   - ECSlidingViewController (2.0.1)
+  - Mixpanel (2.3.4)
 
 DEPENDENCIES:
   - AFNetworking (~> 2.0)
   - ECSlidingViewController
+  - Mixpanel
 
 SPEC CHECKSUMS:
   AFNetworking: 0121f4b69be3fa58d1ab317866e036e12ac9651d
   ECSlidingViewController: d7bb96ee5bbe261ed80ee16a513f94b9fd3c9767
+  Mixpanel: 16e6f1d5f8aeb9282ee864e169557de0bd9549df
 
-COCOAPODS: 0.31.1
+COCOAPODS: 0.29.0

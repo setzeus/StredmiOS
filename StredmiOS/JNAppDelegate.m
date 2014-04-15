@@ -14,6 +14,8 @@
 #import <AVFoundation/AVFoundation.h>
 #import <AudioToolbox/AudioToolbox.h>
 
+#import <Mixpanel/Mixpanel.h>
+
 @interface JNAppDelegate()
 
 @end
@@ -47,6 +49,8 @@
     self.playerView.hidden = YES;
     
     return YES;
+    
+   // [Mixpanel sharedInstanceWithToken:MIXPANEL_TOKEN];
 }
 
 -(void)bringPlayerToFront {

@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "4D766D40AF6E44E2A6C0FD31"
+               BlueprintIdentifier = "C906BA0D78034EB3A7C5A1C0"
                BuildableName = "libPods-StredmiOS.a"
                BlueprintName = "Pods-StredmiOS"
                ReferencedContainer = "container:Pods.xcodeproj">

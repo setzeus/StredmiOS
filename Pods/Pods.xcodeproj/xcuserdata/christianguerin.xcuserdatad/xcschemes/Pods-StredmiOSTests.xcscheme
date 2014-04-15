@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "51E04E6905114956BAEF7D46"
+               BlueprintIdentifier = "946C98C178384FDC99A79DE6"
                BuildableName = "libPods-StredmiOSTests.a"
                BlueprintName = "Pods-StredmiOSTests"
                ReferencedContainer = "container:Pods.xcodeproj">
