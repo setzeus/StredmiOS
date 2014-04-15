@@ -55,6 +55,11 @@
 -(void)playSong:(NSInteger)row;
 -(void)playRandom;
 
+-(void)playPush:(id)sender;
+
 -(void)addSet;
+
+-(void)play;
+-(void)pause;
 
 @end

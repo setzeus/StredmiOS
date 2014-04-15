@@ -9,10 +9,11 @@
 #import <UIKit/UIKit.h>
 
 #import "JNAppDelegate.h"
+#import "RemoteApplication.h"
 
 int main(int argc, char * argv[])
 {
     @autoreleasepool {
-        return UIApplicationMain(argc, argv, nil, NSStringFromClass([JNAppDelegate class]));
+        return UIApplicationMain(argc, argv, NSStringFromClass([RemoteApplication class]), NSStringFromClass([JNAppDelegate class]));
     }
 }

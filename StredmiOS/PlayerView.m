@@ -8,6 +8,8 @@
 
 #import "PlayerView.h"
 #import <AFNetworking/AFURLSessionManager.h>
+#import <MediaPlayer/MPNowPlayingInfoCenter.h>
+#import <MediaPlayer/MPMediaItem.h>
 
 @interface PlayerView()
 
@@ -168,20 +170,28 @@
         self.isPlaying = !self.isPlaying;
         self.playButton.isPlaying = self.isPlaying;
         if (self.playButton.isPlaying ) {
-            UIBarButtonItem *playPauseBarItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPause target:self action:@selector(playPush:)];
-            playPauseBarItem.tintColor = [UIColor grayColor];
-            [self.playerToolbar setItems:@[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:@selector(playPush:)], playPauseBarItem]];
-            [self.playerLayer.player play];
+            [self play];
         } else {
-            UIBarButtonItem *playPauseBarItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPlay target:self action:@selector(playPush:)];            playPauseBarItem.tintColor = [UIColor grayColor];
-            [self.playerToolbar setItems:@[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:@selector(playPush:)], playPauseBarItem]];
-            [self.playerLayer.player pause];
+            [self pause];
         }
         [self.playButton setNeedsDisplay];
     }
     else {
         self.justScrubbed = false;
     }
+}
+
+-(void)play {
+    UIBarButtonItem *playPauseBarItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPause target:self action:@selector(playPush:)];
+    playPauseBarItem.tintColor = [UIColor grayColor];
+    [self.playerToolbar setItems:@[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:@selector(playPush:)], playPauseBarItem]];
+    [self.playerLayer.player play];
+}
+
+-(void)pause {
+    UIBarButtonItem *playPauseBarItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPlay target:self action:@selector(playPush:)];            playPauseBarItem.tintColor = [UIColor grayColor];
+    [self.playerToolbar setItems:@[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:@selector(playPush:)], playPauseBarItem]];
+    [self.playerLayer.player pause];
 }
 
 -(void)updatePlayerToolbar {
@@ -297,15 +307,7 @@
     self.eventLabel.textColor = [UIColor darkTextColor];
     self.eventLabel.text = @"Ultra Music Festival 2013";
     [self.playerToolbar addSubview:self.eventLabel];
-//
-//    self.songScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(90, 10, 220, 40)];
-//    self.songScrollView.clipsToBounds = YES;
-//    
-//    self.songTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 220, 40)];
-//    self.songTitleLabel.textColor = [UIColor whiteColor];
-//    self.songTitleLabel.font = [UIFont fontWithName:@"Helvetica Neue" size:24.0];
-//    self.songTitleLabel.textAlignment = NSTextAlignmentLeft;
-//    
+
     self.playButton = [[PlayButton alloc] initWithFrame:CGRectMake(40, self.frame.size.height/2-110, 240, 240)];
     [self addSubview:self.playButton];
     [self.songScrollView addSubview:self.songTitleLabel];
@@ -362,6 +364,28 @@
     self.isPlaying = true;
     self.playButton.isPlaying = self.isPlaying;
     [self updatePlayerToolbar];
+    
+    
+    Class playingInfoCenter = NSClassFromString(@"MPNowPlayingInfoCenter");
+    
+    if (playingInfoCenter) {
+        
+        NSLog(@"setting lock screen info");
+        
+        NSMutableDictionary *songInfo = [[NSMutableDictionary alloc] init];
+        
+        MPMediaItemArtwork *albumArt = [[MPMediaItemArtwork alloc] initWithImage: self.artwork.image];
+        
+        [songInfo setObject:@"Audio Title" forKey:MPMediaItemPropertyTitle];
+        [songInfo setObject:@"Audio Author" forKey:MPMediaItemPropertyArtist];
+        [songInfo setObject:@"Audio Album" forKey:MPMediaItemPropertyAlbumTitle];
+        [songInfo setObject:albumArt forKey:MPMediaItemPropertyArtwork];
+        [[MPNowPlayingInfoCenter defaultCenter] setNowPlayingInfo:songInfo];
+        NSLog(@"audio shit set");
+
+    }
+    NSLog(@"audio shit set");
+
 }
 
 -(void)playRandom {

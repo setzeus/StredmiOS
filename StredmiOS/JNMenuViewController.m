@@ -51,9 +51,56 @@
 
 -(void)viewDidLoad {
     [super viewDidLoad];
+    
+    // lock screen
+    [[AVAudioSession sharedInstance] setDelegate: self];
+    
+    NSError* myErr;
+    if (![[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:&myErr]) {
+        // Handle the error here.
+        NSLog(@"Audio Session error %@, %@", myErr, [myErr userInfo]);
+    }
+    else{
+        // Since there were no errors initializing the session, we'll allow begin receiving remote control events
+        [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
+    }
+}
+
+- (void)remoteControlReceivedWithEvent:(UIEvent *)receivedEvent {
+    
+    NSLog(@"remote event received");
+    
+    
+    if (receivedEvent.type == UIEventTypeRemoteControl) {
+        
+        
+        switch (receivedEvent.subtype) {
+            case UIEventSubtypeRemoteControlPause:
+                //pause code here
+                break;
+                
+            case UIEventSubtypeRemoteControlPlay:
+                //play code here
+                break;
+                
+            case UIEventSubtypeRemoteControlPreviousTrack:
+                // previous track code here
+                break;
+                
+            case UIEventSubtypeRemoteControlNextTrack:
+                //next track code here
+                break;
+                
+            default:
+                break;
+        }
+    }
 }
 
 -(void)playSong:(NSInteger)row {
+    
+    NSLog(@"play song don't delete me");
+    
     
     id song = [_playlistArray objectAtIndex:row];
     NSString *artist = [song objectForKey:@"artist"];

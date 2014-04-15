@@ -33,6 +33,9 @@
 		F803A54B18DAF72F00FB7AE4 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = F803A54A18DAF72F00FB7AE4 /* UIImage+ImageEffects.m */; };
 		F82346DC18D5A54D00E804BD /* SearchResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F82346DB18D5A54D00E804BD /* SearchResultViewController.m */; };
 		F83112F818D0CE1C001F3B5E /* BrowseTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F83112F718D0CE1C001F3B5E /* BrowseTableCell.m */; };
+		F839315718FC372C00032BFF /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F839315518FC372C00032BFF /* AVFoundation.framework */; };
+		F839315818FC372C00032BFF /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F839315618FC372C00032BFF /* MediaPlayer.framework */; };
+		F839315B18FC416500032BFF /* RemoteApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = F839315A18FC416500032BFF /* RemoteApplication.m */; };
 		F87CDB0018D4E6ED00D0C1A8 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F87CDAFF18D4E6ED00D0C1A8 /* HomeViewController.m */; };
 		F87CDB0318D4F80500D0C1A8 /* PlayButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F87CDB0218D4F80500D0C1A8 /* PlayButton.m */; };
 		F89EA6C018DAD1E60013901A /* HomeView.m in Sources */ = {isa = PBXBuildFile; fileRef = F89EA6BF18DAD1E60013901A /* HomeView.m */; };
@@ -122,6 +125,10 @@
 		F82346DB18D5A54D00E804BD /* SearchResultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchResultViewController.m; sourceTree = "<group>"; };
 		F83112F618D0CE1C001F3B5E /* BrowseTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrowseTableCell.h; sourceTree = "<group>"; };
 		F83112F718D0CE1C001F3B5E /* BrowseTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrowseTableCell.m; sourceTree = "<group>"; };
+		F839315518FC372C00032BFF /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		F839315618FC372C00032BFF /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		F839315918FC416500032BFF /* RemoteApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RemoteApplication.h; sourceTree = "<group>"; };
+		F839315A18FC416500032BFF /* RemoteApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RemoteApplication.m; sourceTree = "<group>"; };
 		F87CDAFE18D4E6ED00D0C1A8 /* HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeViewController.h; sourceTree = "<group>"; };
 		F87CDAFF18D4E6ED00D0C1A8 /* HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeViewController.m; sourceTree = "<group>"; };
 		F87CDB0118D4F80500D0C1A8 /* PlayButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayButton.h; sourceTree = "<group>"; };
@@ -142,6 +149,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F839315718FC372C00032BFF /* AVFoundation.framework in Frameworks */,
+				F839315818FC372C00032BFF /* MediaPlayer.framework in Frameworks */,
 				52078D7A18DD055F0060F875 /* ImageIO.framework in Frameworks */,
 				52078D7818DD04AB0060F875 /* SDWebImage.framework in Frameworks */,
 				9E64CDD818BC8BB80043926E /* CoreGraphics.framework in Frameworks */,
@@ -201,6 +210,8 @@
 		9E64CDD418BC8BB80043926E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F839315518FC372C00032BFF /* AVFoundation.framework */,
+				F839315618FC372C00032BFF /* MediaPlayer.framework */,
 				52078D7918DD055F0060F875 /* ImageIO.framework */,
 				52078D7718DD04AB0060F875 /* SDWebImage.framework */,
 				9E64CDD518BC8BB80043926E /* Foundation.framework */,
@@ -220,6 +231,8 @@
 				52078D7D18DD52500060F875 /* placeholder.jpg */,
 				9E64CDE418BC8BB90043926E /* JNAppDelegate.h */,
 				9E64CDE518BC8BB90043926E /* JNAppDelegate.m */,
+				F839315918FC416500032BFF /* RemoteApplication.h */,
+				F839315A18FC416500032BFF /* RemoteApplication.m */,
 				9E64CDE718BC8BB90043926E /* Main.storyboard */,
 				7A6ACA4518D67F0500231692 /* JNSettingsViewController.h */,
 				7A6ACA4618D67F0500231692 /* JNSettingsViewController.m */,
@@ -508,6 +521,7 @@
 				F87CDB0318D4F80500D0C1A8 /* PlayButton.m in Sources */,
 				F89EA6C018DAD1E60013901A /* HomeView.m in Sources */,
 				52D4D81B18D92E2F009676CB /* DiscoverTableCell.m in Sources */,
+				F839315B18FC416500032BFF /* RemoteApplication.m in Sources */,
 				F87CDB0018D4E6ED00D0C1A8 /* HomeViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
