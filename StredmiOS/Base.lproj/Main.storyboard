@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="N67-2v-HLn">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5053" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="N67-2v-HLn">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
@@ -310,6 +310,7 @@
         <scene sceneID="QsH-uJ-kbh">
             <objects>
                 <navigationController definesPresentationContext="YES" id="YXS-rk-hHI" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="gr4-BD-x6J"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="1Wl-Tr-29a">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -413,13 +414,13 @@
         <!--Discover View Controller - Discover-->
         <scene sceneID="Z5F-g5-Cnn">
             <objects>
-                <tableViewController id="PIi-O6-gqW" customClass="DiscoverViewController" sceneMemberID="viewController">
+                <tableViewController title="Discover" id="PIi-O6-gqW" customClass="DiscoverViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="9Ql-Kv-Xrb">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <view key="tableHeaderView" contentMode="scaleToFill" id="rZs-iK-j31">
-                            <rect key="frame" x="0.0" y="64" width="320" height="44"/>
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" segmentControlStyle="bar" selectedSegmentIndex="2" translatesAutoresizingMaskIntoConstraints="NO" id="NyZ-EM-ozZ">
@@ -435,8 +436,8 @@
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         </view>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" restorationIdentifier="DiscoverTableCell" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="DiscoverTableCell" textLabel="BeL-vq-N51" detailTextLabel="cyK-Fs-Llj" style="IBUITableViewCellStyleSubtitle" id="bqN-T6-6EY" customClass="SearchResultCell">
-                                <rect key="frame" x="0.0" y="130" width="320" height="44"/>
+                            <tableViewCell contentMode="scaleToFill" restorationIdentifier="DiscoverResultCell" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="DiscoverTableCell" textLabel="BeL-vq-N51" detailTextLabel="cyK-Fs-Llj" style="IBUITableViewCellStyleSubtitle" id="bqN-T6-6EY" customClass="SearchResultCell">
+                                <rect key="frame" x="0.0" y="66" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="bqN-T6-6EY" id="4CH-ur-u9b">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
@@ -478,6 +479,7 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="discoverSegCont" destination="NyZ-EM-ozZ" id="99u-69-y6U"/>
@@ -563,62 +565,64 @@
             </objects>
             <point key="canvasLocation" x="484" y="1611"/>
         </scene>
-        <!--Collection View Controller - My Sets-->
-        <scene sceneID="5fk-0a-JG1">
+        <!--My Sets View Controller - My Sets-->
+        <scene sceneID="udh-D2-DFZ">
             <objects>
-                <collectionViewController autoresizesArchivedViewToFullSize="NO" id="qsl-LG-vvI" sceneMemberID="viewController">
-                    <collectionView key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" id="tpQ-BR-Pfs">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                <tableViewController title="My Sets" id="Z1B-l2-qG8" customClass="MySetsViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="Xeo-uU-rBS">
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="VqU-xQ-FU6">
-                            <size key="itemSize" width="320" height="150"/>
-                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                        </collectionViewFlowLayout>
-                        <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="1Xo-8R-zSo">
-                                <rect key="frame" x="0.0" y="64" width="320" height="150"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" restorationIdentifier="MySetsTableCell" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="My Sets" textLabel="fOK-8A-zW2" detailTextLabel="Zhg-1a-Kqn" style="IBUITableViewCellStyleSubtitle" id="bWe-Cm-WSk" customClass="MySetsTableCell">
+                                <rect key="frame" x="0.0" y="22" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="150"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="bWe-Cm-WSk" id="LUY-tc-eXv">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                </view>
-                            </collectionViewCell>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="ZwI-tK-SOy">
-                                <rect key="frame" x="0.0" y="214" width="320" height="150"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="150"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                </view>
-                            </collectionViewCell>
-                        </cells>
+                                    <subviews>
+                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="fOK-8A-zW2">
+                                            <rect key="frame" x="15" y="3" width="34" height="22"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Zhg-1a-Kqn">
+                                            <rect key="frame" x="15" y="25" width="43" height="15"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
                         <connections>
-                            <outlet property="dataSource" destination="qsl-LG-vvI" id="hBI-o3-jXq"/>
-                            <outlet property="delegate" destination="qsl-LG-vvI" id="JmR-4u-y4l"/>
+                            <outlet property="dataSource" destination="Z1B-l2-qG8" id="925-Ei-wFO"/>
+                            <outlet property="delegate" destination="Z1B-l2-qG8" id="Aoh-TD-ZWt"/>
                         </connections>
-                    </collectionView>
-                    <navigationItem key="navigationItem" title="My Sets" id="dPJ-er-WM6">
-                        <barButtonItem key="leftBarButtonItem" image="menu-32" id="f5b-5f-RD5">
+                    </tableView>
+                    <navigationItem key="navigationItem" title="My Sets" id="h0m-xr-uWL" userLabel="Navigation Item - My Sets">
+                        <barButtonItem key="leftBarButtonItem" image="menu-32" id="0cJ-9o-qpb">
                             <connections>
-                                <segue destination="xk1-kv-xvC" kind="unwind" unwindAction="unwindToMenuViewController:" id="8C7-kA-Wwj"/>
+                                <segue destination="ag1-AS-YTy" kind="unwind" unwindAction="unwindToMenuViewController:" id="wL2-AN-1oV"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="search" id="dgu-1a-7KB">
+                        <barButtonItem key="rightBarButtonItem" systemItem="search" id="1VZ-5B-rA3">
                             <connections>
-                                <segue destination="YXS-rk-hHI" kind="modal" id="WQD-ps-fnd"/>
+                                <segue destination="YXS-rk-hHI" kind="modal" id="8qt-pa-49Y"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
-                </collectionViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="BXE-4w-aaL" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <exit id="xk1-kv-xvC" userLabel="Exit" sceneMemberID="exit"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+                    <nil key="simulatedBottomBarMetrics"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="WoV-kN-EdY" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="ag1-AS-YTy" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1098" y="2311"/>
+            <point key="canvasLocation" x="1078" y="2311"/>
         </scene>
         <!--View Controller - Contact Us-->
         <scene sceneID="jSO-0Y-ZFk">
@@ -813,7 +817,7 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="qsl-LG-vvI" kind="relationship" relationship="rootViewController" id="hFg-vw-wxl"/>
+                        <segue destination="Z1B-l2-qG8" kind="relationship" relationship="rootViewController" id="HlN-6a-83N"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XJV-Lv-WKC" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -900,6 +904,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="Sk2-N3-hD0"/>
+        <segue reference="8qt-pa-49Y"/>
     </inferredMetricsTieBreakers>
 </document>

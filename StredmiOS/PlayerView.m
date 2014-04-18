@@ -330,7 +330,8 @@
     AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
     NSURLRequest *request = [NSURLRequest requestWithURL:_setURL];
 
-    NSURL *documentsDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSLibraryDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
+    NSURL *documentsDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
+    NSURL *libraryDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSLibraryDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
     
     NSString *documentsDirectory = documentsDirectoryURL.path;
     NSLog(@"%@",documentsDirectory);
@@ -361,7 +362,7 @@
         NSLog(@"%@",[_setURL absoluteString]);
         NSLog(@"file written: %d", write);
 
-        return [documentsDirectoryURL URLByAppendingPathComponent:[response suggestedFilename]];
+        return [libraryDirectoryURL URLByAppendingPathComponent:[response suggestedFilename]];
     } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
         NSLog(@"File downloaded to: %@", filePath);
         [[Mixpanel sharedInstance] track:@"downloadCompleted"];
@@ -389,8 +390,22 @@
     [self.artwork setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:imageURL]]];
     
     self.hidden = NO;
-    
+
     NSString *setPath = [NSString stringWithFormat:@"http://stredm.com/uploads/%@", [song objectForKey:@"songURL"]];
+
+    NSURL *documentsDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
+    
+    NSString *documentsDirectory = documentsDirectoryURL.path;
+    NSLog(@"%@",documentsDirectory);
+    NSString *appFile = [documentsDirectory stringByAppendingPathComponent:[song objectForKey:@"songURL"]];
+    NSLog(@"%@",appFile);
+    
+    BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:appFile];
+    NSLog(@"file exists: %hhd",fileExists);
+    if(fileExists) {
+        setPath = appFile;
+    }
+
     _setURL = [NSURL URLWithString:setPath];
 
     if (self.timer)

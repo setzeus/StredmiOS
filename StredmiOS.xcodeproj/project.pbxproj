@@ -11,6 +11,8 @@
 		52078D7818DD04AB0060F875 /* SDWebImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52078D7718DD04AB0060F875 /* SDWebImage.framework */; };
 		52078D7A18DD055F0060F875 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52078D7918DD055F0060F875 /* ImageIO.framework */; };
 		52078D7E18DD52500060F875 /* placeholder.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 52078D7D18DD52500060F875 /* placeholder.jpg */; };
+		522BC3921901ACFE00C8E482 /* MySetsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 522BC3911901ACFE00C8E482 /* MySetsViewController.m */; };
+		522BC3951901AD7700C8E482 /* MySetsTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 522BC3941901AD7700C8E482 /* MySetsTableCell.m */; };
 		52D4D81818D92D23009676CB /* DiscoverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52D4D81718D92D23009676CB /* DiscoverViewController.m */; };
 		52D4D81B18D92E2F009676CB /* DiscoverTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 52D4D81A18D92E2F009676CB /* DiscoverTableCell.m */; };
 		7A6ACA4718D67F0500231692 /* JNSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A6ACA4618D67F0500231692 /* JNSettingsViewController.m */; };
@@ -92,6 +94,10 @@
 		52078D7718DD04AB0060F875 /* SDWebImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SDWebImage.framework; sourceTree = "<group>"; };
 		52078D7918DD055F0060F875 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		52078D7D18DD52500060F875 /* placeholder.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = placeholder.jpg; sourceTree = "<group>"; };
+		522BC3901901ACFE00C8E482 /* MySetsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MySetsViewController.h; sourceTree = "<group>"; };
+		522BC3911901ACFE00C8E482 /* MySetsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MySetsViewController.m; sourceTree = "<group>"; };
+		522BC3931901AD7700C8E482 /* MySetsTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MySetsTableCell.h; sourceTree = "<group>"; };
+		522BC3941901AD7700C8E482 /* MySetsTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MySetsTableCell.m; sourceTree = "<group>"; };
 		52D4D81618D92D23009676CB /* DiscoverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DiscoverViewController.h; sourceTree = "<group>"; };
 		52D4D81718D92D23009676CB /* DiscoverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DiscoverViewController.m; sourceTree = "<group>"; };
 		52D4D81918D92E2F009676CB /* DiscoverTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DiscoverTableCell.h; sourceTree = "<group>"; };
@@ -277,6 +283,10 @@
 				F8A9942618DB679B00EC810A /* shuffle_icon.png */,
 				F8A9942718DB679B00EC810A /* shuffle_icon@2x.png */,
 				9E64CDDC18BC8BB80043926E /* Supporting Files */,
+				522BC3901901ACFE00C8E482 /* MySetsViewController.h */,
+				522BC3911901ACFE00C8E482 /* MySetsViewController.m */,
+				522BC3931901AD7700C8E482 /* MySetsTableCell.h */,
+				522BC3941901AD7700C8E482 /* MySetsTableCell.m */,
 			);
 			path = StredmiOS;
 			sourceTree = "<group>";
@@ -519,7 +529,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				522BC3951901AD7700C8E482 /* MySetsTableCell.m in Sources */,
 				9E64CDE618BC8BB90043926E /* JNAppDelegate.m in Sources */,
+				522BC3921901ACFE00C8E482 /* MySetsViewController.m in Sources */,
 				F803A54B18DAF72F00FB7AE4 /* UIImage+ImageEffects.m in Sources */,
 				52D4D81818D92D23009676CB /* DiscoverViewController.m in Sources */,
 				7A6ACA4718D67F0500231692 /* JNSettingsViewController.m in Sources */,
