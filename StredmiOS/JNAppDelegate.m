@@ -35,22 +35,25 @@
     UISwipeGestureRecognizer *openSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipe:)];
     UISwipeGestureRecognizer *closeSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipe:)];
     UITapGestureRecognizer *openTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
+    UITapGestureRecognizer *closeTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(closeTap:)];
     [openSwipe setDirection:UISwipeGestureRecognizerDirectionUp];
     [closeSwipe setDirection:UISwipeGestureRecognizerDirectionDown];
     openSwipe.cancelsTouchesInView = NO;
     closeSwipe.cancelsTouchesInView = NO;
     openTap.cancelsTouchesInView = NO;
+    closeTap.cancelsTouchesInView = NO;
     [self.playerView.playerToolbar addGestureRecognizer:openSwipe];
     [self.playerView.swipeDownView addGestureRecognizer:closeSwipe];
     [self.playerView.playerToolbar addGestureRecognizer:openTap];
+    [self.playerView.swipeDownView addGestureRecognizer:closeTap];
     
     [self.window addSubview:self.playerView];
     
     self.playerView.hidden = YES;
+
+    [Mixpanel sharedInstanceWithToken:@"379197a835a053a920eba4043c6e2c5b"];
     
     return YES;
-    
-   [Mixpanel sharedInstanceWithToken:@"379197a835a053a920eba4043c6e2c5b"];
 }
 
 -(void)bringPlayerToFront {
@@ -66,8 +69,20 @@
             [self.playerView openPlayer:CGSizeMake(320, self.window.frame.size.height)];
             self.playerView.frame = CGRectMake(0, 0, 320, self.window.frame.size.height);
         }];
+    } else {
+        self.playerView.frame = CGRectMake(0, 0, 320, self.window.frame.size.height);
+        [UIView animateWithDuration:0.25 animations:^(void) {
+            [self.playerView closePlayer];
+        }];
     }
     
+}
+
+-(void)closeTap:(UITapGestureRecognizer*)tap {
+    [UIView animateWithDuration:0.25 animations:^(void) {
+        self.playerView.frame = CGRectMake(0, self.window.frame.size.height-60, 320, 60);
+        [self.playerView closePlayer];
+    }];
 }
 
 -(void)handleSwipe:(UISwipeGestureRecognizer *)swipe {
@@ -82,7 +97,6 @@
         [UIView animateWithDuration:0.25 animations:^(void) {
             self.playerView.frame = CGRectMake(0, self.window.frame.size.height-60, 320, 60);
             [self.playerView closePlayer];
-            
         } completion:^(BOOL completion) {
             
         }];

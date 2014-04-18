@@ -28,11 +28,6 @@
     return self;
 }
 
--(void)random:(id)sender {
-    JNAppDelegate *jnad = (JNAppDelegate*)[[UIApplication sharedApplication] delegate];
-    [jnad.playerView playRandom];
-}
-
 -(void)initMethod {
     self.randomButton = [UIButton buttonWithType:UIButtonTypeSystem];
     self.randomButton.frame = CGRectMake(0, self.frame.size.height/2 -100, 320, 100);
@@ -40,7 +35,6 @@
     [self.randomButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.randomButton setTitle:@"random" forState:UIControlStateNormal];
     self.randomButton.backgroundColor = [UIColor clearColor];
-    [self.randomButton addTarget:self action:@selector(random:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:self.randomButton];
     
     self.searchButton = [UIButton buttonWithType:UIButtonTypeSystem];
@@ -54,7 +48,6 @@
 }
 
 -(void)drawRect:(CGRect)rect {
-    NSLog(@"DrawRect");
     float halfHeight = self.frame.size.height/2;
     float inset = (self.frame.size.width-240)/2;
     CGContextRef ctx = UIGraphicsGetCurrentContext();

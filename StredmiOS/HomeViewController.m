@@ -24,10 +24,6 @@
     if (self) {
         // Custom initialization
         
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        self.isPlaying = [defaults boolForKey:@"isPlaying"];
-        [self.homeView.searchButton addTarget:self action:@selector(search:) forControlEvents:UIControlEventTouchUpInside];
-
     }
     
     
@@ -37,6 +33,11 @@
 -(void)search:(id)sender {
     NSLog(@"performing segue ...");
     [self performSegueWithIdentifier:@"SearchSegue" sender:sender];
+}
+
+-(void)random:(id)sender {
+    JNAppDelegate *jnad = (JNAppDelegate*)[[UIApplication sharedApplication] delegate];
+    [jnad.playerView playRandom];
 }
 
 -(void)handleSwipe:(UISwipeGestureRecognizer *)swipe {
@@ -68,6 +69,8 @@
     [jnad bringPlayerToFront];
     
     [self.homeView.searchButton addTarget:self action:@selector(search:) forControlEvents:UIControlEventTouchUpInside];
+    [self.homeView.randomButton addTarget:self action:@selector(random:) forControlEvents:UIControlEventTouchUpInside];
+
 
 }
 
@@ -76,47 +79,5 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-/*
--(void)updateCurrentTimeLabel:(float)currTime {
-    int minutes = (int)currTime/60;
-    int seconds = (int)currTime%60;
-    if (minutes < 0.0) minutes = 0.0;
-    if (seconds < 0) seconds = 0.0;
-    self.currentTimeLabel.text = [NSString stringWithFormat:@"%02d:%02d", minutes, seconds];
-    self.playerView.currentTimeLabel.text = [NSString stringWithFormat:@"%02d:%02d", minutes, seconds];
-}
-
--(void)updateDurationLabel:(float)duration {
-    int minutes = (int)duration/60;
-    int seconds = (int)duration%60;
-    if (minutes < 0) minutes = 0.0;
-    if (seconds < 0) seconds = 0.0;
-    self.playerView.durationLabel.text = [NSString stringWithFormat:@"%02d:%02d", minutes, seconds];
-}
--(void)updateTitleLabel:(NSString*)title {
-    self.titleLabel.text = title;
-}
--(void)updateCurrentSong:(NSString*)songTitle {
-    self.playerView.songTitleLabel.text = songTitle;
-    [self.playerView.songTitleLabel sizeToFit];
-    self.playerView.songTitleLabel.frame = CGRectMake(0, 0, self.playerView.songTitleLabel.frame.size.width, self.playerView.songScrollView.frame.size.height);
-    self.playerView.songScrollView.contentSize = self.playerView.songTitleLabel.frame.size;
-    if (self.playerView.songTitleLabel.frame.size.width > self.playerView.songScrollView.frame.size.width) {
-        [self slideText];
-    }
-}
-
--(void)slideText {
-    [UIView animateWithDuration:4.0 animations:^(void) {
-        self.playerView.songScrollView.contentOffset = CGPointMake(self.playerView.songTitleLabel.frame.size.width - self.playerView.songScrollView.frame.size.width, 0);
-    } completion:^(BOOL complete) {
-        [UIView animateWithDuration:4.0 animations:^(void) {
-            self.playerView.songScrollView.contentOffset = CGPointMake(0.0, 0.0);
-        } completion:^(BOOL complete){
-            [self performSelector:@selector(slideText) withObject:nil afterDelay:0.0];
-        }];
-    }];
-}
- */
 
 @end
