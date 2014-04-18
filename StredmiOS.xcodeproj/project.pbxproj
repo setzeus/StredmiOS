@@ -16,7 +16,7 @@
 		52D4D81818D92D23009676CB /* DiscoverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52D4D81718D92D23009676CB /* DiscoverViewController.m */; };
 		52D4D81B18D92E2F009676CB /* DiscoverTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 52D4D81A18D92E2F009676CB /* DiscoverTableCell.m */; };
 		7A6ACA4718D67F0500231692 /* JNSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A6ACA4618D67F0500231692 /* JNSettingsViewController.m */; };
-		7AFE23BA1900DEE1009A49A4 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7AFE23B91900DEE1009A49A4 /* Settings.bundle */; };
+		7AB3DD671901DE3B00E0DBA1 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7AB3DD661901DE3B00E0DBA1 /* Settings.bundle */; };
 		9E64CDD618BC8BB80043926E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E64CDD518BC8BB80043926E /* Foundation.framework */; };
 		9E64CDD818BC8BB80043926E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E64CDD718BC8BB80043926E /* CoreGraphics.framework */; };
 		9E64CDDA18BC8BB80043926E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E64CDD918BC8BB80043926E /* UIKit.framework */; };
@@ -105,7 +105,7 @@
 		54F040432EC54C8082DFC594 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A6ACA4518D67F0500231692 /* JNSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JNSettingsViewController.h; sourceTree = "<group>"; };
 		7A6ACA4618D67F0500231692 /* JNSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JNSettingsViewController.m; sourceTree = "<group>"; };
-		7AFE23B91900DEE1009A49A4 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		7AB3DD661901DE3B00E0DBA1 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Settings.bundle; path = ../.Trash/Settings.bundle; sourceTree = "<group>"; };
 		86C200B1F195462D8FFD62D8 /* Pods-StredmiOS.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StredmiOS.xcconfig"; path = "Pods/Pods-StredmiOS.xcconfig"; sourceTree = "<group>"; };
 		9E64CDD218BC8BB80043926E /* StredmiOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StredmiOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E64CDD518BC8BB80043926E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -202,7 +202,7 @@
 		9E64CDC918BC8BB80043926E = {
 			isa = PBXGroup;
 			children = (
-				7AFE23B91900DEE1009A49A4 /* Settings.bundle */,
+				7AB3DD661901DE3B00E0DBA1 /* Settings.bundle */,
 				9E64CDDB18BC8BB80043926E /* StredmiOS */,
 				9E64CDFA18BC8BB90043926E /* StredmiOSTests */,
 				9E64CDD418BC8BB80043926E /* Frameworks */,
@@ -332,6 +332,7 @@
 				9E64CDCF18BC8BB80043926E /* Frameworks */,
 				9E64CDD018BC8BB80043926E /* Resources */,
 				F3C7D778A85541449CE56C46 /* Copy Pods Resources */,
+				7AB3DD681901E96F00E0DBA1 /* Set Version Script */,
 			);
 			buildRules = (
 			);
@@ -373,7 +374,7 @@
 				ORGANIZATIONNAME = Stredm;
 				TargetAttributes = {
 					9E64CDD118BC8BB80043926E = {
-						DevelopmentTeam = BJP6BA75L7;
+						DevelopmentTeam = 7JQM8M6QG2;
 					};
 					9E64CDF218BC8BB90043926E = {
 						TestTargetID = 9E64CDD118BC8BB80043926E;
@@ -441,13 +442,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7AB3DD671901DE3B00E0DBA1 /* Settings.bundle in Resources */,
 				9E64CDEE18BC8BB90043926E /* Images.xcassets in Resources */,
 				52078D7E18DD52500060F875 /* placeholder.jpg in Resources */,
 				F8A9942818DB679B00EC810A /* shuffle_icon.png in Resources */,
 				9E64CDE018BC8BB80043926E /* InfoPlist.strings in Resources */,
 				9E64CDE918BC8BB90043926E /* Main.storyboard in Resources */,
 				F8A9942918DB679B00EC810A /* shuffle_icon@2x.png in Resources */,
-				7AFE23BA1900DEE1009A49A4 /* Settings.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -491,6 +492,20 @@
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
+		};
+		7AB3DD681901E96F00E0DBA1 /* Set Version Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Set Version Script";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Get infoPlist.\ninfoPlist=${INFOPLIST_FILE}\n# Add CFBuildNumber, CFBuildDate, CFBundleShortVersionString (if it doesn't exist) and CFBuildVersion to your *-Info.plist.\n\n# Get CFBuildNumber.\nCFBuildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBuildNumber\" $infoPlist)\n# Increment build number by 1.\nCFBuildNumber=$(($CFBuildNumber + 1))\n# Update CFBuildNumber.\n/usr/libexec/PlistBuddy -c \"Set :CFBuildNumber $CFBuildNumber\" $infoPlist\n\n# Get date.\nCFBuildDate=$(date)\n\n# Update date.\n/usr/libexec/PlistBuddy -c \"Set :CFBuildDate $CFBuildDate\" $infoPlist\n\n# Get CFBundleShortVersionString.\nCFBundleShortVersionString=$(/usr/libexec/PlistBuddy -c \"Print CFBundleShortVersionString\" $infoPlist)\n# Update CFBuildVersion version with CFBundleShortVersionString.CFBuildNumber.\n/usr/libexec/PlistBuddy -c \"Set :CFBuildVersion $CFBundleShortVersionString.$CFBuildNumber\" $infoPlist";
 		};
 		E90FFEB522494608A70630AB /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
