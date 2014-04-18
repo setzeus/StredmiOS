@@ -103,10 +103,21 @@
     }
     id songObject = [self.downloadsArray objectAtIndex:indexPath.row];
 
-    NSString* url = [NSString stringWithFormat:@"%@%@", @"http://stredm.com/uploads/", [songObject objectForKey:@"imageURL"]];
+    NSString* imagePath = [NSString stringWithFormat:@"%@%@", @"http://stredm.com/uploads/", [songObject objectForKey:@"imageURL"]];
+
+    NSURL *libraryDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSLibraryDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
+    NSString *documentsDirectory = libraryDirectoryURL.path;
+    NSString *imageFile = [documentsDirectory stringByAppendingPathComponent:[songObject objectForKey:@"imageURL"]];
+    
+    BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:imageFile];
+    if(fileExists) {
+        imagePath = imageFile;
+        NSLog(@"using local image");
+    }
+
     cell.textLabel.text = [songObject objectForKey:@"event"];
     cell.detailTextLabel.text = [songObject objectForKey:@"artist"];
-    [cell.imageView setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"placeholder.jpg"]];
+    [cell.imageView setImageWithURL:[NSURL URLWithString:imagePath] placeholderImage:[UIImage imageNamed:@"placeholder.jpg"]];
 
     return cell;
 }
