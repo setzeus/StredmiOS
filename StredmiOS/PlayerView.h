@@ -47,7 +47,7 @@
 @property (nonatomic) NSInteger currentRow;
 
 @property (strong, nonatomic) NSURL *setURL;
-
+@property (strong, nonatomic) NSURL *imageURL;
 
 -(void)openPlayer:(CGSize)size;
 -(void)closePlayer;

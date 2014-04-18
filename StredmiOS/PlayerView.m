@@ -328,7 +328,8 @@
     NSLog(@"Starting download of %@", [_setURL absoluteString]);
     NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
     AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
-    NSURLRequest *request = [NSURLRequest requestWithURL:_setURL];
+    NSURLRequest *setRequest = [NSURLRequest requestWithURL:_setURL];
+    NSURLRequest *imageRequest = [NSURLRequest requestWithURL:_imageURL];
 
     NSURL *documentsDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
     NSURL *libraryDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSLibraryDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
@@ -337,23 +338,15 @@
     NSLog(@"%@",documentsDirectory);
     NSString *appFile = [documentsDirectory stringByAppendingPathComponent:@"sets.plist"];
     NSLog(@"%@",appFile);
-    //    BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:appFile];
-    //    NSArray *keys;
-    //    NSArray *values;
-    //    NSLog(@"file exists: %hhd",fileExists);
-    //    NSMutableDictionary *mutableDict = [NSMutableDictionary dictionaryWithCapacity:2];
-    //    if(fileExists) {
-    //        NSDictionary *myData = [NSDictionary dictionaryWithContentsOfFile:appFile];
-    //        NSLog(@"Data : %@ ",myData);
-    //        keys = [myData allKeys];
-    //        values = [myData allValues];
-    //        for (int i=0; i<[keys count]; i++) {
-    //            [mutableDict setObject:myData forKey:[NSString stringWithFormat:@"%@",[values objectAtIndex:i]]];
-    //        }
-    //        NSLog(@"Data : %@ ",values);
-    //    }
 
-    NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:nil destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
+    NSURLSessionDownloadTask *downloadImageTask = [manager downloadTaskWithRequest:imageRequest progress:nil destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
+        return [libraryDirectoryURL URLByAppendingPathComponent:[response suggestedFilename]];
+    } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
+        NSLog(@"image file downloaded to %@",filePath);
+    }];
+    [downloadImageTask resume];
+
+    NSURLSessionDownloadTask *downloadSetTask = [manager downloadTaskWithRequest:setRequest progress:nil destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
 
         NSLog(@"%@",[_playlistArray objectAtIndex:_currentRow]);
         NSMutableArray *song = [_playlistArray objectAtIndex:_currentRow];
@@ -367,7 +360,7 @@
         NSLog(@"File downloaded to: %@", filePath);
         [[Mixpanel sharedInstance] track:@"downloadCompleted"];
     }];
-    [downloadTask resume];
+    [downloadSetTask resume];
     
     
     [[Mixpanel sharedInstance] track:@"Set Added"];
@@ -385,25 +378,33 @@
     self.artistLabel.text = [song objectForKey:@"artist"];
     self.eventLabel.text = [song objectForKey:@"event"];
     self.titleLabel.text = [NSString stringWithFormat:@"%@ - %@", self.artistLabel.text, self.eventLabel.text];
-    
-    NSURL *imageURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://stredm.com/uploads/%@", [song objectForKey:@"imageURL"]]];
-    [self.artwork setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:imageURL]]];
-    
     self.hidden = NO;
-
-    NSString *setPath = [NSString stringWithFormat:@"http://stredm.com/uploads/%@", [song objectForKey:@"songURL"]];
-
-    NSURL *documentsDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
     
-    NSString *documentsDirectory = documentsDirectoryURL.path;
+    NSURL *libraryDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSLibraryDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
+    
+    NSString *documentsDirectory = libraryDirectoryURL.path;
     NSLog(@"%@",documentsDirectory);
-    NSString *appFile = [documentsDirectory stringByAppendingPathComponent:[song objectForKey:@"songURL"]];
-    NSLog(@"%@",appFile);
     
-    BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:appFile];
-    NSLog(@"file exists: %hhd",fileExists);
+
+    NSURL *imagePath = [NSURL URLWithString:[NSString stringWithFormat:@"http://stredm.com/uploads/%@", [song objectForKey:@"imageURL"]]];
+    NSString *imageFile = [documentsDirectory stringByAppendingPathComponent:[song objectForKey:@"imageURL"]];
+    
+    BOOL imageFileExists = [[NSFileManager defaultManager] fileExistsAtPath:imageFile];
+    if(imageFileExists) {
+        imagePath = [NSURL URLWithString:imageFile];
+        NSLog(@"using local image %@",imageFile);
+        _imageURL = imagePath;
+        [self.artwork setImage:[[UIImage alloc] initWithContentsOfFile:imageFile]];
+    } else {
+        [self.artwork setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:_imageURL]]];
+    }
+    
+    NSString *setPath = [NSString stringWithFormat:@"http://stredm.com/uploads/%@", [song objectForKey:@"songURL"]];
+    NSString *setFile = [documentsDirectory stringByAppendingPathComponent:[song objectForKey:@"songURL"]];
+    BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:setFile];
     if(fileExists) {
-        setPath = appFile;
+        setPath = setFile;
+        NSLog(@"using local set");
     }
 
     _setURL = [NSURL URLWithString:setPath];
