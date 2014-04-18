@@ -14,7 +14,7 @@
 
 @interface MySetsViewController ()
 
-@property (strong, nonatomic) NSArray *downloadsArray;
+@property (strong, nonatomic) NSMutableArray *downloadsArray;
 
 @end
 
@@ -71,7 +71,7 @@
     if(fileExists) {
         NSDictionary *myDict = [[NSDictionary alloc] initWithContentsOfFile:appFile];
         NSLog(@"Data : %@ ",myDict);
-        _downloadsArray = [NSArray arrayWithObject:myDict];
+        _downloadsArray = [NSMutableArray arrayWithObject:myDict];
         NSLog(@"Data : %@ ",_downloadsArray);
     }
 

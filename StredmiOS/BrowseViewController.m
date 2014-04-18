@@ -16,12 +16,12 @@
 @property (nonatomic) NSInteger currentMode;
 
 @property (strong, nonatomic) NSString *searchString;
-@property (strong, nonatomic) NSArray *searchArray;
+@property (strong, nonatomic) NSMutableArray *searchArray;
 
-@property (strong, nonatomic) NSArray *artistArray;
-@property (strong, nonatomic) NSArray *eventArray;
-@property (strong, nonatomic) NSArray *radioArray;
-@property (strong, nonatomic) NSArray *genreArray;
+@property (strong, nonatomic) NSMutableArray *artistArray;
+@property (strong, nonatomic) NSMutableArray *eventArray;
+@property (strong, nonatomic) NSMutableArray *radioArray;
+@property (strong, nonatomic) NSMutableArray *genreArray;
 
 @end
 
@@ -37,30 +37,30 @@
     return self;
 }
 
-
--(NSData *)dataFromURL:(NSString *)url {
+-(NSData*)dataFromURL:(NSString *)url {
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:[url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
-    NSError *error = nil;
-    NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:&error];
-    if ( error != nil ) [NSException raise:@"Error retrieving data" format:@"Could not reach %@", url];
+    NSError* error;
+    NSData* data = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:&error];
+    if (error != nil){
+        [[Mixpanel sharedInstance] track:@"Data Request Error" properties:@{@"Error" : error.description}];
+        [NSException exceptionWithName:@"Error Requesting Data" reason:error.description userInfo:nil];
+    }
     return data;
 }
 
--(NSArray *)safeJSONParseArray:(NSString *)url {
-    NSArray *array = nil;
-    NSData *data = nil;
+-(NSMutableArray *)safeJSONParseArray:(NSString *)url {
+    NSData* data;
     @try {
         data = [self dataFromURL:url];
     }
     @catch (NSException *exception) {
-        data = nil;
+        return [NSMutableArray arrayWithObjects:exception.description, nil];
     }
-    @finally {
-        NSError *error;
-        array = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
-        if ( error != nil ) array = [NSArray arrayWithObjects:@"An error occured", nil];
-        return array;
-    }
+    NSError *error;
+    if (data) return [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
+    else if (error) return [NSMutableArray arrayWithObjects:error.description, nil];
+    return [NSMutableArray arrayWithObjects:@"An Error Occured", nil];
+    
 }
 
 - (void)changeBrowseMode {

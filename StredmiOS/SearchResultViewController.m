@@ -29,10 +29,10 @@
     return self;
 }
 
--(id)initWithSearch:(NSArray *)query andTitle:(NSString * )title{
+-(id)initWithSearch:(NSMutableArray *)query andTitle:(NSString * )title{
     self = [super initWithStyle:UITableViewStylePlain];
     if (self) {
-        self.searchArray = [NSArray arrayWithArray:query];
+        self.searchArray = [NSMutableArray arrayWithArray:query];
         self.title = title;
     }
     
@@ -190,29 +190,31 @@
 }
 
 
--(NSData *)dataFromURL:(NSString *)url {
+
+-(NSData*)dataFromURL:(NSString *)url {
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:[url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
-    NSError *error = nil;
-    NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:&error];
-    if ( error != nil ) [NSException raise:@"Error retrieving data" format:@"Could not reach %@", url];
+    NSError* error;
+    NSData* data = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:&error];
+    if (error != nil){
+        [[Mixpanel sharedInstance] track:@"Data Request Error" properties:@{@"Error" : error.description}];
+        [NSException exceptionWithName:@"Error Requesting Data" reason:error.description userInfo:nil];
+    }
     return data;
 }
 
--(NSArray *)safeJSONParseArray:(NSString *)url {
-    NSArray *array = nil;
-    NSData *data = nil;
+-(NSMutableArray *)safeJSONParseArray:(NSString *)url {
+    NSData* data;
     @try {
         data = [self dataFromURL:url];
     }
     @catch (NSException *exception) {
-        data = nil;
+        return [NSMutableArray arrayWithObjects:exception.description, nil];
     }
-    @finally {
-        NSError *error;
-        array = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
-        if ( error != nil ) array = [NSArray arrayWithObjects:@"An error occured", nil];
-        return array;
-    }
+    NSError *error;
+    if (data) return [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
+    else if (error) return [NSMutableArray arrayWithObjects:error.description, nil];
+    return [NSMutableArray arrayWithObjects:@"An Error Occured", nil];
+    
 }
 
 
