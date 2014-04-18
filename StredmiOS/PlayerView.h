@@ -22,7 +22,6 @@
 @property (strong, nonatomic) PlayButton *playButton;
 
 @property (strong, nonatomic) AVPlayerLayer *playerLayer;
-@property (nonatomic) float percentageOfSong;
 @property (strong, nonatomic) NSTimer *timer;
 
 @property (strong, nonatomic) NSString *title;

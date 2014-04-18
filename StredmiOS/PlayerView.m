@@ -137,8 +137,7 @@
         if (CMTimeGetSeconds([[self.playerLayer.player currentItem] duration]) != 0.0) {
             float currTime = CMTimeGetSeconds([[self.playerLayer.player currentItem] currentTime]);
             float duration = CMTimeGetSeconds([[self.playerLayer.player currentItem] duration]);
-            self.percentageOfSong = currTime/duration;
-            self.playButton.percentageOfSong = self.percentageOfSong;
+            self.playButton.percentageOfSong = currTime/duration;
             [self updateCurrentTimeLabel:currTime duration:duration];
         } else {
             [self updateCurrentTimeLabel:0.0 duration:0.0];
@@ -180,6 +179,15 @@
     }
     else {
         self.justScrubbed = false;
+        
+        float duration = CMTimeGetSeconds([[self.playerLayer.player currentItem] duration]);
+        int timeScale = self.playerLayer.player.currentItem.asset.duration.timescale;
+        CMTime time = CMTimeMakeWithSeconds(duration * self.playButton.percentageOfSong, timeScale);
+        [self.playerLayer.player seekToTime:time completionHandler:^(BOOL complete){
+            self.isScrubbing = false;
+            [self play];
+        }];
+        
         [[Mixpanel sharedInstance] track:@"Scrub" properties:@{@"Artist" : self.artistLabel.text,
                                                                @"Event" : self.eventLabel.text,
                                                                @"Current Time" : [NSNumber numberWithDouble:CMTimeGetSeconds([[self.playerLayer.player currentItem] currentTime])],
@@ -224,14 +232,7 @@
     
     self.playButton.percentageOfSong = per;
     [self.playButton setNeedsDisplay];
-    
-    float duration = CMTimeGetSeconds([[self.playerLayer.player currentItem] duration]);
-    int timeScale = self.playerLayer.player.currentItem.asset.duration.timescale;
-    CMTime time = CMTimeMakeWithSeconds(duration * per, timeScale);
-    [self.playerLayer.player seekToTime:time completionHandler:^(BOOL complete){
-        self.isScrubbing = false;
-        [self play];
-    }];
+
     self.justScrubbed = true;
 }
 
@@ -322,7 +323,7 @@
     AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
     NSURLRequest *request = [NSURLRequest requestWithURL:_setURL];
 
-    NSURL *documentsDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
+    NSURL *documentsDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSLibraryDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
     
     NSString *documentsDirectory = documentsDirectoryURL.path;
     NSLog(@"%@",documentsDirectory);
@@ -356,6 +357,7 @@
         return [documentsDirectoryURL URLByAppendingPathComponent:[response suggestedFilename]];
     } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
         NSLog(@"File downloaded to: %@", filePath);
+        [[Mixpanel sharedInstance] track:@"downloadCompleted"];
     }];
     [downloadTask resume];
     
