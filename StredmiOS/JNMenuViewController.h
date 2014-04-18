@@ -14,14 +14,6 @@
 
 @interface JNMenuViewController : UITableViewController <AVAudioPlayerDelegate>
 
-@property (weak, nonatomic) AVPlayerLayer *playerLayer;
 @property (nonatomic) float percentageOfSong;
-@property (strong, nonatomic) NSTimer *timer;
-
-@property (strong, nonatomic)  PlayerView *playerView;
-
-@property (strong, nonatomic) IBOutlet HomeViewController *hvc;
-
--(IBAction)unwindToMenuViewController:(UIStoryboardSegue *)segue;
 
 @end

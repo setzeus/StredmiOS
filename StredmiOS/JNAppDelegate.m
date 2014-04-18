@@ -50,7 +50,7 @@
     
     return YES;
     
-   // [Mixpanel sharedInstanceWithToken:MIXPANEL_TOKEN];
+   [Mixpanel sharedInstanceWithToken:@"379197a835a053a920eba4043c6e2c5b"];
 }
 
 -(void)bringPlayerToFront {
