@@ -114,6 +114,8 @@
                 [cell.contentView addSubview:slider];
             }
             
+            cell.textLabel.text = @"";
+            
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
             break;
             

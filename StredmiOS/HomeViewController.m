@@ -76,6 +76,10 @@
     JNAppDelegate *jnad = (JNAppDelegate*) [[UIApplication sharedApplication] delegate];
     [jnad bringPlayerToFront];
     
+//    UISwipeGestureRecognizer* openTray = [[UISwipeGestureRecognizer alloc] initWithTarget:self.navigationItem.leftBarButtonItem.target action:self.navigationItem.leftBarButtonItem.action];
+//    openTray.direction = UISwipeGestureRecognizerDirectionRight;
+//    [self.homeView addGestureRecognizer:openTray];
+    
     [self.homeView.searchButton addTarget:self action:@selector(search:) forControlEvents:UIControlEventTouchUpInside];
     [self.homeView.randomButton addTarget:self action:@selector(random:) forControlEvents:UIControlEventTouchUpInside];
     
