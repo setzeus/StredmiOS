@@ -14,6 +14,7 @@
 		52D4D81818D92D23009676CB /* DiscoverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52D4D81718D92D23009676CB /* DiscoverViewController.m */; };
 		52D4D81B18D92E2F009676CB /* DiscoverTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 52D4D81A18D92E2F009676CB /* DiscoverTableCell.m */; };
 		7A6ACA4718D67F0500231692 /* JNSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A6ACA4618D67F0500231692 /* JNSettingsViewController.m */; };
+		7AFE23BA1900DEE1009A49A4 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7AFE23B91900DEE1009A49A4 /* Settings.bundle */; };
 		9E64CDD618BC8BB80043926E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E64CDD518BC8BB80043926E /* Foundation.framework */; };
 		9E64CDD818BC8BB80043926E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E64CDD718BC8BB80043926E /* CoreGraphics.framework */; };
 		9E64CDDA18BC8BB80043926E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E64CDD918BC8BB80043926E /* UIKit.framework */; };
@@ -97,6 +98,7 @@
 		54F040432EC54C8082DFC594 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A6ACA4518D67F0500231692 /* JNSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JNSettingsViewController.h; sourceTree = "<group>"; };
 		7A6ACA4618D67F0500231692 /* JNSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JNSettingsViewController.m; sourceTree = "<group>"; };
+		7AFE23B91900DEE1009A49A4 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		86C200B1F195462D8FFD62D8 /* Pods-StredmiOS.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StredmiOS.xcconfig"; path = "Pods/Pods-StredmiOS.xcconfig"; sourceTree = "<group>"; };
 		9E64CDD218BC8BB80043926E /* StredmiOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StredmiOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E64CDD518BC8BB80043926E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -191,6 +193,7 @@
 		9E64CDC918BC8BB80043926E = {
 			isa = PBXGroup;
 			children = (
+				7AFE23B91900DEE1009A49A4 /* Settings.bundle */,
 				9E64CDDB18BC8BB80043926E /* StredmiOS */,
 				9E64CDFA18BC8BB90043926E /* StredmiOSTests */,
 				9E64CDD418BC8BB80043926E /* Frameworks */,
@@ -429,6 +432,7 @@
 				9E64CDE018BC8BB80043926E /* InfoPlist.strings in Resources */,
 				9E64CDE918BC8BB90043926E /* Main.storyboard in Resources */,
 				F8A9942918DB679B00EC810A /* shuffle_icon@2x.png in Resources */,
+				7AFE23BA1900DEE1009A49A4 /* Settings.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
