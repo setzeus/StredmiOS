@@ -16,4 +16,6 @@
 
 @property (nonatomic) float percentageOfSong;
 
+-(IBAction)unwindToMenuViewController:(UIStoryboardSegue *)segue;
+
 @end
