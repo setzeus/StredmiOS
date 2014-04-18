@@ -10,6 +10,8 @@
 
 @interface MySetsViewController ()
 
+@property (strong, nonatomic) NSArray *downloadsArray;
+
 @end
 
 @implementation MySetsViewController
@@ -27,6 +29,7 @@
 {
     [super viewDidLoad];
     
+    [[Mixpanel sharedInstance] track:@"My Sets Page"];
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
@@ -44,28 +47,72 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-#warning Potentially incomplete method implementation.
     // Return the number of sections.
-    return 0;
+    return 1;
+}
+
+-(NSArray *)downloadsArray {
+
+    if(_downloadsArray != nil) return _downloadsArray;
+    return _downloadsArray;
+
+    // NSURL *documentsDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
+
+    // NSString *documentsDirectory = documentsDirectoryURL.path;
+    // NSLog(@"%@",documentsDirectory);
+    // NSString *appFile = [documentsDirectory stringByAppendingPathComponent:@"sets.plist"];
+    // NSLog(@"%@",appFile);
+
+    // BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:appFile];
+    // NSArray *keys;
+    // NSArray *values;
+    // NSLog(@"file exists: %hhd",fileExists);
+    // NSMutableDictionary *mutableDict = [NSMutableDictionary dictionaryWithCapacity:2];
+    // if(fileExists) {
+    //     NSDictionary *myData = [NSDictionary dictionaryWithContentsOfFile:appFile];
+    //     NSLog(@"Data : %@ ",myData);
+    //     keys = [myData allKeys];
+    //     values = [myData allValues];
+    //     for (int i=0; i<[keys count]; i++) {
+    //        [mutableDict setObject:myData forKey:[NSString stringWithFormat:@"%@",[values objectAtIndex:i]]];
+    //     }
+    //     NSLog(@"Data : %@ ",values);
+    // }
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-#warning Incomplete method implementation.
-    // Return the number of rows in the section.
-    return 0;
+    return [self.downloadsArray count];
 }
 
-/*
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    JNAppDelegate *jnad = (JNAppDelegate*)[[UIApplication sharedApplication] delegate];
+    jnad.playerView.playlistArray = self.downloadsArray;
+    [jnad.playerView playSong:indexPath.row];
+    
+    [self.navigationController popViewControllerAnimated:YES];
+    
+}
+
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
+    static NSString *CellIdentifier = @"MySetsTableCell";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
-    // Configure the cell...
-    
+    if ( cell == nil ) {
+        cell = [[MySetsTableCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+    }
+    id songObject = [self.downloadsArray objectAtIndex:indexPath.row];
+
+    NSString* url = [NSString stringWithFormat:@"%@%@", @"http://stredm.com/uploads/", [songObject objectForKey:@"imageURL"]];
+    cell.textLabel.text = [songObject objectForKey:@"event"];
+    cell.detailTextLabel.text = [songObject objectForKey:@"artist"];
+    [cell.imageView setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"placeholder.jpg"]];
+
     return cell;
 }
-*/
+
 
 /*
 // Override to support conditional editing of the table view.
