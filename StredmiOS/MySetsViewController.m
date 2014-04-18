@@ -7,6 +7,10 @@
 //
 
 #import "MySetsViewController.h"
+#import "JNAppDelegate.h"
+
+#import <SDWebImage/UIImageView+WebCache.h>
+#import <Mixpanel/Mixpanel.h>
 
 @interface MySetsViewController ()
 
@@ -101,7 +105,7 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
     if ( cell == nil ) {
-        cell = [[MySetsTableCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+        cell = [[MySetsViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
     id songObject = [self.downloadsArray objectAtIndex:indexPath.row];
 
