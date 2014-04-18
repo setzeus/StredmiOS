@@ -323,7 +323,8 @@
     AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
     NSURLRequest *request = [NSURLRequest requestWithURL:_setURL];
 
-    NSURL *documentsDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSLibraryDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
+    NSURL *documentsDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
+    NSURL *libraryDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSLibraryDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
     
     NSString *documentsDirectory = documentsDirectoryURL.path;
     NSLog(@"%@",documentsDirectory);
@@ -354,7 +355,7 @@
         NSLog(@"%@",[_setURL absoluteString]);
         NSLog(@"file written: %hhd",write);
 
-        return [documentsDirectoryURL URLByAppendingPathComponent:[response suggestedFilename]];
+        return [libraryDirectoryURL URLByAppendingPathComponent:[response suggestedFilename]];
     } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
         NSLog(@"File downloaded to: %@", filePath);
         [[Mixpanel sharedInstance] track:@"downloadCompleted"];
