@@ -40,9 +40,7 @@
 -(void)random:(id)sender {
     JNAppDelegate *jnad = (JNAppDelegate*)[[UIApplication sharedApplication] delegate];
     [jnad.playerView random];
-    
-    NSLog(@"random");
-    
+        
     [[Mixpanel sharedInstance] track:@"Random Set Play"];
 }
 

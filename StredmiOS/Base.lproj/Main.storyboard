@@ -522,7 +522,13 @@
                             <outlet property="delegate" destination="qmF-6q-hA0" id="G6a-vO-v5P"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="bt1-32-adG"/>
+                    <navigationItem key="navigationItem" id="bt1-32-adG">
+                        <barButtonItem key="rightBarButtonItem" systemItem="search" id="UEI-Wh-GKO">
+                            <connections>
+                                <segue destination="YXS-rk-hHI" kind="modal" id="WYX-LW-7my"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="s5A-Yw-MTq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -796,7 +802,11 @@
                                 <segue destination="5Ol-kD-lWb" kind="unwind" unwindAction="unwindToMenuViewController:" id="wVh-nb-E5e"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="search" id="4Z7-ti-yM0"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="search" id="4Z7-ti-yM0">
+                            <connections>
+                                <segue destination="YXS-rk-hHI" kind="modal" id="Sk2-N3-hD0"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2MT-fZ-BiG" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1002,6 +1012,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="QKd-hb-UyW"/>
+        <segue reference="WYX-LW-7my"/>
     </inferredMetricsTieBreakers>
 </document>

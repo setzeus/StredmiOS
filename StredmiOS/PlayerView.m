@@ -113,13 +113,11 @@
 }
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-    NSLog(@"Key value observed");
     if ( object == self.playerLayer.player && [keyPath isEqualToString:@"rate"] ) {
         if ( self.playerLayer.player.status == AVPlayerStatusFailed ) {
             NSLog(@"AVPlayer Failed");
         }
         else if ( self.playerLayer.player.status == AVPlayerStatusReadyToPlay ) {
-            NSLog(@"Ready to play val: %f", self.playerLayer.player.rate);
             self.playButton.isPlaying = self.isPlaying;
             self.isScrubbing = false;
             
@@ -170,7 +168,6 @@
 }
 
 -(void)playPush:(id)sender {
-    NSLog(@"playPush self.isPlaying: %d", self.isPlaying);
     if (!self.isScrubbing && !self.justScrubbed) {
         if (!self.isPlaying) {
             [self play];
@@ -420,10 +417,7 @@
     Class playingInfoCenter = NSClassFromString(@"MPNowPlayingInfoCenter");
     
     if (playingInfoCenter) {
-        
-        NSLog(@"setting lock screen info");
-        
-        NSDictionary *songInfo2 = @{MPMediaItemPropertyTitle: self.artistLabel.text,
+        NSDictionary *songInfo = @{MPMediaItemPropertyTitle: self.artistLabel.text,
                                     MPMediaItemPropertyArtist:self.eventLabel.text,
                                     MPMediaItemPropertyArtwork: [[MPMediaItemArtwork alloc] initWithImage:self.artwork.image],
                                     MPMediaItemPropertyPlaybackDuration:[NSNumber numberWithDouble:(double)CMTimeGetSeconds([[self.playerLayer.player currentItem] duration])],
@@ -431,7 +425,7 @@
                                     MPNowPlayingInfoPropertyPlaybackRate:@1.0
                                     };
         
-        [[MPNowPlayingInfoCenter defaultCenter] setNowPlayingInfo:songInfo2];
+        [[MPNowPlayingInfoCenter defaultCenter] setNowPlayingInfo:songInfo];
     }
 }
 
