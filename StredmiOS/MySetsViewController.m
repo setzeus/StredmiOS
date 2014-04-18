@@ -85,7 +85,10 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     JNAppDelegate *jnad = (JNAppDelegate*)[[UIApplication sharedApplication] delegate];
+    NSLog(@"self.downloadArray %@", self.downloadsArray);
     jnad.playerView.playlistArray = self.downloadsArray;
+    NSLog(@"self.downloadArray %@", self.downloadsArray);
+
     [jnad.playerView playSong:indexPath.row];
     
     [self.navigationController popViewControllerAnimated:YES];

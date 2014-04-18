@@ -118,6 +118,7 @@
             NSLog(@"AVPlayer Failed");
         }
         else if ( self.playerLayer.player.status == AVPlayerStatusReadyToPlay ) {
+            NSLog(@"AVPlayer Ready To Play");
             self.isScrubbing = false;
             self.playButton.customPlayButton.isPlaying = self.isPlaying;
             
@@ -324,6 +325,8 @@
     AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
     NSURLRequest *setRequest = [NSURLRequest requestWithURL:_setURL];
     NSURLRequest *imageRequest = [NSURLRequest requestWithURL:_imageURL];
+    
+    
 
     NSURL *documentsDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
     NSURL *libraryDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSLibraryDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
@@ -334,10 +337,11 @@
     NSLog(@"%@",appFile);
 
     NSURLSessionDownloadTask *downloadImageTask = [manager downloadTaskWithRequest:imageRequest progress:nil destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
-        return [libraryDirectoryURL URLByAppendingPathComponent:[response suggestedFilename]];
+        return [[libraryDirectoryURL URLByAppendingPathComponent:@"Cache/"] URLByAppendingPathComponent:[response suggestedFilename]];
     } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
         NSLog(@"image file downloaded to %@",filePath);
     }];
+    NSLog(@"downloadImageTask: %@", downloadImageTask);
     [downloadImageTask resume];
 
     NSURLSessionDownloadTask *downloadSetTask = [manager downloadTaskWithRequest:setRequest progress:nil destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
@@ -361,6 +365,7 @@
 }
 
 -(void)playSong:(NSInteger)row {
+    NSLog(@"row: %d count: %d", row, [self.playlistArray count]);
     if (row < 0 || row >= [self.playlistArray count]) {
         [self random];
         return;
@@ -376,7 +381,7 @@
     
     NSURL *libraryDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSLibraryDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
     
-    NSString *documentsDirectory = libraryDirectoryURL.path;
+    NSString *documentsDirectory = [NSString stringWithFormat:@"%@%@", libraryDirectoryURL.path, @"Cache/"];
     NSLog(@"%@",documentsDirectory);
     
 
@@ -387,14 +392,20 @@
     if(imageFileExists) {
         imagePath = [NSURL URLWithString:imageFile];
         NSLog(@"using local image %@",imageFile);
-        _imageURL = imagePath;
-        [self.artwork setImage:[[UIImage alloc] initWithContentsOfFile:imageFile]];
+        UIImage* fileImage = [[UIImage alloc] initWithContentsOfFile:imageFile];
+        NSLog(@"fileImage: %@", fileImage);
+        [self.artwork setImage:fileImage];
+        
     } else {
-        [self.artwork setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:_imageURL]]];
+        [self.artwork setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:imagePath]]];
     }
+    
+    _imageURL = imagePath;
+
     
     NSString *setPath = [NSString stringWithFormat:@"http://stredm.com/uploads/%@", [song objectForKey:@"songURL"]];
     NSString *setFile = [documentsDirectory stringByAppendingPathComponent:[song objectForKey:@"songURL"]];
+    NSLog(@"setFile: %@", setFile);
     BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:setFile];
     if(fileExists) {
         setPath = setFile;
@@ -413,10 +424,12 @@
         [self.playerLayer.player addObserver:self forKeyPath:@"rate" options:NSKeyValueObservingOptionNew context:nil];
     }
     
+    NSLog(@"self.setURL: %@", _setURL);
     AVPlayerItem* avpi = [AVPlayerItem playerItemWithURL:_setURL];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(itemDidFinishPlaying:) name:AVPlayerItemDidPlayToEndTimeNotification object:avpi];
     [self.playerLayer.player replaceCurrentItemWithPlayerItem:avpi];
     self.timer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(updateProgress) userInfo:nil repeats:YES];
+    NSLog(@"play");
     [self play];
 }
 
@@ -467,13 +480,17 @@
     if (playingInfoCenter) {
         NSDictionary *songInfo = @{MPMediaItemPropertyTitle: self.artistLabel.text,
                                     MPMediaItemPropertyArtist:self.eventLabel.text,
-                                    MPMediaItemPropertyArtwork: [[MPMediaItemArtwork alloc] initWithImage:self.artwork.image],
                                     MPMediaItemPropertyPlaybackDuration:[NSNumber numberWithDouble:(double)CMTimeGetSeconds([[self.playerLayer.player currentItem] duration])],
                                     MPNowPlayingInfoPropertyElapsedPlaybackTime:[NSNumber numberWithDouble:(double)CMTimeGetSeconds([[self.playerLayer.player currentItem] currentTime])],
                                     MPNowPlayingInfoPropertyPlaybackRate:@1.0
                                     };
+        NSMutableDictionary *maybeWithImage = [NSMutableDictionary dictionaryWithDictionary:songInfo];
+        if (self.artwork.image) {
+            NSLog(@"artwork");
+            [maybeWithImage setValue:[[MPMediaItemArtwork alloc] initWithImage:self.artwork.image] forKey:MPMediaItemPropertyArtwork];
+        }
         
-        [[MPNowPlayingInfoCenter defaultCenter] setNowPlayingInfo:songInfo];
+        [[MPNowPlayingInfoCenter defaultCenter] setNowPlayingInfo:[NSDictionary dictionaryWithDictionary:maybeWithImage]];
     }
 }
 
