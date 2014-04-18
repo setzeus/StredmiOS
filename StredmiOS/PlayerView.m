@@ -321,9 +321,38 @@
     NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
     AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
     NSURLRequest *request = [NSURLRequest requestWithURL:_setURL];
+
+    NSURL *documentsDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
     
+    NSString *documentsDirectory = documentsDirectoryURL.path;
+    NSLog(@"%@",documentsDirectory);
+    NSString *appFile = [documentsDirectory stringByAppendingPathComponent:@"sets.plist"];
+    NSLog(@"%@",appFile);
+    //    BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:appFile];
+    //    NSArray *keys;
+    //    NSArray *values;
+    //    NSLog(@"file exists: %hhd",fileExists);
+    //    NSMutableDictionary *mutableDict = [NSMutableDictionary dictionaryWithCapacity:2];
+    //    if(fileExists) {
+    //        NSDictionary *myData = [NSDictionary dictionaryWithContentsOfFile:appFile];
+    //        NSLog(@"Data : %@ ",myData);
+    //        keys = [myData allKeys];
+    //        values = [myData allValues];
+    //        for (int i=0; i<[keys count]; i++) {
+    //            [mutableDict setObject:myData forKey:[NSString stringWithFormat:@"%@",[values objectAtIndex:i]]];
+    //        }
+    //        NSLog(@"Data : %@ ",values);
+    //    }
+
     NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:nil destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
-        NSURL *documentsDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
+
+        NSLog(@"%@",[_playlistArray objectAtIndex:_currentRow]);
+        NSMutableArray *song = [_playlistArray objectAtIndex:_currentRow];
+        NSLog(@"%@",song);
+        BOOL write = [song writeToFile:appFile atomically:YES];
+        NSLog(@"%@",[_setURL absoluteString]);
+        NSLog(@"file written: %hhd",write);
+
         return [documentsDirectoryURL URLByAppendingPathComponent:[response suggestedFilename]];
     } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
         NSLog(@"File downloaded to: %@", filePath);
