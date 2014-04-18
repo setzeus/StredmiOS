@@ -108,7 +108,7 @@
             }
             
             if (![cell.contentView viewWithTag:2348]) {
-                MPVolumeView *slider = [[MPVolumeView alloc] initWithFrame:CGRectMake(15, 13, cell.frame.size.width-30, cell.frame.size.height-26)];
+                MPVolumeView *slider = [[MPVolumeView alloc] initWithFrame:CGRectMake(15, 13, cell.frame.size.width-30, cell.frame.size.height)];
                 slider.tintColor = [UIColor colorWithRed:0.0 green:122.0/255.0 blue:1.0 alpha:1.0];
                 slider.tag = 2348;
                 [cell.contentView addSubview:slider];
