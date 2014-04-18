@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MySetsViewCell.h"
+#import "MySetsTableCell.h"
 
-@interface MySetsViewController : UITableViewController
+@interface MySetsViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, UINavigationControllerDelegate>
 
 @end

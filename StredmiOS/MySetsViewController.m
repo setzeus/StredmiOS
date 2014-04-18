@@ -58,30 +58,24 @@
 -(NSArray *)downloadsArray {
 
     if(_downloadsArray != nil) return _downloadsArray;
+
+    NSURL *documentsDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
+
+    NSString *documentsDirectory = documentsDirectoryURL.path;
+    NSLog(@"%@",documentsDirectory);
+    NSString *appFile = [documentsDirectory stringByAppendingPathComponent:@"sets.plist"];
+    NSLog(@"%@",appFile);
+
+    BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:appFile];
+    NSLog(@"file exists: %hhd",fileExists);
+    if(fileExists) {
+        NSDictionary *myDict = [[NSDictionary alloc] initWithContentsOfFile:appFile];
+        NSLog(@"Data : %@ ",myDict);
+        _downloadsArray = [NSArray arrayWithObject:myDict];
+        NSLog(@"Data : %@ ",_downloadsArray);
+    }
+
     return _downloadsArray;
-
-    // NSURL *documentsDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
-
-    // NSString *documentsDirectory = documentsDirectoryURL.path;
-    // NSLog(@"%@",documentsDirectory);
-    // NSString *appFile = [documentsDirectory stringByAppendingPathComponent:@"sets.plist"];
-    // NSLog(@"%@",appFile);
-
-    // BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:appFile];
-    // NSArray *keys;
-    // NSArray *values;
-    // NSLog(@"file exists: %hhd",fileExists);
-    // NSMutableDictionary *mutableDict = [NSMutableDictionary dictionaryWithCapacity:2];
-    // if(fileExists) {
-    //     NSDictionary *myData = [NSDictionary dictionaryWithContentsOfFile:appFile];
-    //     NSLog(@"Data : %@ ",myData);
-    //     keys = [myData allKeys];
-    //     values = [myData allValues];
-    //     for (int i=0; i<[keys count]; i++) {
-    //        [mutableDict setObject:myData forKey:[NSString stringWithFormat:@"%@",[values objectAtIndex:i]]];
-    //     }
-    //     NSLog(@"Data : %@ ",values);
-    // }
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -102,10 +96,10 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"MySetsTableCell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
     if ( cell == nil ) {
-        cell = [[MySetsViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+        cell = [[MySetsTableCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
     id songObject = [self.downloadsArray objectAtIndex:indexPath.row];
 
