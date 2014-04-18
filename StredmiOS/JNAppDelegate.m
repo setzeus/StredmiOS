@@ -57,7 +57,34 @@
     
     [[Mixpanel sharedInstance] track:@"Application Opened"];
     
+    [self updateVersionInfo];
+    
     return YES;
+}
+
+- (void) updateVersionInfo
+{
+    // Get the Settings.bundle object
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    // Get bunch of values from the .plist file and take note that the values that
+    // we pull are generated in a Build Phase script that is definied in the Target.
+    NSString *appVersionNumber = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
+    NSString *buildNumber = [[[NSBundle mainBundle] infoDictionary] valueForKey:@"CFBuildNumber"];
+    // Dealing with the date
+    NSString *dateFromSettings = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBuildDate"];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"EEE MMM d HH:mm:ss zzz yyyy"];
+    NSDate *date = [dateFormatter dateFromString:dateFromSettings];
+    [dateFormatter setDateStyle:NSDateFormatterShortStyle];
+    [dateFormatter setTimeStyle:NSDateFormatterMediumStyle];
+    NSString *buildDate = [dateFormatter stringFromDate:date];
+    // Create the version number
+    NSString *versionNumberInSettings = [NSString stringWithFormat:@"%@.%@", appVersionNumber, buildNumber];
+    NSLog(@"Version: %@", versionNumberInSettings);
+    NSLog(@"Build date: %@", buildDate);
+    // Set the build date and version number in the settings bundle reflected in app settings.
+    [defaults setObject:versionNumberInSettings forKey:@"version"];
+    [defaults setObject:buildDate forKey:@"buildDate"];
 }
 
 - (void)setupMixpanel {
