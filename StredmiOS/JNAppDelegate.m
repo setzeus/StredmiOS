@@ -69,13 +69,7 @@
             [self.playerView openPlayer:CGSizeMake(320, self.window.frame.size.height)];
             self.playerView.frame = CGRectMake(0, 0, 320, self.window.frame.size.height);
         }];
-    } else {
-        self.playerView.frame = CGRectMake(0, 0, 320, self.window.frame.size.height);
-        [UIView animateWithDuration:0.25 animations:^(void) {
-            [self.playerView closePlayer];
-        }];
-    }
-    
+    }    
 }
 
 -(void)closeTap:(UITapGestureRecognizer*)tap {
