@@ -9,6 +9,8 @@
 #import "JNMenuViewController.h"
 #import "JNAppDelegate.h"
 
+#import <Mixpanel/Mixpanel.h>
+
 @interface JNMenuViewController ()
 
 @property (strong, nonatomic) NSArray *playlistArray;
@@ -39,14 +41,12 @@
             jnad.playerView.frame = CGRectMake(0, self.view.frame.size.height-60, 320, 60);
             [jnad.playerView closePlayer];
             
-        } completion:^(BOOL completion) {
-            
         }];
     }
 }
 
 -(IBAction)unwindToMenuViewController:(UIStoryboardSegue *)segue {
-    
+    [[Mixpanel sharedInstance] track:@"Menu Button"];
 }
 
 -(void)viewDidLoad {

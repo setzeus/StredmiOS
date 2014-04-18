@@ -131,6 +131,8 @@
     self.currentMode = (NSInteger)self.browseSegCont.selectedSegmentIndex;
     [self.browseSegCont addTarget:self action:@selector( changeBrowseMode ) forControlEvents:UIControlEventValueChanged];
     
+    [[Mixpanel sharedInstance] track:@"Browse Page"];
+    
     
 //    [self.tableView registerClass: [BrowseTableCell class] forCellReuseIdentifier:@"BrowseTableCell"];
     

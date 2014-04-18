@@ -78,6 +78,8 @@
     
     [self.homeView.searchButton addTarget:self action:@selector(search:) forControlEvents:UIControlEventTouchUpInside];
     [self.homeView.randomButton addTarget:self action:@selector(random:) forControlEvents:UIControlEventTouchUpInside];
+    
+    [[Mixpanel sharedInstance] track:@"Home Page"];
 }
 
 - (void)didReceiveMemoryWarning

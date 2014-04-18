@@ -10,6 +10,8 @@
 #import "JNAppDelegate.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 
+#import <Mixpanel/Mixpanel.h>
+
 @interface DiscoverViewController ()
 
 @property (nonatomic) NSInteger currentMode;
@@ -93,6 +95,8 @@
     
     self.currentMode = (NSInteger)self.discoverSegCont.selectedSegmentIndex;
     [self.discoverSegCont addTarget:self action:@selector( changeDiscoverMode ) forControlEvents:UIControlEventValueChanged];
+    
+    [[Mixpanel sharedInstance] track:@"Discover Page"];
     
     
     //    [self.tableView registerClass: [BrowseTableCell class] forCellReuseIdentifier:@"BrowseTableCell"];

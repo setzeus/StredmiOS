@@ -9,6 +9,8 @@
 #import "SettingsViewController.h"
 #import <MediaPlayer/MPVolumeView.h>
 
+#import <MixPanel/Mixpanel.h>
+
 @interface SettingsViewController ()
 
 @end
@@ -29,6 +31,8 @@
 {
     [super viewDidLoad];
     
+    [[Mixpanel sharedInstance] track:@"Settings Page"];
+    
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
@@ -37,11 +41,11 @@
 }
 
 -(void)pushNot1:(id)sender {
-    
+    [[Mixpanel sharedInstance] track:@"PushNot Download"];
 }
 
 -(void)pushNot2:(id)sender {
-    
+    [[Mixpanel sharedInstance] track:@"PushNot Vibrate"];
 }
 
 - (void)didReceiveMemoryWarning
@@ -156,14 +160,18 @@
                 [[cell.contentView viewWithTag:5740] removeFromSuperview];
             }
             
-            if (indexPath.row == 0)
+            if (indexPath.row == 0) {
                 cell.textLabel.text = @"Contact Us";
-            else if (indexPath.row == 1)
+                [[Mixpanel sharedInstance] track:@"Contact Us Page"];
+            } else if (indexPath.row == 1) {
                 cell.textLabel.text = @"Legal";
-            else if (indexPath.row == 2)
+                [[Mixpanel sharedInstance] track:@"Legal Page"];
+            } else if (indexPath.row == 2) {
                 cell.textLabel.text = @"Share";
-            else
+                [[Mixpanel sharedInstance] track:@"Share View"];
+            } else {
                 cell.textLabel.text = @"";
+            }
             
             [cell setSelectionStyle:UITableViewCellSelectionStyleGray];
             break;
