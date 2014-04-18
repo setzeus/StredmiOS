@@ -11,9 +11,9 @@
 #import <MediaPlayer/MPNowPlayingInfoCenter.h>
 #import <MediaPlayer/MPMediaItem.h>
 
-@interface PlayerView()
+#import <Mixpanel/Mixpanel.h>
 
-@property (nonatomic) BOOL durationUndefined;
+@interface PlayerView()
 
 @end
 
@@ -114,33 +114,29 @@
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     NSLog(@"Key value observed");
-    if ( object == self.playerLayer.player && [keyPath isEqualToString:@"status"] ) {
+    if ( object == self.playerLayer.player && [keyPath isEqualToString:@"rate"] ) {
         if ( self.playerLayer.player.status == AVPlayerStatusFailed ) {
             NSLog(@"AVPlayer Failed");
         }
         else if ( self.playerLayer.player.status == AVPlayerStatusReadyToPlay ) {
-            NSLog(@"Ready to play");
-            [self.playerLayer.player play];
-            self.isPlaying = true;
+            NSLog(@"Ready to play val: %f", self.playerLayer.player.rate);
             self.playButton.isPlaying = self.isPlaying;
             self.isScrubbing = false;
-            [self.playButton setNeedsDisplay];
-            [self updatePlayerToolbar];
+            
+            while (CMTimeGetSeconds([[self.playerLayer.player currentItem] duration]) == 0.0);
         }
         else if ( self.playerLayer.player.status == AVPlayerItemStatusUnknown ) {
             NSLog(@"AVPlayer Unknown");
         }
+        [self.playButton setNeedsDisplay];
+        [self updatePlayerToolbar];
+        [self updateLockscreen];
     }
 }
 
 -(void)updateProgress {
     if (!self.isScrubbing) {
         if (CMTimeGetSeconds([[self.playerLayer.player currentItem] duration]) != 0.0) {
-            if (self.durationUndefined) {
-                NSLog(@"update lockscreen");
-                [self updateLockscreen];
-                self.durationUndefined = false;
-            }
             float currTime = CMTimeGetSeconds([[self.playerLayer.player currentItem] currentTime]);
             float duration = CMTimeGetSeconds([[self.playerLayer.player currentItem] duration]);
             self.percentageOfSong = currTime/duration;
@@ -148,7 +144,6 @@
             [self updateCurrentTimeLabel:currTime duration:duration];
         } else {
             [self updateCurrentTimeLabel:0.0 duration:0.0];
-            self.durationUndefined = true;
         }
         [self.playButton setNeedsDisplay];
     }
@@ -175,36 +170,39 @@
 }
 
 -(void)playPush:(id)sender {
+    NSLog(@"playPush self.isPlaying: %d", self.isPlaying);
     if (!self.isScrubbing && !self.justScrubbed) {
-        self.isPlaying = !self.isPlaying;
-        self.playButton.isPlaying = self.isPlaying;
-        if (self.playButton.isPlaying ) {
+        if (!self.isPlaying) {
             [self play];
+            [[Mixpanel sharedInstance] track:@"Play Button"];
+            
         } else {
             [self pause];
+            [[Mixpanel sharedInstance] track:@"Pause Button"];
         }
-        [self.playButton setNeedsDisplay];
-        [self updateLockscreen];
     }
     else {
         self.justScrubbed = false;
+        [[Mixpanel sharedInstance] track:@"Scrub" properties:@{@"Artist" : self.artistLabel.text,
+                                                               @"Event" : self.eventLabel.text,
+                                                               @"Current Time" : [NSNumber numberWithDouble:CMTimeGetSeconds([[self.playerLayer.player currentItem] currentTime])],
+                                                               @"Duration" : [NSNumber numberWithDouble:CMTimeGetSeconds([[self.playerLayer.player currentItem] duration])]}];
     }
 }
 
 -(void)play {
-    [self updatePlayerToolbar];
+    self.isPlaying = true;
     [self.playerLayer.player play];
-    
 }
 
 
 -(void)pause {
-    [self updatePlayerToolbar];
+    self.isPlaying = false;
     [self.playerLayer.player pause];
 }
 
 -(void)updatePlayerToolbar {
-    if (self.playButton.isPlaying) {
+    if (self.isPlaying) {
         UIBarButtonItem *playPauseBarItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPause target:self action:@selector(playPush:)];
         playPauseBarItem.tintColor = [UIColor grayColor];
         [self.playerToolbar setItems:@[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:@selector(playPush:)], playPauseBarItem]];
@@ -234,15 +232,8 @@
     int timeScale = self.playerLayer.player.currentItem.asset.duration.timescale;
     CMTime time = CMTimeMakeWithSeconds(duration * per, timeScale);
     [self.playerLayer.player seekToTime:time completionHandler:^(BOOL complete){
-        [self.playerLayer.player play];
-        self.isPlaying = true;
-        self.playButton.isPlaying = self.isPlaying;
         self.isScrubbing = false;
-        [self.playButton setNeedsDisplay];
-        [self updatePlayerToolbar];
-        
-        [self updateLockscreen];
-
+        [self play];
     }];
     self.justScrubbed = true;
 }
@@ -251,7 +242,6 @@
     self.backgroundColor = [UIColor whiteColor];
     self.isPlaying = false;
     self.justScrubbed = false;
-    self.durationUndefined = true;
     
     self.background = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"ios7"] applyLightEffect]];
     self.background.contentMode = UIViewContentModeScaleAspectFill;
@@ -272,14 +262,12 @@
     
     
     self.bottomToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, self.frame.size.height-60, 320, 60)];
-    UIBarButtonItem *shuffle = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"shuffle_icon.png"] style:UIBarButtonItemStylePlain target:self action:nil];
-    shuffle.target = self;
-    shuffle.action = @selector(playRandom);
-    UIBarButtonItem *ffw = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFastForward target:self action:nil];
-    UIBarButtonItem *rewind = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRewind target:self action:nil];
+    UIBarButtonItem *shuffle = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"shuffle_icon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(shuffle)];
+    UIBarButtonItem *rewind = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRewind target:self action:@selector(previous)];
+    UIBarButtonItem *ffw = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFastForward target:self action:@selector(next)];
     UIBarButtonItem *add = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemOrganize target:self action:@selector(addSet)];
     UIBarButtonItem *flex = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-    [self.bottomToolbar setItems:@[shuffle, flex, rewind, ffw, flex, add]];
+    [self.bottomToolbar setItems:@[shuffle, flex, rewind, flex, ffw, flex, add]];
     [self.bottomToolbar setTintColor:[UIColor whiteColor]];
     [self.bottomToolbar setUserInteractionEnabled:YES];
     [self.bottomToolbar setBackgroundImage:[UIImage new] forToolbarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
@@ -344,13 +332,20 @@
         NSLog(@"File downloaded to: %@", filePath);
     }];
     [downloadTask resume];
+    
+    
+    [[Mixpanel sharedInstance] track:@"Set Added"];
 }
 
 -(void)playSong:(NSInteger)row {
+    if (row < 0 || row >= [self.playlistArray count]) {
+        [self random];
+        return;
+    }
+
+    self.currentRow = row;
     
-    NSLog(@"playing song");
-    
-    id song = [self.playlistArray objectAtIndex:row];
+    id song = [self.playlistArray objectAtIndex:self.currentRow];
     self.artistLabel.text = [song objectForKey:@"artist"];
     self.eventLabel.text = [song objectForKey:@"event"];
     self.titleLabel.text = [NSString stringWithFormat:@"%@ - %@", self.artistLabel.text, self.eventLabel.text];
@@ -370,18 +365,53 @@
         AVPlayer *player = [[AVPlayer alloc] init];
         self.playerLayer = [AVPlayerLayer playerLayerWithPlayer:player];
         [self.layer addSublayer:self.playerLayer];
+        [self.playerLayer.player addObserver:self forKeyPath:@"rate" options:0 context:nil];
     }
-    [self.playerLayer.player replaceCurrentItemWithPlayerItem:[AVPlayerItem playerItemWithURL:_setURL]];
+    
+    AVPlayerItem* avpi = [AVPlayerItem playerItemWithURL:_setURL];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(itemDidFinishPlaying:) name:AVPlayerItemDidPlayToEndTimeNotification object:avpi];
+    [self.playerLayer.player replaceCurrentItemWithPlayerItem:avpi];
     self.timer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(updateProgress) userInfo:nil repeats:YES];
-    [self.playerLayer.player play];
-    self.isPlaying = true;
-    self.playButton.isPlaying = self.isPlaying;
-    [self updatePlayerToolbar];
+    [self play];
 }
 
--(void)playRandom {
+-(void)itemDidFinishPlaying:(id)sender {
+    [self next];
+    
+    [[Mixpanel sharedInstance] track:@"Finished Playing"];
+}
+
+-(void)random {
     self.playlistArray = [self safeJSONParseArray:@"http://stredm.com/scripts/mobile/random.php"];
     [self playSong: 0];
+}
+
+-(void)shuffle {
+    [self random];
+    [[Mixpanel sharedInstance] track:@"Shuffle"];
+}
+
+-(void)next {
+    [self playSong:self.currentRow + 1];
+}
+
+-(void)lockNext {
+    [self next];
+    
+    [[Mixpanel sharedInstance] track:@"Lock Screen Next"];
+}
+
+-(void)previous {
+    if (self.currentRow > [self.playlistArray count])
+        [self playSong:[self.playlistArray count] - 1];
+    else if (self.currentRow > 0)
+        [self playSong:self.currentRow - 1];
+}
+
+-(void)lockPrevious {
+    [self previous];
+    
+    [[Mixpanel sharedInstance] track:@"Lock Screen Previous"];
 }
 
 
@@ -407,7 +437,7 @@
 
 
 -(void)dealloc {
-    [self.playerLayer.player removeObserver:self forKeyPath:@"status"];
+    [self.playerLayer.player removeObserver:self forKeyPath:@"rate"];
 }
 
 /*

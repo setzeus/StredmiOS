@@ -9,6 +9,8 @@
 #import "BrowseViewController.h"
 #import "JNAppDelegate.h"
 
+#import <Mixpanel/Mixpanel.h>
+
 @interface BrowseViewController ()
 
 @property (nonatomic) NSInteger currentMode;
@@ -64,6 +66,27 @@
 - (void)changeBrowseMode {
     self.currentMode = (NSInteger)self.browseSegCont.selectedSegmentIndex;
     [self.tableView reloadData];
+    
+    switch (self.currentMode) {
+        case 0:
+            [[Mixpanel sharedInstance] track:@"Artist Tab"];
+            break;
+            
+        case 1:
+            [[Mixpanel sharedInstance] track:@"Event Tab"];
+            break;
+            
+        case 2:
+            [[Mixpanel sharedInstance] track:@"Radio  Tab"];
+            break;
+            
+        case 3:
+            [[Mixpanel sharedInstance] track:@"Genre Tab"];
+            break;
+            
+        default:
+            break;
+    }
 }
 
 

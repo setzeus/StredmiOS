@@ -10,6 +10,8 @@
 #import "JNAppDelegate.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 
+#import <Mixpanel/Mixpanel.h>
+
 @interface SearchResultViewController ()
 
 @property (strong, nonatomic) NSOperationQueue* searchQueue;
@@ -115,6 +117,9 @@
         jnad.playerView.playlistArray = self.searchArray;
     }
     [jnad.playerView playSong:indexPath.row];
+    
+    
+    [[Mixpanel sharedInstance] track:@"Specific Set Play"];
     
     [self.navigationController popViewControllerAnimated:YES];
     [self dismissViewControllerAnimated:YES completion:nil];

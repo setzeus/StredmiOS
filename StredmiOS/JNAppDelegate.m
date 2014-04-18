@@ -34,7 +34,7 @@
     [self.playerView closePlayer];
     UISwipeGestureRecognizer *openSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipe:)];
     UISwipeGestureRecognizer *closeSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipe:)];
-    UITapGestureRecognizer *openTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
+    UITapGestureRecognizer *openTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(openTap:)];
     UITapGestureRecognizer *closeTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(closeTap:)];
     [openSwipe setDirection:UISwipeGestureRecognizerDirectionUp];
     [closeSwipe setDirection:UISwipeGestureRecognizerDirectionDown];
@@ -47,36 +47,61 @@
     [self.playerView.playerToolbar addGestureRecognizer:openTap];
     [self.playerView.swipeDownView addGestureRecognizer:closeTap];
     
+    self.playerView.hidden = YES;
+    
     [self.window addSubview:self.playerView];
     
-    self.playerView.hidden = YES;
 
-    [Mixpanel sharedInstanceWithToken:@"379197a835a053a920eba4043c6e2c5b"];
+    [self setupMixpanel];
+    
+    
+    [[Mixpanel sharedInstance] track:@"Application Opened"];
     
     return YES;
+}
+
+- (void)setupMixpanel {
+    // Initialize Mixpanel
+    Mixpanel *mixpanel = [Mixpanel sharedInstanceWithToken:@"379197a835a053a920eba4043c6e2c5b"];
+
+    
+    // Identify
+    NSString *mixpanelUUID = [[NSUserDefaults standardUserDefaults] objectForKey:@"MixpanelUUID"];
+    
+    if (!mixpanelUUID) {
+        mixpanelUUID = [[NSUUID UUID] UUIDString];
+        [[NSUserDefaults standardUserDefaults] setObject:mixpanelUUID forKey:@"MixpanelUUID"];
+    }
+    
+    [mixpanel identify:mixpanelUUID];
 }
 
 -(void)bringPlayerToFront {
     [self.window bringSubviewToFront:self.playerView];
 }
 
--(void)handleTap:(UITapGestureRecognizer*)tap {
+-(void)openTap:(UITapGestureRecognizer*)tap {
     CGPoint tapCoords = [tap locationInView:self.playerView];
-    NSLog(@"coords: %f %f", tapCoords.x, tapCoords.y);
     if (!self.playerView.isOpen && !CGRectContainsPoint(CGRectMake(260, 0, 60, 60), tapCoords)) {
         self.playerView.frame = CGRectMake(0, self.window.frame.size.height-60, 320, self.window.frame.size.height);
         [UIView animateWithDuration:0.25 animations:^(void) {
             [self.playerView openPlayer:CGSizeMake(320, self.window.frame.size.height)];
             self.playerView.frame = CGRectMake(0, 0, 320, self.window.frame.size.height);
         }];
-    }    
+        
+        [[Mixpanel sharedInstance] track:@"Open Player Tap"];
+    }
 }
 
 -(void)closeTap:(UITapGestureRecognizer*)tap {
-    [UIView animateWithDuration:0.25 animations:^(void) {
-        self.playerView.frame = CGRectMake(0, self.window.frame.size.height-60, 320, 60);
-        [self.playerView closePlayer];
-    }];
+    if (self.playerView.isOpen) {
+        [UIView animateWithDuration:0.25 animations:^(void) {
+            self.playerView.frame = CGRectMake(0, self.window.frame.size.height-60, 320, 60);
+            [self.playerView closePlayer];
+        }];
+        
+        [[Mixpanel sharedInstance] track:@"Close Player Tap"];
+    }
 }
 
 -(void)handleSwipe:(UISwipeGestureRecognizer *)swipe {
@@ -91,8 +116,6 @@
         [UIView animateWithDuration:0.25 animations:^(void) {
             self.playerView.frame = CGRectMake(0, self.window.frame.size.height-60, 320, 60);
             [self.playerView closePlayer];
-        } completion:^(BOOL completion) {
-            
         }];
     }
 }

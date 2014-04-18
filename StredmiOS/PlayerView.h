@@ -45,6 +45,7 @@
 @property (strong, nonatomic) UIView *swipeDownView;
 
 @property (strong, nonatomic) NSArray *playlistArray;
+@property (nonatomic) NSInteger currentRow;
 
 @property (strong, nonatomic) NSURL *setURL;
 
@@ -53,7 +54,7 @@
 -(void)closePlayer;
 
 -(void)playSong:(NSInteger)row;
--(void)playRandom;
+-(void)random;
 
 -(void)playPush:(id)sender;
 
@@ -61,6 +62,8 @@
 
 -(void)play;
 -(void)pause;
+-(void)next;
+-(void)previous;
 
 -(void)updateLockscreen;
 

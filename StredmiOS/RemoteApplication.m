@@ -9,6 +9,8 @@
 #import "RemoteApplication.h"
 #import "JNAppDelegate.h"
 
+#import <Mixpanel/Mixpanel.h>
+
 @implementation RemoteApplication
 
 - (void)remoteControlReceivedWithEvent:(UIEvent *)receivedEvent {
@@ -19,17 +21,29 @@
             case UIEventSubtypeRemoteControlPause:
                 [jnad.playerView pause];
                 [jnad.playerView updateLockscreen];
+                
+                [[Mixpanel sharedInstance] track:@"Lock Screen Pause"];
+
                 break;
                 
             case UIEventSubtypeRemoteControlPlay:
                 [jnad.playerView play];
                 [jnad.playerView updateLockscreen];
+                
+                [[Mixpanel sharedInstance] track:@"Lock Screen Play"];
+                
                 break;
                 
             case UIEventSubtypeRemoteControlPreviousTrack:
+                [jnad.playerView previous];
+                [jnad.playerView updateLockscreen];
+                
                 break;
                 
             case UIEventSubtypeRemoteControlNextTrack:
+                [jnad.playerView next];
+                [jnad.playerView updateLockscreen];
+                
                 break;
                 
             default:
