@@ -383,8 +383,22 @@
     [self.artwork setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:imageURL]]];
     
     self.hidden = NO;
-    
+
     NSString *setPath = [NSString stringWithFormat:@"http://stredm.com/uploads/%@", [song objectForKey:@"songURL"]];
+
+    NSURL *documentsDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
+    
+    NSString *documentsDirectory = documentsDirectoryURL.path;
+    NSLog(@"%@",documentsDirectory);
+    NSString *appFile = [documentsDirectory stringByAppendingPathComponent:[song objectForKey:@"songURL"]];
+    NSLog(@"%@",appFile);
+    
+    BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:appFile];
+    NSLog(@"file exists: %hhd",fileExists);
+    if(fileExists) {
+        setPath = appFile;
+    }
+
     _setURL = [NSURL URLWithString:setPath];
 
     if (self.timer)
