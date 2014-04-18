@@ -8,10 +8,20 @@
 
 #import <UIKit/UIKit.h>
 
-@interface PlayButton : UIButton
+@interface CustomPlayButton : UIButton
 
 @property (nonatomic) BOOL isPlaying;
-@property (nonatomic) float percentageOfSong;
-@property (nonatomic) BOOL invisible;
 
 @end
+
+
+@interface PlayButton : UIButton
+
+@property (nonatomic) float percentageOfSong;
+@property (nonatomic, strong) CustomPlayButton* customPlayButton;
+@property (nonatomic) float buttonAngle;
+
+-(void)redrawButton;
+
+@end
+

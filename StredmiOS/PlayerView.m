@@ -38,12 +38,12 @@
 }
 
 -(void)playlistArray:(NSArray *)pl {
-    _playlistArray = [NSArray arrayWithArray:pl];
+    _playlistArray = [NSMutableArray arrayWithArray:pl];
 }
 
 -(NSArray *)playlistArray {
     if (!_playlistArray) {
-        _playlistArray = [[NSArray alloc] init];
+        _playlistArray = [[NSMutableArray alloc] init];
     }
     return _playlistArray;
 }
@@ -86,30 +86,36 @@
     
 }
 
-
--(NSData *)dataFromURL:(NSString *)url {
+-(NSData*)dataFromURL:(NSString *)url {
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:[url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
-    NSError *error = nil;
-    NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:&error];
-    if ( error != nil ) [NSException raise:@"Error retrieving data" format:@"Could not reach %@", url];
+    NSError* error;
+    NSData* data = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:&error];
+    if (error != nil){
+        [[Mixpanel sharedInstance] track:@"Data Request Error" properties:@{@"Error" : error.description}];
+        [NSException exceptionWithName:@"Error Requesting Data" reason:error.description userInfo:nil];
+    }
     return data;
 }
 
--(NSArray *)safeJSONParseArray:(NSString *)url {
-    NSArray *array = nil;
-    NSData *data = nil;
+-(void)upackJsonResponse:(NSData*)data {
+   
+
+}
+
+
+-(NSMutableArray *)safeJSONParseArray:(NSString *)url {
+    NSData* data;
     @try {
         data = [self dataFromURL:url];
     }
     @catch (NSException *exception) {
-        data = nil;
+        return [NSMutableArray arrayWithObjects:exception.description, nil];
     }
-    @finally {
-        NSError *error;
-        array = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
-        if ( error != nil ) array = [NSArray arrayWithObjects:@"An error occured", nil];
-        return array;
-    }
+    NSError *error;
+    if (data) return [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
+    else if (error) return [NSMutableArray arrayWithObjects:error.description, nil];
+    return [NSMutableArray arrayWithObjects:@"An Error Occured", nil];
+
 }
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
@@ -118,15 +124,15 @@
             NSLog(@"AVPlayer Failed");
         }
         else if ( self.playerLayer.player.status == AVPlayerStatusReadyToPlay ) {
-            self.playButton.isPlaying = self.isPlaying;
             self.isScrubbing = false;
+            self.playButton.customPlayButton.isPlaying = self.isPlaying;
             
             while (CMTimeGetSeconds([[self.playerLayer.player currentItem] duration]) == 0.0);
         }
         else if ( self.playerLayer.player.status == AVPlayerItemStatusUnknown ) {
             NSLog(@"AVPlayer Unknown");
         }
-        [self.playButton setNeedsDisplay];
+        [self.playButton redrawButton];
         [self updatePlayerToolbar];
         [self updateLockscreen];
     }
@@ -142,7 +148,7 @@
         } else {
             [self updateCurrentTimeLabel:0.0 duration:0.0];
         }
-        [self.playButton setNeedsDisplay];
+        [self.playButton redrawButton];
     }
 }
 
@@ -169,10 +175,12 @@
 -(void)playPush:(id)sender {
     if (!self.isScrubbing && !self.justScrubbed) {
         if (!self.isPlaying) {
+            NSLog(@"play button play");
             [self play];
             [[Mixpanel sharedInstance] track:@"Play Button"];
             
         } else {
+            NSLog(@"play button pause");
             [self pause];
             [[Mixpanel sharedInstance] track:@"Pause Button"];
         }
@@ -231,7 +239,7 @@
     per /= 2*3.141592653;
     
     self.playButton.percentageOfSong = per;
-    [self.playButton setNeedsDisplay];
+    [self.playButton redrawButton];
 
     self.justScrubbed = true;
 }
@@ -314,7 +322,6 @@
     [self.playButton addTarget:self action:@selector(playPush:) forControlEvents:UIControlEventTouchUpInside];
     [self.playButton addTarget:self action:@selector(scrub:forEvent:) forControlEvents:UIControlEventTouchDragInside];
     [self addSubview:self.songScrollView];
-
 }
 
 -(void)addSet {
@@ -352,7 +359,7 @@
         NSLog(@"%@",song);
         BOOL write = [song writeToFile:appFile atomically:YES];
         NSLog(@"%@",[_setURL absoluteString]);
-        NSLog(@"file written: %hhd",write);
+        NSLog(@"file written: %d", write);
 
         return [documentsDirectoryURL URLByAppendingPathComponent:[response suggestedFilename]];
     } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
@@ -393,7 +400,7 @@
         AVPlayer *player = [[AVPlayer alloc] init];
         self.playerLayer = [AVPlayerLayer playerLayerWithPlayer:player];
         [self.layer addSublayer:self.playerLayer];
-        [self.playerLayer.player addObserver:self forKeyPath:@"rate" options:0 context:nil];
+        [self.playerLayer.player addObserver:self forKeyPath:@"rate" options:NSKeyValueObservingOptionNew context:nil];
     }
     
     AVPlayerItem* avpi = [AVPlayerItem playerItemWithURL:_setURL];

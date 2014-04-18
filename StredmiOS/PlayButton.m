@@ -8,7 +8,37 @@
 
 #import "PlayButton.h"
 
-@interface PlayButton()
+@implementation CustomPlayButton
+
+-(id)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
+    if (self) {
+        self.isPlaying = NO;
+        self.userInteractionEnabled = NO;
+    }
+    
+    return self;
+}
+
+-(void)drawRect:(CGRect)rect {
+    CGContextRef ctx = UIGraphicsGetCurrentContext();
+    
+    if (!self.isPlaying) {
+        CGContextBeginPath(ctx);
+        CGContextMoveToPoint   (ctx, 0, 0);  // top left
+        CGContextAddLineToPoint(ctx, 80, 40);  // mid right
+        CGContextAddLineToPoint(ctx, 0, 80);  // bottom left
+        CGContextClosePath(ctx);
+        
+        CGContextSetRGBFillColor(ctx, 247/255.0, 247/255.0, 247/255.0, 1.0);
+        CGContextFillPath(ctx);
+    }
+    else {
+        [[UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.9] setFill];
+        UIRectFill(CGRectMake(0, 0, 30, 80));
+        UIRectFill(CGRectMake(50, 0, 30, 80));
+    }
+}
 
 @end
 
@@ -18,8 +48,8 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        // Initialization code
-        
+        self.customPlayButton = [[CustomPlayButton alloc] initWithFrame:CGRectMake(80, 80, 80, 80)];
+        [self addSubview:self.customPlayButton];
     }
     return self;
 }
@@ -29,7 +59,13 @@
     if (self) {
 
     }
+
     return self;
+}
+
+-(void)redrawButton {
+    [self setNeedsDisplay];
+    [self.customPlayButton setNeedsDisplay];
 }
 
 
@@ -40,22 +76,6 @@
     CGContextSetFillColor(ctx, CGColorGetComponents([[UIColor colorWithRed:(247/255.0) green:(247/255.0) blue:(247/255.0) alpha:1.0] CGColor]));
     CGContextEOFillPath(ctx);
     
-    if (!self.isPlaying) {
-        CGContextBeginPath(ctx);
-        CGContextMoveToPoint   (ctx, 80, 80);  // top left
-        CGContextAddLineToPoint(ctx, 160, 120);  // mid right
-        CGContextAddLineToPoint(ctx, 80, 160);  // bottom left
-        CGContextClosePath(ctx);
-        
-        CGContextSetRGBFillColor(ctx, 247/255.0, 247/255.0, 247/255.0, 1.0);
-        CGContextFillPath(ctx);
-    }
-    else {
-        [[UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.9] setFill];
-        UIRectFill(CGRectMake(80, 80, 30, 80));
-        UIRectFill(CGRectMake(130, 80, 30, 80));
-    }
-    
     CGContextSetLineWidth(ctx, 10.0);
     
     CGContextSetStrokeColorWithColor(ctx, [[UIColor colorWithRed:0/255.0 green:122/255.0 blue:1.0 alpha:.9] CGColor]);
@@ -63,8 +83,9 @@
     static CGFloat startingRadians = -1.5709353072;
     CGContextAddArc(ctx, 120, 120, 115, startingRadians, startingRadians + 2*3.1415926535*self.percentageOfSong, 0);
     CGContextStrokePath(ctx);
-
-   
+    
+    CGAffineTransform transform = CGAffineTransformMakeRotation(self.buttonAngle);
+    self.customPlayButton.transform = transform;   
 }
 
 /*
