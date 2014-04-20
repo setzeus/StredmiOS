@@ -57,10 +57,13 @@
         return [NSMutableArray arrayWithObjects:exception.description, nil];
     }
     NSError *error;
-    if (data) return [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
+    NSMutableArray* array;
+    if (data) array = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
+    if (array) return array;
     else if (error) return [NSMutableArray arrayWithObjects:error.description, nil];
-    return [NSMutableArray arrayWithObjects:@"An Error Occured", nil];
-    
+    return [NSMutableArray arrayWithObjects:@{@"event" : @"No Results",
+                                              @"artist" : @"",
+                                              @"match_type" : @"artist"}, nil];
 }
 
 - (void)changeBrowseMode {

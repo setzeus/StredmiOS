@@ -48,6 +48,7 @@
     }
     return data;
 }
+
 -(NSMutableArray *)safeJSONParseArray:(NSString *)url {
     NSData* data;
     @try {
@@ -57,10 +58,11 @@
         return [NSMutableArray arrayWithObjects:exception.description, nil];
     }
     NSError *error;
-    NSMutableArray* array = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
+    NSMutableArray* array;
+    if (data) array = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
     if (array) return array;
     else if (error) return [NSMutableArray arrayWithObjects:error.description, nil];
-    return [NSMutableArray arrayWithObjects:@{@"event" : @"An Error Occured",
+    return [NSMutableArray arrayWithObjects:@{@"event" : @"No Results",
                                               @"artist" : @"",
                                               @"match_type" : @"artist"}, nil];
 }

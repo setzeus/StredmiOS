@@ -145,16 +145,21 @@
     }
     
     
-    NSString* url = [NSString stringWithFormat:@"http://stredm.com/uploads/%@", [songObject objectForKey:@"imageURL"]];
-    [cell.imageView setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"placeholder.jpg"]];
-
-    NSLog(@"cell at row: %d, songObject: %@", indexPath.row, songObject);
-    NSString *matchType = [songObject objectForKey:@"match_type"];
-    if ( [matchType isEqual: @"artist"] )
-        cell.textLabel.text = [songObject objectForKey:@"event"];
-    else
-        cell.textLabel.text = [songObject objectForKey:matchType];
-    cell.detailTextLabel.text = [songObject objectForKey:@"artist"];
+    if ([songObject respondsToSelector:@selector(objectForKey:)]) {
+        NSString* url = [NSString stringWithFormat:@"http://stredm.com/uploads/%@", [songObject objectForKey:@"imageURL"]];
+        [cell.imageView setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"placeholder.jpg"]];
+        
+        NSLog(@"cell at row: %d", indexPath.row);
+        NSString *matchType = [songObject objectForKey:@"match_type"];
+        if ( [matchType isEqual: @"artist"] )
+            cell.textLabel.text = [songObject objectForKey:@"event"];
+        else
+            cell.textLabel.text = [songObject objectForKey:matchType];
+        cell.detailTextLabel.text = [songObject objectForKey:@"artist"];
+    } else {
+        [cell.imageView setImage:[UIImage new]];
+        NSLog(@"FAILURE IN SEARCH\n%@", songObject);
+    }
     
     return cell;
 }
@@ -219,11 +224,14 @@
         return [NSMutableArray arrayWithObjects:exception.description, nil];
     }
     NSError *error;
-    if (data) return [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
+    NSMutableArray* array;
+    if (data) array = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
+    if (array) return array;
     else if (error) return [NSMutableArray arrayWithObjects:error.description, nil];
-    return [NSMutableArray arrayWithObjects:@"An Error Occured", nil];
+    return [NSMutableArray arrayWithObjects:@{@"event" : @"No Results",
+                                              @"artist" : @"",
+                                              @"match_type" : @"artist"}, nil];
 }
-
 
 /*
 #pragma mark - Navigation
