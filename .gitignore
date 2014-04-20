@@ -1,3 +1,5 @@
 # ignore user data files
 # add your user data folders here
 john.xcuserdatad/
+
+StredmiOS.xcworkspace/xcuserdata/christianguerin.xcuserdatad/UserInterfaceState.xcuserstate
