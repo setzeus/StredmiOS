@@ -137,7 +137,7 @@
     cell.detailTextLabel.text = [songObject objectForKey:@"artist"];
     
     if (![self fileIsCached:[songObject objectForKey:@"songURL"]]) {
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"Downloading - %@", cell.detailTextLabel.text];
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"Adding - %@", cell.detailTextLabel.text];
         cell.detailTextLabel.font = [UIFont italicSystemFontOfSize:12.0f];
     }
     else {
