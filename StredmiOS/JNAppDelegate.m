@@ -127,6 +127,11 @@
             [self.playerView closePlayer];
         }];
         
+        if (self.reloadTable) {
+            [self.reloadTable reloadData];
+        }
+
+        
         [[Mixpanel sharedInstance] track:@"Close Player Tap"];
     }
 }
@@ -144,6 +149,10 @@
             self.playerView.frame = CGRectMake(0, self.window.frame.size.height-60, 320, 60);
             [self.playerView closePlayer];
         }];
+        
+        if (self.reloadTable) {
+            [self.reloadTable reloadData];
+        }
     }
 }
 

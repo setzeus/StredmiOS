@@ -12,6 +12,8 @@
 #import <SDWebImage/UIImageView+WebCache.h>
 #import <Mixpanel/Mixpanel.h>
 
+#import "SearchResultCell.h"
+
 @interface MySetsViewController ()
 
 @property (strong, nonatomic) NSMutableArray *downloadsArray;
@@ -33,6 +35,9 @@
 {
     [super viewDidLoad];
     
+    JNAppDelegate* jnad = (JNAppDelegate*) [[UIApplication sharedApplication] delegate];
+    jnad.reloadTable = self.tableView;
+    
     [[Mixpanel sharedInstance] track:@"My Sets Page"];
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -47,6 +52,18 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    if ([self.tableView respondsToSelector:@selector(setSeparatorInset:)]) {
+        [self.tableView setSeparatorInset:self.tableView.separatorInset];
+    }
+}
+
+-(void)reloadCallback {
+    [self.tableView reloadData];
+}
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -55,24 +72,16 @@
     return 1;
 }
 
--(NSArray *)downloadsArray {
-
-    if(_downloadsArray != nil) return _downloadsArray;
-
-    NSURL *documentsDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
-
-    NSString *documentsDirectory = documentsDirectoryURL.path;
-    NSLog(@"%@",documentsDirectory);
-    NSString *appFile = [documentsDirectory stringByAppendingPathComponent:@"sets.plist"];
-    NSLog(@"%@",appFile);
-
-    BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:appFile];
-    NSLog(@"file exists: %hhd",fileExists);
-    if(fileExists) {
-        NSDictionary *myDict = [[NSDictionary alloc] initWithContentsOfFile:appFile];
-        NSLog(@"Data : %@ ",myDict);
-        _downloadsArray = [NSMutableArray arrayWithObject:myDict];
-        NSLog(@"Data : %@ ",_downloadsArray);
+-(NSArray*)downloadsArray{
+    NSArray* paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString* documentPath = [paths objectAtIndex:0];
+    NSString *appFile = [documentPath stringByAppendingPathComponent:@"sets.plist"];
+    
+    NSLog(@"exisits?: %@", appFile);
+    NSLog(@"plist: %@", [NSArray arrayWithContentsOfFile:appFile]);
+    if([[NSFileManager defaultManager] fileExistsAtPath:appFile]) {
+        NSLog(@"App File Exists");
+        _downloadsArray = [NSArray arrayWithContentsOfFile:appFile];
     }
 
     return _downloadsArray;
@@ -85,44 +94,68 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     JNAppDelegate *jnad = (JNAppDelegate*)[[UIApplication sharedApplication] delegate];
-    NSLog(@"self.downloadArray %@", self.downloadsArray);
     jnad.playerView.playlistArray = self.downloadsArray;
-    NSLog(@"self.downloadArray %@", self.downloadsArray);
-
+    
     [jnad.playerView playSong:indexPath.row];
     
     [self.navigationController popViewControllerAnimated:YES];
     
 }
 
+-(UIImage*)localImageOrPull:(NSString*)url {
+    NSString* libraryDirectory = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    
+    NSURL *imagePath = [NSURL URLWithString:[NSString stringWithFormat:@"http://stredm.com/uploads/%@", url]];
+    NSString *imageFile = [[libraryDirectory stringByAppendingPathComponent:@"Caches/"] stringByAppendingPathComponent:url];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:imageFile])
+        return [UIImage imageWithData:[NSData dataWithContentsOfFile:imageFile]];
+    return [UIImage imageWithData:[NSData dataWithContentsOfURL:imagePath]];
+}
+
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"MySetsTableCell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    static NSString *CellIdentifier = @"SearchResultCell";
+    SearchResultCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
     if ( cell == nil ) {
-        cell = [[MySetsTableCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+        cell = [[SearchResultCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
-    id songObject = [self.downloadsArray objectAtIndex:indexPath.row];
-
-    NSString* imagePath = [NSString stringWithFormat:@"%@%@", @"http://stredm.com/uploads/", [songObject objectForKey:@"imageURL"]];
-
-    NSURL *libraryDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSLibraryDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
-    NSString *documentsDirectory = libraryDirectoryURL.path;
-    NSString *imageFile = [documentsDirectory stringByAppendingPathComponent:[songObject objectForKey:@"imageURL"]];
     
-    BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:imageFile];
-    if(fileExists) {
-        imagePath = imageFile;
-        NSLog(@"using local image");
-    }
+    id songObject = [self.downloadsArray objectAtIndex:indexPath.row];
+    
+    [cell.imageView setImage:[self localImageOrPull:[songObject objectForKey:@"imageURL"]]];
 
-    cell.textLabel.text = [songObject objectForKey:@"event"];
+    
+    NSString *matchType = [songObject objectForKey:@"match_type"];
+    if ( [matchType isEqual: @"artist"] )
+        cell.textLabel.text = [songObject objectForKey:@"event"];
+    else if (matchType)
+        cell.textLabel.text = [songObject objectForKey:matchType];
+    else
+        cell.textLabel.text = [songObject objectForKey:@"event"];
     cell.detailTextLabel.text = [songObject objectForKey:@"artist"];
-    [cell.imageView setImageWithURL:[NSURL URLWithString:imagePath] placeholderImage:[UIImage imageNamed:@"placeholder.jpg"]];
-
+    
+    if (![self fileIsCached:[songObject objectForKey:@"songURL"]]) {
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"Downloading - %@", cell.detailTextLabel.text];
+        cell.detailTextLabel.font = [UIFont italicSystemFontOfSize:12.0f];
+    }
+    else {
+        cell.detailTextLabel.font = [UIFont italicSystemFontOfSize:12.0f];
+    }
+    
     return cell;
+}
+
+-(BOOL)fileIsCached:(NSString*)url {
+    NSString* libraryDirectory = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSString *imageFile = [[libraryDirectory stringByAppendingPathComponent:@"Caches/"] stringByAppendingPathComponent:url];
+    return [[NSFileManager defaultManager] fileExistsAtPath:imageFile];
+}
+
+-(void)dealloc {
+    JNAppDelegate* jnad = (JNAppDelegate*) [[UIApplication sharedApplication] delegate];
+    jnad.reloadTable = nil;
 }
 
 

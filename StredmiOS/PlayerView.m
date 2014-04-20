@@ -86,15 +86,15 @@
     
 }
 
+
 -(NSData*)dataFromURL:(NSString *)url {
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:[url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
     NSError* error;
-    NSData* data = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:&error];
+    NSString *string = [NSString stringWithContentsOfURL:[NSURL URLWithString:url] encoding:NSISOLatin1StringEncoding error:&error];
     if (error != nil){
         [[Mixpanel sharedInstance] track:@"Data Request Error" properties:@{@"Error" : error.description}];
         [NSException exceptionWithName:@"Error Requesting Data" reason:error.description userInfo:nil];
     }
-    return data;
+    return [string dataUsingEncoding:NSUTF8StringEncoding];
 }
 
 -(NSMutableArray *)safeJSONParseArray:(NSString *)url {
@@ -106,20 +106,22 @@
         return [NSMutableArray arrayWithObjects:exception.description, nil];
     }
     NSError *error;
-    if (data) return [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
+    NSMutableArray* array = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
+    if (array) return array;
     else if (error) return [NSMutableArray arrayWithObjects:error.description, nil];
-    return [NSMutableArray arrayWithObjects:@"An Error Occured", nil];
-
+    return [NSMutableArray arrayWithObjects:@{@"event" : @"An Error Occured",
+                                              @"artist" : @"",
+                                              @"match_type" : @"artist"}, nil];
 }
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-    if ( object == self.playerLayer.player && [keyPath isEqualToString:@"rate"] ) {
+    NSLog(@"key value observed");
+    if ( object == self.playerLayer.player && [keyPath isEqualToString:@"status"] ) {
         if ( self.playerLayer.player.status == AVPlayerStatusFailed ) {
             NSLog(@"AVPlayer Failed");
         }
         else if ( self.playerLayer.player.status == AVPlayerStatusReadyToPlay ) {
             NSLog(@"AVPlayer Ready To Play");
-            self.isScrubbing = false;
             self.playButton.customPlayButton.isPlaying = self.isPlaying;
             
             while (CMTimeGetSeconds([[self.playerLayer.player currentItem] duration]) == 0.0);
@@ -170,17 +172,18 @@
 -(void)playPush:(id)sender {
     if (!self.isScrubbing && !self.justScrubbed) {
         if (!self.isPlaying) {
-            NSLog(@"play button play");
+            NSLog(@"PLAY");
             [self play];
             [[Mixpanel sharedInstance] track:@"Play Button"];
             
         } else {
-            NSLog(@"play button pause");
+            NSLog(@"PAUSE");
             [self pause];
             [[Mixpanel sharedInstance] track:@"Pause Button"];
         }
     }
     else {
+        NSLog(@"Scrubbed");
         self.justScrubbed = false;
         
         float duration = CMTimeGetSeconds([[self.playerLayer.player currentItem] duration]);
@@ -200,13 +203,17 @@
 
 -(void)play {
     self.isPlaying = true;
+    self.playButton.customPlayButton.isPlaying = true;
     [self.playerLayer.player play];
+    [self updatePlayerToolbar];
 }
 
 
 -(void)pause {
     self.isPlaying = false;
+    self.playButton.customPlayButton.isPlaying = false;
     [self.playerLayer.player pause];
+    [self updatePlayerToolbar];
 }
 
 -(void)updatePlayerToolbar {
@@ -266,7 +273,7 @@
     UIBarButtonItem *shuffle = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"shuffle_icon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(shuffle)];
     UIBarButtonItem *rewind = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRewind target:self action:@selector(previous)];
     UIBarButtonItem *ffw = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFastForward target:self action:@selector(next)];
-    UIBarButtonItem *add = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemOrganize target:self action:@selector(addSet)];
+    UIBarButtonItem *add = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addSet:)];
     UIBarButtonItem *flex = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     [self.bottomToolbar setItems:@[shuffle, flex, rewind, flex, ffw, flex, add]];
     [self.bottomToolbar setTintColor:[UIColor whiteColor]];
@@ -319,49 +326,104 @@
     [self addSubview:self.songScrollView];
 }
 
--(void)addSet {
+-(void)addSet:(UIBarButtonItem*)sender {
     NSLog(@"Starting download of %@", [_setURL absoluteString]);
-    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
-    AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
-    NSURLRequest *setRequest = [NSURLRequest requestWithURL:_setURL];
-    NSURLRequest *imageRequest = [NSURLRequest requestWithURL:_imageURL];
+    
+    NSString* documentsPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSString* plistPath = [documentsPath stringByAppendingPathComponent:@"sets.plist"];
     
     
-
-    NSURL *documentsDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
-    NSURL *libraryDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSLibraryDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
+    NSDictionary* song = [self.playlistArray objectAtIndex:self.currentRow];
+    NSLog(@"addSet %@", plistPath);
     
-    NSString *documentsDirectory = documentsDirectoryURL.path;
-    NSLog(@"%@",documentsDirectory);
-    NSString *appFile = [documentsDirectory stringByAppendingPathComponent:@"sets.plist"];
-    NSLog(@"%@",appFile);
-
-    NSURLSessionDownloadTask *downloadImageTask = [manager downloadTaskWithRequest:imageRequest progress:nil destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
-        return [[libraryDirectoryURL URLByAppendingPathComponent:@"Cache/"] URLByAppendingPathComponent:[response suggestedFilename]];
-    } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
-        NSLog(@"image file downloaded to %@",filePath);
-    }];
-    NSLog(@"downloadImageTask: %@", downloadImageTask);
-    [downloadImageTask resume];
-
-    NSURLSessionDownloadTask *downloadSetTask = [manager downloadTaskWithRequest:setRequest progress:nil destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
-
-        NSLog(@"%@",[_playlistArray objectAtIndex:_currentRow]);
-        NSMutableArray *song = [_playlistArray objectAtIndex:_currentRow];
-        NSLog(@"%@",song);
-        BOOL write = [song writeToFile:appFile atomically:YES];
-        NSLog(@"%@",[_setURL absoluteString]);
-        NSLog(@"file written: %d", write);
-
-        return [libraryDirectoryURL URLByAppendingPathComponent:[response suggestedFilename]];
-    } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
-        NSLog(@"File downloaded to: %@", filePath);
-        [[Mixpanel sharedInstance] track:@"downloadCompleted"];
-    }];
-    [downloadSetTask resume];
+    NSArray* setsArray = [NSArray arrayWithContentsOfFile:plistPath];
+    NSArray* keepSets = [[NSMutableArray alloc] init];
+    BOOL alreadyInMySets = [setsArray containsObject:song];
     
+    if (alreadyInMySets) {
+        NSInteger songIndex = [setsArray indexOfObject:song];
+        if (songIndex == 1) {
+            keepSets = @[[setsArray objectAtIndex:0], song];
+        } else if ([setsArray count] > 1) {
+            keepSets = @[[setsArray objectAtIndex:1], song];
+        } else {
+            keepSets = @[song];
+        }
+    } else {
+        if ([setsArray count] > 1) {
+            NSLog(@"BIGGER than 1");
+            keepSets = @[[setsArray objectAtIndex:1], song];
+        } else if ([setsArray count] == 1){
+            NSLog(@"equal to 1");
+            keepSets = @[[setsArray objectAtIndex:0], song];
+        } else {
+            NSLog(@"new");
+            keepSets = @[song];
+        }
+    }
+    
+    [keepSets writeToFile:plistPath atomically:YES];
+    
+    for (NSInteger i = 0; i < [setsArray count]; ++i) {
+        id songDescriptor = [setsArray objectAtIndex:i];
+        if (![keepSets containsObject:songDescriptor]) {
+            NSString* libraryDirectory = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+            NSString *setFile = [[libraryDirectory stringByAppendingPathComponent:@"Caches/"] stringByAppendingPathComponent:[song objectForKey:@"songURL"]];
+            [[NSFileManager defaultManager] removeItemAtPath:setFile error:nil];
+        }
+    }
+
+    
+    NSLog(@"file exists @ %@?: %@", plistPath, [NSArray arrayWithContentsOfFile:plistPath]);
+    
+    
+    if (![self fileIsCached:[song objectForKey:@"imageURL"]]) {
+        NSLog(@"DOWNLOADING IMAGE");
+        [self downloadAsync:_imageURL];
+    }
+    if (![self fileIsCached:[song objectForKey:@"songURL"]]) {
+        NSLog(@"DOWNLOADING SET");
+        [self downloadSetAsync:_setURL];
+    }
     
     [[Mixpanel sharedInstance] track:@"Set Added"];
+}
+
+-(void)downloadAsync:(NSURL*)url {
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    [NSURLConnection sendAsynchronousRequest:request
+                                       queue:[NSOperationQueue mainQueue]
+                           completionHandler:^(NSURLResponse *response,
+                                               NSData *data,
+                                               NSError *connectionError) {
+                               NSString* libraryPath = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+                               [data writeToFile:[[libraryPath stringByAppendingPathComponent:@"Caches/"] stringByAppendingPathComponent:[response suggestedFilename]] atomically:YES];
+                               NSLog(@"FILE DOWNLOADED: %@", url);
+                           }];
+}
+
+
+
+-(void)downloadSetAsync:(NSURL*)url {
+    [self downloadAsync:url];
+    
+    [[Mixpanel sharedInstance] track:@"Download Completed"];
+}
+
+-(BOOL)fileIsCached:(NSString*)url {
+    NSString* libraryDirectory = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSString *imageFile = [[libraryDirectory stringByAppendingPathComponent:@"Caches/"] stringByAppendingPathComponent:url];
+    return [[NSFileManager defaultManager] fileExistsAtPath:imageFile];
+}
+
+-(UIImage*)localImageOrPull:(NSString*)url {
+    NSString* libraryDirectory = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    
+    NSURL *imagePath = [NSURL URLWithString:[NSString stringWithFormat:@"http://stredm.com/uploads/%@", url]];
+    NSString *imageFile = [[libraryDirectory stringByAppendingPathComponent:@"Caches/"] stringByAppendingPathComponent:url];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:imageFile])
+        return [UIImage imageWithData:[NSData dataWithContentsOfFile:imageFile]];
+    return [UIImage imageWithData:[NSData dataWithContentsOfURL:imagePath]];
 }
 
 -(void)playSong:(NSInteger)row {
@@ -370,49 +432,39 @@
         [self random];
         return;
     }
-
+    
     self.currentRow = row;
     
     id song = [self.playlistArray objectAtIndex:self.currentRow];
     self.artistLabel.text = [song objectForKey:@"artist"];
     self.eventLabel.text = [song objectForKey:@"event"];
     self.titleLabel.text = [NSString stringWithFormat:@"%@ - %@", self.artistLabel.text, self.eventLabel.text];
+    [self.artwork setImage:[self localImageOrPull:[song objectForKey:@"imageURL"]]];
     self.hidden = NO;
     
-    NSURL *libraryDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSLibraryDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
     
-    NSString *documentsDirectory = [NSString stringWithFormat:@"%@%@", libraryDirectoryURL.path, @"Cache/"];
-    NSLog(@"%@",documentsDirectory);
-    
-
     NSURL *imagePath = [NSURL URLWithString:[NSString stringWithFormat:@"http://stredm.com/uploads/%@", [song objectForKey:@"imageURL"]]];
-    NSString *imageFile = [documentsDirectory stringByAppendingPathComponent:[song objectForKey:@"imageURL"]];
+    NSString* libraryDirectory = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSString *imageFile = [[libraryDirectory stringByAppendingPathComponent:@"Caches/"] stringByAppendingPathComponent:[song objectForKey:@"imageURL"]];
     
-    BOOL imageFileExists = [[NSFileManager defaultManager] fileExistsAtPath:imageFile];
-    if(imageFileExists) {
-        imagePath = [NSURL URLWithString:imageFile];
-        NSLog(@"using local image %@",imageFile);
-        UIImage* fileImage = [[UIImage alloc] initWithContentsOfFile:imageFile];
-        NSLog(@"fileImage: %@", fileImage);
-        [self.artwork setImage:fileImage];
-        
-    } else {
-        [self.artwork setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:imagePath]]];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:imageFile]) {
+        imagePath = [NSURL fileURLWithPath:imageFile];
     }
+    
     
     _imageURL = imagePath;
-
     
-    NSString *setPath = [NSString stringWithFormat:@"http://stredm.com/uploads/%@", [song objectForKey:@"songURL"]];
-    NSString *setFile = [documentsDirectory stringByAppendingPathComponent:[song objectForKey:@"songURL"]];
-    NSLog(@"setFile: %@", setFile);
+    NSString *setFile = [[libraryDirectory stringByAppendingPathComponent:@"Caches/"] stringByAppendingPathComponent:[song objectForKey:@"songURL"]];
     BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:setFile];
     if(fileExists) {
-        setPath = setFile;
-        NSLog(@"using local set");
+        _setURL = [NSURL fileURLWithPath:setFile];
+        [[Mixpanel sharedInstance] track:@"Playing Local Set"];
+    }
+    else {
+        _setURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://stredm.com/uploads/%@", [song objectForKey:@"songURL"]]];
     }
 
-    _setURL = [NSURL URLWithString:setPath];
+    NSLog(@"_setURL: %@", _setURL);
 
     if (self.timer)
         [self.timer invalidate];
@@ -421,15 +473,15 @@
         AVPlayer *player = [[AVPlayer alloc] init];
         self.playerLayer = [AVPlayerLayer playerLayerWithPlayer:player];
         [self.layer addSublayer:self.playerLayer];
-        [self.playerLayer.player addObserver:self forKeyPath:@"rate" options:NSKeyValueObservingOptionNew context:nil];
+        [self.playerLayer.player addObserver:self forKeyPath:@"status" options:NSKeyValueObservingOptionNew context:nil];
     }
     
-    NSLog(@"self.setURL: %@", _setURL);
-    AVPlayerItem* avpi = [AVPlayerItem playerItemWithURL:_setURL];
+    AVAsset* asset = [AVAsset assetWithURL:_setURL];
+    AVPlayerItem* avpi = [AVPlayerItem playerItemWithAsset:asset];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(itemDidFinishPlaying:) name:AVPlayerItemDidPlayToEndTimeNotification object:avpi];
     [self.playerLayer.player replaceCurrentItemWithPlayerItem:avpi];
     self.timer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(updateProgress) userInfo:nil repeats:YES];
-    NSLog(@"play");
+    NSLog(@"playing");
     [self play];
 }
 
@@ -486,7 +538,6 @@
                                     };
         NSMutableDictionary *maybeWithImage = [NSMutableDictionary dictionaryWithDictionary:songInfo];
         if (self.artwork.image) {
-            NSLog(@"artwork");
             [maybeWithImage setValue:[[MPMediaItemArtwork alloc] initWithImage:self.artwork.image] forKey:MPMediaItemPropertyArtwork];
         }
         
@@ -496,7 +547,7 @@
 
 
 -(void)dealloc {
-    [self.playerLayer.player removeObserver:self forKeyPath:@"rate"];
+    [self.playerLayer.player removeObserver:self forKeyPath:@"status"];
 }
 
 /*

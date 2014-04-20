@@ -143,7 +143,12 @@
     } else {
         songObject = [self.searchArray objectAtIndex:indexPath.row];
     }
+    
+    
+    NSString* url = [NSString stringWithFormat:@"http://stredm.com/uploads/%@", [songObject objectForKey:@"imageURL"]];
+    [cell.imageView setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"placeholder.jpg"]];
 
+    NSLog(@"cell at row: %d, songObject: %@", indexPath.row, songObject);
     NSString *matchType = [songObject objectForKey:@"match_type"];
     if ( [matchType isEqual: @"artist"] )
         cell.textLabel.text = [songObject objectForKey:@"event"];
@@ -151,17 +156,23 @@
         cell.textLabel.text = [songObject objectForKey:matchType];
     cell.detailTextLabel.text = [songObject objectForKey:@"artist"];
     
-    NSString* url = [NSString stringWithFormat:@"http://stredm.com/uploads/%@", [songObject objectForKey:@"imageURL"]];
-    [cell.imageView setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"placeholder.jpg"]];
-    
     return cell;
+}
+
+-(UIImage*)localImageOrPull:(NSString*)url {
+    NSString* libraryDirectory = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    
+    NSURL *imagePath = [NSURL URLWithString:[NSString stringWithFormat:@"http://stredm.com/uploads/%@", url]];
+    NSString *imageFile = [[libraryDirectory stringByAppendingPathComponent:@"Caches/"] stringByAppendingPathComponent:url];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:imageFile])
+        return [UIImage imageWithData:[NSData dataWithContentsOfFile:imageFile]];
+    return [UIImage imageWithData:[NSData dataWithContentsOfURL:imagePath]];
 }
 
 -(void)close:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
-
 
 - (void)viewDidLoad
 {
@@ -189,17 +200,14 @@
     // Dispose of any resources that can be recreated.
 }
 
-
-
 -(NSData*)dataFromURL:(NSString *)url {
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:[url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
     NSError* error;
-    NSData* data = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:&error];
+    NSString *string = [NSString stringWithContentsOfURL:[NSURL URLWithString:url] encoding:NSISOLatin1StringEncoding error:&error];
     if (error != nil){
         [[Mixpanel sharedInstance] track:@"Data Request Error" properties:@{@"Error" : error.description}];
         [NSException exceptionWithName:@"Error Requesting Data" reason:error.description userInfo:nil];
     }
-    return data;
+     return [string dataUsingEncoding:NSUTF8StringEncoding];
 }
 
 -(NSMutableArray *)safeJSONParseArray:(NSString *)url {
@@ -214,7 +222,6 @@
     if (data) return [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
     else if (error) return [NSMutableArray arrayWithObjects:error.description, nil];
     return [NSMutableArray arrayWithObjects:@"An Error Occured", nil];
-    
 }
 
 

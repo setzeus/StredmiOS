@@ -16,6 +16,7 @@
 
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) PlayerView *playerView;
+@property (strong, nonatomic) UITableView* reloadTable;
 
 -(void)bringPlayerToFront;
 -(BOOL)isPlaying;

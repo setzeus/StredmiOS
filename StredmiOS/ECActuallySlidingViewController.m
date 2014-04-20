@@ -28,8 +28,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-
-    NSLog(@"self.panGesture: %@", self.panGesture);
     [self.view addGestureRecognizer:self.panGesture];
 }
 
