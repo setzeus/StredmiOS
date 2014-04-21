@@ -492,6 +492,8 @@
     self.hidden = NO;
     
     
+    [self updateLockscreen];
+    
     NSURL *imagePath = [NSURL URLWithString:[NSString stringWithFormat:@"http://stredm.com/uploads/%@", [song objectForKey:@"imageURL"]]];
     NSString* libraryDirectory = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
     NSString *imageFile = [[libraryDirectory stringByAppendingPathComponent:@"Caches/"] stringByAppendingPathComponent:[song objectForKey:@"imageURL"]];
@@ -579,12 +581,20 @@
     Class playingInfoCenter = NSClassFromString(@"MPNowPlayingInfoCenter");
     
     if (playingInfoCenter) {
-        NSDictionary *songInfo = @{MPMediaItemPropertyTitle: self.artistLabel.text,
-                                    MPMediaItemPropertyArtist:self.eventLabel.text,
-                                    MPMediaItemPropertyPlaybackDuration:[NSNumber numberWithDouble:(double)CMTimeGetSeconds([[self.playerLayer.player currentItem] duration])],
-                                    MPNowPlayingInfoPropertyElapsedPlaybackTime:[NSNumber numberWithDouble:(double)CMTimeGetSeconds([[self.playerLayer.player currentItem] currentTime])],
-                                    MPNowPlayingInfoPropertyPlaybackRate:@1.0
-                                    };
+        NSDictionary* songInfo;
+        if (CMTimeGetSeconds([[self.playerLayer.player currentItem] duration])) {
+             songInfo = @{MPMediaItemPropertyTitle: self.artistLabel.text,
+                                       MPMediaItemPropertyArtist:self.eventLabel.text,
+                                       MPMediaItemPropertyPlaybackDuration:[NSNumber numberWithDouble:(double)CMTimeGetSeconds([[self.playerLayer.player currentItem] duration])],
+                                       MPNowPlayingInfoPropertyElapsedPlaybackTime:[NSNumber numberWithDouble:(double)CMTimeGetSeconds([[self.playerLayer.player currentItem] currentTime])],
+                                       MPNowPlayingInfoPropertyPlaybackRate:@1.0
+                                       };
+        } else {
+            songInfo = @{MPMediaItemPropertyTitle: self.artistLabel.text,
+                         MPMediaItemPropertyArtist:self.eventLabel.text,
+                         };
+        }
+      
         NSMutableDictionary *maybeWithImage = [NSMutableDictionary dictionaryWithDictionary:songInfo];
         if (self.artwork.image) {
             [maybeWithImage setValue:[[MPMediaItemArtwork alloc] initWithImage:self.artwork.image] forKey:MPMediaItemPropertyArtwork];
