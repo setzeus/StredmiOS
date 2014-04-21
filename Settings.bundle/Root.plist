@@ -16,7 +16,7 @@
 			<key>Title</key>
 			<string>Version</string>
 			<key>Key</key>
-			<string>version_perference</string>
+			<string>version</string>
 		</dict>
 		<dict>
 			<key>DefaultValue</key>
@@ -29,10 +29,16 @@
 			<string>PSToggleSwitchSpecifier</string>
 		</dict>
 		<dict>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+			<key>Title</key>
+			<string>Volume</string>
+		</dict>
+		<dict>
 			<key>DefaultValue</key>
-			<real>0.5</real>
+			<integer>1</integer>
 			<key>Key</key>
-			<string>slider_preference</string>
+			<string>volume_slider_preference</string>
 			<key>MaximumValue</key>
 			<integer>1</integer>
 			<key>MaximumValueImage</key>
@@ -43,6 +49,62 @@
 			<string></string>
 			<key>Type</key>
 			<string>PSSliderSpecifier</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+			<key>Title</key>
+			<string>Push Notifications</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+			<key>Title</key>
+			<string>Download Complete</string>
+			<key>Key</key>
+			<string>download_complete</string>
+			<key>DefaultValue</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+			<key>Title</key>
+			<string>Vibrate When Complete</string>
+			<key>Key</key>
+			<string>vibrate_when_complete</string>
+			<key>DefaultValue</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+			<key>Title</key>
+			<string>About</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSChildPaneSpecifier</string>
+			<key>Title</key>
+			<string>Contact Us</string>
+			<key>Key</key>
+			<string>contactus</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSChildPaneSpecifier</string>
+			<key>Title</key>
+			<string>Legal</string>
+			<key>Key</key>
+			<string>legal</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSChildPaneSpecifier</string>
+			<key>Title</key>
+			<string>Share</string>
+			<key>Key</key>
+			<string>share</string>
 		</dict>
 	</array>
 	<key>StringsTable</key>

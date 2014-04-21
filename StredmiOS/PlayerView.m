@@ -488,6 +488,7 @@
     self.eventLabel.text = [song objectForKey:@"event"];
     self.titleLabel.text = [NSString stringWithFormat:@"%@ - %@", self.artistLabel.text, self.eventLabel.text];
     [self.artwork setImage:[self localImageOrPull:[song objectForKey:@"imageURL"]]];
+    [self.background setImage:[[self localImageOrPull:[song objectForKey:@"imageURL"]] applyLightEffect]];
     self.hidden = NO;
     
     

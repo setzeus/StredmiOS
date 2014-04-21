@@ -135,7 +135,7 @@
 
                 }
                 
-                cell.textLabel.text = @"Download Complete";
+                cell.textLabel.text = @"Added to My Sets";
             } else if (indexPath.row == 1){
                 if ([cell.contentView viewWithTag:5739]) {
                     [[cell.contentView viewWithTag:5739] removeFromSuperview];
@@ -163,7 +163,7 @@
             }
             
             if (indexPath.row == 0) {
-                cell.textLabel.text = @"Contact Us";
+                cell.textLabel.text = @"Contact";
                 [[Mixpanel sharedInstance] track:@"Contact Us Page"];
             } else if (indexPath.row == 1) {
                 cell.textLabel.text = @"Legal";
