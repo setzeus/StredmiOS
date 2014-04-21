@@ -78,7 +78,6 @@
     NSString *appFile = [documentPath stringByAppendingPathComponent:@"sets.plist"];
     
     NSLog(@"exisits?: %@", appFile);
-    NSLog(@"plist: %@", [NSArray arrayWithContentsOfFile:appFile]);
     if([[NSFileManager defaultManager] fileExistsAtPath:appFile]) {
         NSLog(@"App File Exists");
         _downloadsArray = [NSArray arrayWithContentsOfFile:appFile];
@@ -98,8 +97,7 @@
     
     [jnad.playerView playSong:indexPath.row];
     
-    [self.navigationController popViewControllerAnimated:YES];
-    
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 -(UIImage*)localImageOrPull:(NSString*)url {

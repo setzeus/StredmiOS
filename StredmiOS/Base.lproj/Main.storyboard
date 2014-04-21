@@ -17,7 +17,7 @@
                         <sections>
                             <tableViewSection id="pwg-Ho-rrj">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="oIr-UT-3GU">
+                                    <tableViewCell userInteractionEnabled="NO" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="oIr-UT-3GU">
                                         <rect key="frame" x="0.0" y="35" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="oIr-UT-3GU" id="wZ4-LS-PKm">
@@ -912,6 +912,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="8qt-pa-49Y"/>
+        <segue reference="d8d-rb-aqw"/>
     </inferredMetricsTieBreakers>
 </document>

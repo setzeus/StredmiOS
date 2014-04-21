@@ -49,6 +49,8 @@
 @property (strong, nonatomic) NSURL *setURL;
 @property (strong, nonatomic) NSURL *imageURL;
 
+@property (strong, nonatomic) UILabel* addedSong;
+
 -(void)openPlayer:(CGSize)size;
 -(void)closePlayer;
 
@@ -56,8 +58,6 @@
 -(void)random;
 
 -(void)playPush:(id)sender;
-
--(void)addSet;
 
 -(void)play;
 -(void)pause;

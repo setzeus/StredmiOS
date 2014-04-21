@@ -7,6 +7,8 @@
 //
 
 #import "PlayerView.h"
+#import "JNAppDelegate.h"
+
 #import <AFNetworking/AFURLSessionManager.h>
 #import <MediaPlayer/MPNowPlayingInfoCenter.h>
 #import <MediaPlayer/MPMediaItem.h>
@@ -14,6 +16,8 @@
 #import <Mixpanel/Mixpanel.h>
 
 @interface PlayerView()
+
+@property (nonatomic, strong) UIView* handle;
 
 @end
 
@@ -63,6 +67,8 @@
     self.durationLabel.alpha = 0.0;
     
     self.playerToolbar.alpha = 0.0;
+    
+    self.handle.alpha = YES;
 }
 
 -(void)closePlayer {
@@ -83,6 +89,8 @@
     self.durationLabel.alpha = 0.0;
     
     self.playerToolbar.alpha = 1.0;
+    
+    self.handle.hidden = NO;
     
 }
 
@@ -267,6 +275,10 @@
     [self.playerToolbar setItems:@[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:@selector(playPush:)], playPauseBarItem]];
     [self addSubview:self.playerToolbar];
     
+    self.handle = [[UIView alloc] initWithFrame:CGRectMake(140, 6, 40, 4)];
+    [self.handle setBackgroundColor:[UIColor grayColor]];
+    [self.handle.layer setCornerRadius:2.0];
+    [self addSubview:self.handle];
     
     
     self.bottomToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, self.frame.size.height-60, 320, 60)];
@@ -324,10 +336,34 @@
     [self.playButton addTarget:self action:@selector(playPush:) forControlEvents:UIControlEventTouchUpInside];
     [self.playButton addTarget:self action:@selector(scrub:forEvent:) forControlEvents:UIControlEventTouchDragInside];
     [self addSubview:self.songScrollView];
+    
+    self.addedSong = [[UILabel alloc] initWithFrame:CGRectMake(0, self.frame.size.height-69, self.frame.size.width, 20)];
+    self.addedSong.textAlignment = NSTextAlignmentCenter;
+    self.addedSong.text = @"Adding to My Sets";
+    self.addedSong.alpha = 0.0;
+    self.addedSong.textColor = [UIColor whiteColor];
+    [self addSubview:self.addedSong];
+}
+
+-(void)hideAdding {
+    [UIView animateWithDuration:.25 delay:2.25 options:UIViewAnimationOptionCurveEaseInOut animations:^(void){
+        self.addedSong.alpha = 0.0;
+    } completion:^(BOOL completion) {
+        
+    }];
 }
 
 -(void)addSet:(UIBarButtonItem*)sender {
     NSLog(@"Starting download of %@", [_setURL absoluteString]);
+
+    [UIView animateWithDuration:.25 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^(void){
+        self.addedSong.alpha = 1.0;
+    } completion:^(BOOL completion) {
+        
+    }];
+    
+    [self performSelector:@selector(hideAdding) withObject:nil afterDelay:2.0];
+   
     
     NSString* documentsPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
     NSString* plistPath = [documentsPath stringByAppendingPathComponent:@"sets.plist"];
@@ -364,11 +400,12 @@
     
     [keepSets writeToFile:plistPath atomically:YES];
     
+    NSString* libraryDirectory = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+
     for (NSInteger i = 0; i < [setsArray count]; ++i) {
         id songDescriptor = [setsArray objectAtIndex:i];
         if (![keepSets containsObject:songDescriptor]) {
-            NSString* libraryDirectory = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-            NSString *setFile = [[libraryDirectory stringByAppendingPathComponent:@"Caches/"] stringByAppendingPathComponent:[song objectForKey:@"songURL"]];
+            NSString *setFile = [[libraryDirectory stringByAppendingPathComponent:@"Caches/"] stringByAppendingPathComponent:[songDescriptor objectForKey:@"songURL"]];
             [[NSFileManager defaultManager] removeItemAtPath:setFile error:nil];
         }
     }
@@ -381,11 +418,13 @@
         NSLog(@"DOWNLOADING IMAGE");
         [self downloadAsync:_imageURL];
     }
+    
     if (![self fileIsCached:[song objectForKey:@"songURL"]]) {
         NSLog(@"DOWNLOADING SET");
+        
         [self downloadSetAsync:_setURL];
     }
-    
+
     [[Mixpanel sharedInstance] track:@"Set Added"];
 }
 
@@ -398,10 +437,19 @@
                                                NSError *connectionError) {
                                NSString* libraryPath = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
                                [data writeToFile:[[libraryPath stringByAppendingPathComponent:@"Caches/"] stringByAppendingPathComponent:[response suggestedFilename]] atomically:YES];
+                               
+                               if (![self fileIsCached:[[libraryPath stringByAppendingString:@"Caches/"] stringByAppendingString:[response suggestedFilename]]]) {
+                                   NSLog(@"Retrying Download");
+                                   [self downloadAsync:_setURL];
+                                   return;
+                               }
+                               
                                NSLog(@"FILE DOWNLOADED: %@", url);
+
+                               JNAppDelegate* jnad = (JNAppDelegate*) [[UIApplication sharedApplication] delegate];
+                               [jnad reloadTable];
                            }];
 }
-
 
 
 -(void)downloadSetAsync:(NSURL*)url {

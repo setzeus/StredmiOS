@@ -12,7 +12,6 @@
 		52078D7A18DD055F0060F875 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52078D7918DD055F0060F875 /* ImageIO.framework */; };
 		52078D7E18DD52500060F875 /* placeholder.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 52078D7D18DD52500060F875 /* placeholder.jpg */; };
 		522BC3921901ACFE00C8E482 /* MySetsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 522BC3911901ACFE00C8E482 /* MySetsViewController.m */; };
-		522BC3951901AD7700C8E482 /* MySetsTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 522BC3941901AD7700C8E482 /* MySetsTableCell.m */; };
 		52D4D81818D92D23009676CB /* DiscoverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52D4D81718D92D23009676CB /* DiscoverViewController.m */; };
 		52D4D81B18D92E2F009676CB /* DiscoverTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 52D4D81A18D92E2F009676CB /* DiscoverTableCell.m */; };
 		7A6ACA4718D67F0500231692 /* JNSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A6ACA4618D67F0500231692 /* JNSettingsViewController.m */; };
@@ -47,6 +46,7 @@
 		F8A9942818DB679B00EC810A /* shuffle_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F8A9942618DB679B00EC810A /* shuffle_icon.png */; };
 		F8A9942918DB679B00EC810A /* shuffle_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F8A9942718DB679B00EC810A /* shuffle_icon@2x.png */; };
 		F8B0C06D1901E30A00FD2615 /* ECActuallySlidingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F8B0C06C1901E30A00FD2615 /* ECActuallySlidingViewController.m */; };
+		F8B589601904E51500D42220 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8B5895F1904E51500D42220 /* SystemConfiguration.framework */; };
 		F8D9AB2118D6571E006C1143 /* SearchResultCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F8D9AB2018D6571E006C1143 /* SearchResultCell.m */; };
 /* End PBXBuildFile section */
 
@@ -96,8 +96,6 @@
 		52078D7D18DD52500060F875 /* placeholder.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = placeholder.jpg; sourceTree = "<group>"; };
 		522BC3901901ACFE00C8E482 /* MySetsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MySetsViewController.h; sourceTree = "<group>"; };
 		522BC3911901ACFE00C8E482 /* MySetsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MySetsViewController.m; sourceTree = "<group>"; };
-		522BC3931901AD7700C8E482 /* MySetsTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MySetsTableCell.h; sourceTree = "<group>"; };
-		522BC3941901AD7700C8E482 /* MySetsTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MySetsTableCell.m; sourceTree = "<group>"; };
 		52D4D81618D92D23009676CB /* DiscoverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DiscoverViewController.h; sourceTree = "<group>"; };
 		52D4D81718D92D23009676CB /* DiscoverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DiscoverViewController.m; sourceTree = "<group>"; };
 		52D4D81918D92E2F009676CB /* DiscoverTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DiscoverTableCell.h; sourceTree = "<group>"; };
@@ -153,6 +151,7 @@
 		F8A9942718DB679B00EC810A /* shuffle_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shuffle_icon@2x.png"; sourceTree = "<group>"; };
 		F8B0C06B1901E30A00FD2615 /* ECActuallySlidingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ECActuallySlidingViewController.h; sourceTree = "<group>"; };
 		F8B0C06C1901E30A00FD2615 /* ECActuallySlidingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ECActuallySlidingViewController.m; sourceTree = "<group>"; };
+		F8B5895F1904E51500D42220 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		F8D9AB1F18D6571E006C1143 /* SearchResultCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchResultCell.h; sourceTree = "<group>"; };
 		F8D9AB2018D6571E006C1143 /* SearchResultCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchResultCell.m; sourceTree = "<group>"; };
 		FCAE31B8CAA443559BD537EC /* Pods-StredmiOSTests.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StredmiOSTests.xcconfig"; path = "Pods/Pods-StredmiOSTests.xcconfig"; sourceTree = "<group>"; };
@@ -163,6 +162,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F8B589601904E51500D42220 /* SystemConfiguration.framework in Frameworks */,
 				F839315718FC372C00032BFF /* AVFoundation.framework in Frameworks */,
 				F839315818FC372C00032BFF /* MediaPlayer.framework in Frameworks */,
 				52078D7A18DD055F0060F875 /* ImageIO.framework in Frameworks */,
@@ -225,6 +225,7 @@
 		9E64CDD418BC8BB80043926E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F8B5895F1904E51500D42220 /* SystemConfiguration.framework */,
 				F839315518FC372C00032BFF /* AVFoundation.framework */,
 				F839315618FC372C00032BFF /* MediaPlayer.framework */,
 				52078D7918DD055F0060F875 /* ImageIO.framework */,
@@ -285,8 +286,6 @@
 				9E64CDDC18BC8BB80043926E /* Supporting Files */,
 				522BC3901901ACFE00C8E482 /* MySetsViewController.h */,
 				522BC3911901ACFE00C8E482 /* MySetsViewController.m */,
-				522BC3931901AD7700C8E482 /* MySetsTableCell.h */,
-				522BC3941901AD7700C8E482 /* MySetsTableCell.m */,
 			);
 			path = StredmiOS;
 			sourceTree = "<group>";
@@ -544,7 +543,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				522BC3951901AD7700C8E482 /* MySetsTableCell.m in Sources */,
 				9E64CDE618BC8BB90043926E /* JNAppDelegate.m in Sources */,
 				522BC3921901ACFE00C8E482 /* MySetsViewController.m in Sources */,
 				F803A54B18DAF72F00FB7AE4 /* UIImage+ImageEffects.m in Sources */,
