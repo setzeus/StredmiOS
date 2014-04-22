@@ -29,6 +29,7 @@
     // Do any additional setup after loading the view.
     
     [self.view addGestureRecognizer:self.panGesture];
+    self.navigationItem.leftBarButtonItem.customView.frame = CGRectMake(0, 0, 20, 20);
 }
 
 - (void)didReceiveMemoryWarning

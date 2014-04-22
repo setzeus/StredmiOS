@@ -36,6 +36,8 @@
 		F82346DC18D5A54D00E804BD /* SearchResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F82346DB18D5A54D00E804BD /* SearchResultViewController.m */; };
 		F83112F818D0CE1C001F3B5E /* BrowseTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F83112F718D0CE1C001F3B5E /* BrowseTableCell.m */; };
 		F83315281906E8650051F269 /* playlist.png in Resources */ = {isa = PBXBuildFile; fileRef = F83315271906E8650051F269 /* playlist.png */; };
+		F833152B1906F0C80051F269 /* menu-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F83315291906F0C80051F269 /* menu-icon.png */; };
+		F833152C1906F0C80051F269 /* menu-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F833152A1906F0C80051F269 /* menu-icon@2x.png */; };
 		F839315718FC372C00032BFF /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F839315518FC372C00032BFF /* AVFoundation.framework */; };
 		F839315818FC372C00032BFF /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F839315618FC372C00032BFF /* MediaPlayer.framework */; };
 		F839315B18FC416500032BFF /* RemoteApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = F839315A18FC416500032BFF /* RemoteApplication.m */; };
@@ -134,6 +136,8 @@
 		F82346DB18D5A54D00E804BD /* SearchResultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchResultViewController.m; sourceTree = "<group>"; };
 		F83112F718D0CE1C001F3B5E /* BrowseTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrowseTableCell.m; sourceTree = "<group>"; };
 		F83315271906E8650051F269 /* playlist.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = playlist.png; sourceTree = "<group>"; };
+		F83315291906F0C80051F269 /* menu-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menu-icon.png"; sourceTree = "<group>"; };
+		F833152A1906F0C80051F269 /* menu-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menu-icon@2x.png"; sourceTree = "<group>"; };
 		F839315518FC372C00032BFF /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		F839315618FC372C00032BFF /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		F839315918FC416500032BFF /* RemoteApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RemoteApplication.h; sourceTree = "<group>"; };
@@ -245,6 +249,8 @@
 		9E64CDDB18BC8BB80043926E /* StredmiOS */ = {
 			isa = PBXGroup;
 			children = (
+				F83315291906F0C80051F269 /* menu-icon.png */,
+				F833152A1906F0C80051F269 /* menu-icon@2x.png */,
 				52078D7D18DD52500060F875 /* placeholder.jpg */,
 				9E64CDE418BC8BB90043926E /* JNAppDelegate.h */,
 				9E64CDE518BC8BB90043926E /* JNAppDelegate.m */,
@@ -446,8 +452,10 @@
 			files = (
 				7AB3DD671901DE3B00E0DBA1 /* Settings.bundle in Resources */,
 				9E64CDEE18BC8BB90043926E /* Images.xcassets in Resources */,
+				F833152C1906F0C80051F269 /* menu-icon@2x.png in Resources */,
 				52078D7E18DD52500060F875 /* placeholder.jpg in Resources */,
 				F8A9942818DB679B00EC810A /* shuffle_icon.png in Resources */,
+				F833152B1906F0C80051F269 /* menu-icon.png in Resources */,
 				9E64CDE018BC8BB80043926E /* InfoPlist.strings in Resources */,
 				9E64CDE918BC8BB90043926E /* Main.storyboard in Resources */,
 				F83315281906E8650051F269 /* playlist.png in Resources */,

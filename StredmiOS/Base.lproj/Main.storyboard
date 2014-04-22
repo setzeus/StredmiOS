@@ -235,7 +235,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="Stredm" id="ga4-Cl-RGZ">
-                        <barButtonItem key="leftBarButtonItem" image="menu-32" id="mhF-Kd-yE5">
+                        <barButtonItem key="leftBarButtonItem" image="menu-icon.png" id="mhF-Kd-yE5">
                             <connections>
                                 <segue destination="YZH-8F-bys" kind="unwind" unwindAction="unwindToMenuViewController:" id="CKO-gz-Qbr"/>
                             </connections>
@@ -937,6 +937,7 @@
         <image name="ios7" width="1920" height="1080"/>
         <image name="medium" width="1265" height="706"/>
         <image name="menu-32" width="32" height="32"/>
+        <image name="menu-icon.png" width="20" height="20"/>
         <image name="music_video-50" width="50" height="50"/>
         <image name="settings-50" width="50" height="50"/>
         <image name="shared-50" width="50" height="50"/>
