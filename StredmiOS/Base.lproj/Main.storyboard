@@ -235,11 +235,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="Stredm" id="ga4-Cl-RGZ">
-                        <barButtonItem key="leftBarButtonItem" image="menu-icon.png" id="mhF-Kd-yE5">
-                            <connections>
-                                <segue destination="YZH-8F-bys" kind="unwind" unwindAction="unwindToMenuViewController:" id="CKO-gz-Qbr"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem key="leftBarButtonItem" image="menu-icon.png" id="mhF-Kd-yE5"/>
                         <barButtonItem key="rightBarButtonItem" systemItem="search" id="cof-yr-qWQ">
                             <color key="tintColor" red="0.0" green="0.4839373911" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
@@ -254,7 +250,6 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mtl-IJ-8c3" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <exit id="YZH-8F-bys" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1098" y="3"/>
         </scene>

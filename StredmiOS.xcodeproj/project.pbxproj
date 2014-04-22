@@ -382,7 +382,7 @@
 				ORGANIZATIONNAME = Stredm;
 				TargetAttributes = {
 					9E64CDD118BC8BB80043926E = {
-						DevelopmentTeam = BJP6BA75L7;
+						DevelopmentTeam = 7JQM8M6QG2;
 					};
 					9E64CDF218BC8BB90043926E = {
 						TestTargetID = 9E64CDD118BC8BB80043926E;
@@ -713,7 +713,7 @@
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/StredmiOS/StredmiOS-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "B381244D-7C7D-4456-86D0-7AC358262577";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
@@ -725,8 +725,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Jesus Najera (7JQM8M6QG2)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Jesus Najera (7JQM8M6QG2)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -735,7 +735,7 @@
 				GCC_PREFIX_HEADER = "StredmiOS/StredmiOS-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/StredmiOS/StredmiOS-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "29E6897E-BB72-4C85-A124-5598C03F9E17";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
