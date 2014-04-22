@@ -186,6 +186,7 @@
     
     SearchResultViewController* srvc = [[SearchResultViewController alloc] initWithSearch:self.playerView.playlistArray andTitle:@"Playlist"];
     UINavigationController* navi = [[UINavigationController alloc] initWithRootViewController:srvc];
+    srvc.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, srvc.view.frame.size.width, 60)];
     UIBarButtonItem* doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(closePlaylist)];
     srvc.navigationItem.rightBarButtonItem = doneButton;
     [UIView animateWithDuration:0.25 animations:^(void) {

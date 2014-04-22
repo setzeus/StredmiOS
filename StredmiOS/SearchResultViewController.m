@@ -47,7 +47,6 @@
     }
     self.searchQueue = [[NSOperationQueue alloc] init];
     [self.searchQueue setMaxConcurrentOperationCount:1];
-    
 }
 
 -(BOOL)searchBarShouldEndEditing:(UISearchBar *)searchBar {
@@ -194,8 +193,6 @@
     if ([[self searchDisplayController] searchBar]) {
         
     }
- 
-    
 }
 
 -(BOOL)canBecomeFirstResponder {
