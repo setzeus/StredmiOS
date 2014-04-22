@@ -382,7 +382,7 @@
 				ORGANIZATIONNAME = Stredm;
 				TargetAttributes = {
 					9E64CDD118BC8BB80043926E = {
-						DevelopmentTeam = 7JQM8M6QG2;
+						DevelopmentTeam = BJP6BA75L7;
 					};
 					9E64CDF218BC8BB90043926E = {
 						TestTargetID = 9E64CDD118BC8BB80043926E;
