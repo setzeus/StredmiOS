@@ -153,8 +153,10 @@
         NSString *matchType = [songObject objectForKey:@"match_type"];
         if ( [matchType isEqual: @"artist"] )
             cell.textLabel.text = [songObject objectForKey:@"event"];
-        else
+        else if (matchType)
             cell.textLabel.text = [songObject objectForKey:matchType];
+        else
+            cell.textLabel.text = [songObject objectForKey:@"event"];
         cell.detailTextLabel.text = [songObject objectForKey:@"artist"];
     } else {
         [cell.imageView setImage:[UIImage new]];

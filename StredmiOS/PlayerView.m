@@ -8,6 +8,7 @@
 
 #import "PlayerView.h"
 #import "JNAppDelegate.h"
+#import "SearchResultViewController.h"
 
 #import <AFNetworking/AFURLSessionManager.h>
 #import <MediaPlayer/MPNowPlayingInfoCenter.h>
@@ -68,7 +69,7 @@
     
     self.playerToolbar.alpha = 0.0;
     
-    self.handle.alpha = YES;
+    self.handle.alpha = 0.0;
 }
 
 -(void)closePlayer {
@@ -90,7 +91,7 @@
     
     self.playerToolbar.alpha = 1.0;
     
-    self.handle.hidden = NO;
+    self.handle.alpha = 1.0;
     
 }
 
@@ -276,6 +277,7 @@
     [self addSubview:self.playerToolbar];
     
     self.handle = [[UIView alloc] initWithFrame:CGRectMake(140, 6, 40, 4)];
+    self.handle.alpha = 1.0;
     [self.handle setBackgroundColor:[UIColor grayColor]];
     [self.handle.layer setCornerRadius:2.0];
     [self addSubview:self.handle];
@@ -286,8 +288,14 @@
     UIBarButtonItem *rewind = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRewind target:self action:@selector(previous)];
     UIBarButtonItem *ffw = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFastForward target:self action:@selector(next)];
     UIBarButtonItem *add = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addSet:)];
+    UIButton* playlistButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [playlistButton setBackgroundImage:[UIImage imageNamed:@"playlist.png"] forState:UIControlStateNormal];
+    playlistButton.frame = CGRectMake(0, 0, 20, 20);
+    JNAppDelegate* jnad = (JNAppDelegate*) [[UIApplication sharedApplication] delegate];
+    [playlistButton addTarget:jnad action:@selector(showPlaylist:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *playlist = [[UIBarButtonItem alloc] initWithCustomView:playlistButton];
     UIBarButtonItem *flex = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-    [self.bottomToolbar setItems:@[shuffle, flex, rewind, flex, ffw, flex, add]];
+    [self.bottomToolbar setItems:@[shuffle, flex, rewind, flex, playlist, flex, ffw, flex, add]];
     [self.bottomToolbar setTintColor:[UIColor whiteColor]];
     [self.bottomToolbar setUserInteractionEnabled:YES];
     [self.bottomToolbar setBackgroundImage:[UIImage new] forToolbarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];

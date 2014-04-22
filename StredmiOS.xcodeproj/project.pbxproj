@@ -35,6 +35,7 @@
 		F803A54B18DAF72F00FB7AE4 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = F803A54A18DAF72F00FB7AE4 /* UIImage+ImageEffects.m */; };
 		F82346DC18D5A54D00E804BD /* SearchResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F82346DB18D5A54D00E804BD /* SearchResultViewController.m */; };
 		F83112F818D0CE1C001F3B5E /* BrowseTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F83112F718D0CE1C001F3B5E /* BrowseTableCell.m */; };
+		F83315241905CBB40051F269 /* playlist.png in Resources */ = {isa = PBXBuildFile; fileRef = F83315231905CBB40051F269 /* playlist.png */; };
 		F839315718FC372C00032BFF /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F839315518FC372C00032BFF /* AVFoundation.framework */; };
 		F839315818FC372C00032BFF /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F839315618FC372C00032BFF /* MediaPlayer.framework */; };
 		F839315B18FC416500032BFF /* RemoteApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = F839315A18FC416500032BFF /* RemoteApplication.m */; };
@@ -132,6 +133,7 @@
 		F82346DA18D5A54D00E804BD /* SearchResultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchResultViewController.h; sourceTree = "<group>"; };
 		F82346DB18D5A54D00E804BD /* SearchResultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchResultViewController.m; sourceTree = "<group>"; };
 		F83112F718D0CE1C001F3B5E /* BrowseTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrowseTableCell.m; sourceTree = "<group>"; };
+		F83315231905CBB40051F269 /* playlist.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = playlist.png; path = ../../Downloads/glyphicons_free/glyphicons/png/playlist.png; sourceTree = "<group>"; };
 		F839315518FC372C00032BFF /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		F839315618FC372C00032BFF /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		F839315918FC416500032BFF /* RemoteApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RemoteApplication.h; sourceTree = "<group>"; };
@@ -281,6 +283,7 @@
 				F8B0C06B1901E30A00FD2615 /* ECActuallySlidingViewController.h */,
 				F8B0C06C1901E30A00FD2615 /* ECActuallySlidingViewController.m */,
 				9E64CDED18BC8BB90043926E /* Images.xcassets */,
+				F83315231905CBB40051F269 /* playlist.png */,
 				F8A9942618DB679B00EC810A /* shuffle_icon.png */,
 				F8A9942718DB679B00EC810A /* shuffle_icon@2x.png */,
 				9E64CDDC18BC8BB80043926E /* Supporting Files */,
@@ -446,6 +449,7 @@
 				52078D7E18DD52500060F875 /* placeholder.jpg in Resources */,
 				F8A9942818DB679B00EC810A /* shuffle_icon.png in Resources */,
 				9E64CDE018BC8BB80043926E /* InfoPlist.strings in Resources */,
+				F83315241905CBB40051F269 /* playlist.png in Resources */,
 				9E64CDE918BC8BB90043926E /* Main.storyboard in Resources */,
 				F8A9942918DB679B00EC810A /* shuffle_icon@2x.png in Resources */,
 			);

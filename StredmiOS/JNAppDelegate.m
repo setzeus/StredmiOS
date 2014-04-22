@@ -160,6 +160,64 @@
     return self.playerView.isPlaying;
 }
 
++ (UIViewController*) topMostController
+{
+    UIViewController *topController = [UIApplication sharedApplication].keyWindow.rootViewController;
+    
+    while (topController.presentedViewController) {
+        topController = topController.presentedViewController;
+    }
+    
+    return topController;
+}
+
+-(void)showPlaylist:(id)sender {
+    if (self.currentVC) {
+        [UIView animateWithDuration:0.25 animations:^(void) {
+            self.playerView.frame = CGRectMake(0, self.window.frame.size.height-60, 320, 60);
+            [self.playerView closePlayer];
+        }];
+        
+        if (self.reloadTable) {
+            [self.reloadTable reloadData];
+        }
+        return;
+    }
+    
+    SearchResultViewController* srvc = [[SearchResultViewController alloc] initWithSearch:self.playerView.playlistArray andTitle:@"Playlist"];
+    UINavigationController* navi = [[UINavigationController alloc] initWithRootViewController:srvc];
+    UIBarButtonItem* doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(closePlaylist)];
+    srvc.navigationItem.rightBarButtonItem = doneButton;
+    [UIView animateWithDuration:0.25 animations:^(void) {
+        self.playerView.frame = CGRectMake(0, self.window.frame.size.height-60, 320, 60);
+        [self.playerView closePlayer];
+    }];
+    
+    if (self.reloadTable) {
+        [self.reloadTable reloadData];
+    }
+    
+    self.currentVC = navi;
+    
+    [[JNAppDelegate topMostController] presentViewController:navi animated:YES completion:nil];
+}
+
+
+
+-(void)closePlaylist {
+    if (self.currentVC) {
+        [self.currentVC dismissViewControllerAnimated:YES completion:nil];
+        
+        self.playerView.frame = CGRectMake(0, self.window.frame.size.height-60, 320, self.window.frame.size.height);
+        [UIView animateWithDuration:0.25 animations:^(void) {
+            [self.playerView openPlayer:CGSizeMake(320, self.window.frame.size.height)];
+            self.playerView.frame = CGRectMake(0, 0, 320, self.window.frame.size.height);
+        }];
+    }
+    
+    self.currentVC = nil;
+}
+
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
