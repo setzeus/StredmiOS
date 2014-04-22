@@ -118,6 +118,7 @@
     }
     [jnad.playerView playSong:indexPath.row];
     
+    jnad.currentVC = nil;
     
     [[Mixpanel sharedInstance] track:@"Specific Set Play"];
     
