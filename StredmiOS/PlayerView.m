@@ -367,7 +367,7 @@
 -(void)addSet:(UIBarButtonItem*)sender {
     NSLog(@"Starting download of %@", [_setURL absoluteString]);
     
-    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Adding to My Sets" message:@"We recommend using WiFi for this operation.  Press Cancel to try again later." delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Continue", nil];
+    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Add to My Sets" message:@"Please be patient as adding a set may take several minutes. We also recommend the use of WiFi." delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Continue", nil];
     [alert show];
     
 }
