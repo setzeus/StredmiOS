@@ -235,7 +235,11 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="Stredm" id="ga4-Cl-RGZ">
-                        <barButtonItem key="leftBarButtonItem" image="menu-icon.png" id="mhF-Kd-yE5"/>
+                        <barButtonItem key="leftBarButtonItem" image="menu-icon.png" id="mhF-Kd-yE5">
+                            <connections>
+                                <segue destination="kIf-Bb-rYs" kind="unwind" unwindAction="unwindToMenuViewController:" id="njX-MD-M2T"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="search" id="cof-yr-qWQ">
                             <color key="tintColor" red="0.0" green="0.4839373911" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
@@ -250,6 +254,7 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mtl-IJ-8c3" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="kIf-Bb-rYs" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1098" y="3"/>
         </scene>
@@ -375,7 +380,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Browse" id="8Ma-V0-7tk">
-                        <barButtonItem key="leftBarButtonItem" image="menu-32" id="cp5-zm-Fsi">
+                        <barButtonItem key="leftBarButtonItem" image="menu-icon.png" id="cp5-zm-Fsi">
                             <connections>
                                 <segue destination="HqI-HM-GyP" kind="unwind" unwindAction="unwindToMenuViewController:" id="LYv-58-tsq"/>
                             </connections>
@@ -471,7 +476,7 @@
                     </tableView>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Discover" id="Z95-Cz-3wj" userLabel="Navigation Item - Discover">
-                        <barButtonItem key="leftBarButtonItem" image="menu-32" id="4ij-91-mYH">
+                        <barButtonItem key="leftBarButtonItem" image="menu-icon.png" id="4ij-91-mYH">
                             <connections>
                                 <segue destination="wwT-Yf-wWx" kind="unwind" unwindAction="unwindToMenuViewController:" id="6vN-9w-MSF"/>
                             </connections>
@@ -608,7 +613,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="My Sets" id="h0m-xr-uWL" userLabel="Navigation Item - My Sets">
-                        <barButtonItem key="leftBarButtonItem" image="menu-32" id="0cJ-9o-qpb">
+                        <barButtonItem key="leftBarButtonItem" image="menu-icon.png" id="0cJ-9o-qpb">
                             <connections>
                                 <segue destination="ag1-AS-YTy" kind="unwind" unwindAction="unwindToMenuViewController:" id="wL2-AN-1oV"/>
                             </connections>
@@ -724,7 +729,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Settings" id="hTz-In-CYd">
-                        <barButtonItem key="leftBarButtonItem" image="menu-32" id="VH4-Lx-Hj2">
+                        <barButtonItem key="leftBarButtonItem" image="menu-icon.png" id="VH4-Lx-Hj2">
                             <connections>
                                 <segue destination="5Ol-kD-lWb" kind="unwind" unwindAction="unwindToMenuViewController:" id="wVh-nb-E5e"/>
                             </connections>
@@ -931,7 +936,6 @@
         <image name="instagram-50" width="50" height="50"/>
         <image name="ios7" width="1920" height="1080"/>
         <image name="medium" width="1265" height="706"/>
-        <image name="menu-32" width="32" height="32"/>
         <image name="menu-icon.png" width="20" height="20"/>
         <image name="music_video-50" width="50" height="50"/>
         <image name="settings-50" width="50" height="50"/>
@@ -944,6 +948,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="QKd-hb-UyW"/>
+        <segue reference="Sk2-N3-hD0"/>
     </inferredMetricsTieBreakers>
 </document>

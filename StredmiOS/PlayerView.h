@@ -13,7 +13,7 @@
 #import <AudioToolbox/AudioToolbox.h>
 #import "UIImage+ImageEffects.h"
 
-@interface PlayerView : UIView <UIScrollViewDelegate, UIToolbarDelegate, UIGestureRecognizerDelegate, NSURLConnectionDataDelegate>
+@interface PlayerView : UIView <UIScrollViewDelegate, UIToolbarDelegate, UIGestureRecognizerDelegate, NSURLConnectionDataDelegate, UIAlertViewDelegate>
 
 @property (strong, nonatomic) UIScrollView *songScrollView;
 @property (strong, nonatomic) UILabel *currentTimeLabel;

@@ -93,6 +93,8 @@
     
     self.handle.alpha = 1.0;
     
+    self.addedSong.alpha = 0.0;
+    
 }
 
 
@@ -303,6 +305,7 @@
     [self addSubview:self.bottomToolbar];
     
     self.currentTimeLabel = [[UILabel alloc] init];
+    self.currentTimeLabel.textColor = [UIColor whiteColor];
     self.currentTimeLabel.textAlignment = NSTextAlignmentCenter;
     self.currentTimeLabel.text = @"00:00/00:00";
     [self addSubview:self.currentTimeLabel];
@@ -313,7 +316,7 @@
     [self addSubview:self.durationLabel];
     
     self.titleLabel = [[UILabel alloc] init];
-    self.titleLabel.textColor = [UIColor blackColor];
+    self.titleLabel.textColor = [UIColor whiteColor];
     self.titleLabel.textAlignment = NSTextAlignmentCenter;
     self.titleLabel.numberOfLines = 2;
     self.titleLabel.text = @"Avicii - Ultra Music Festival 2013";
@@ -363,6 +366,12 @@
 
 -(void)addSet:(UIBarButtonItem*)sender {
     NSLog(@"Starting download of %@", [_setURL absoluteString]);
+    
+    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Adding to My Sets" message:@"We recommend using WiFi for this operation.  Press Cancel to try again later." delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Continue", nil];
+    [alert show];
+    
+}
+-(void)finishAddingSet {
 
     [UIView animateWithDuration:.25 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^(void){
         self.addedSong.alpha = 1.0;
@@ -377,11 +386,11 @@
     NSString* plistPath = [documentsPath stringByAppendingPathComponent:@"sets.plist"];
     
     
-    NSDictionary* song = [self.playlistArray objectAtIndex:self.currentRow];
+    NSDictionary* song = (NSDictionary*)[self.playlistArray objectAtIndex:self.currentRow];
     NSLog(@"addSet %@", plistPath);
     
     NSArray* setsArray = [NSArray arrayWithContentsOfFile:plistPath];
-    NSArray* keepSets = [[NSMutableArray alloc] init];
+    NSArray* keepSets;
     BOOL alreadyInMySets = [setsArray containsObject:song];
     
     if (alreadyInMySets) {
@@ -396,17 +405,18 @@
     } else {
         if ([setsArray count] > 1) {
             NSLog(@"BIGGER than 1");
-            keepSets = @[[setsArray objectAtIndex:1], song];
+            keepSets = @[(NSDictionary*)[setsArray objectAtIndex:1], song];
         } else if ([setsArray count] == 1){
             NSLog(@"equal to 1");
-            keepSets = @[[setsArray objectAtIndex:0], song];
+            keepSets = @[(NSDictionary*)[setsArray objectAtIndex:0], song];
         } else {
             NSLog(@"new");
             keepSets = @[song];
         }
     }
     
-    [keepSets writeToFile:plistPath atomically:YES];
+    BOOL written = [keepSets writeToFile:plistPath atomically:YES];
+    NSLog(@"file was written successfully?: %d", written);
     
     NSString* libraryDirectory = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
 
@@ -483,7 +493,6 @@
 }
 
 -(void)playSong:(NSInteger)row {
-    NSLog(@"row: %d count: %d", row, [self.playlistArray count]);
     if (row < 0 || row >= [self.playlistArray count]) {
         [self random];
         return;
@@ -615,6 +624,12 @@
 
 -(void)dealloc {
     [self.playerLayer.player removeObserver:self forKeyPath:@"status"];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 1) {
+        [self finishAddingSet];
+    }
 }
 
 /*
