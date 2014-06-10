@@ -41,7 +41,7 @@
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:[url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
     NSError* error;
     NSData* data = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:&error];
-    if (error != nil){
+    if (error != nil) {
         [[Mixpanel sharedInstance] track:@"Data Request Error" properties:@{@"Error" : error.description}];
         [NSException exceptionWithName:@"Error Requesting Data" reason:error.description userInfo:nil];
     }
@@ -69,6 +69,8 @@
 - (void)changeBrowseMode {
     self.currentMode = (NSInteger)self.browseSegCont.selectedSegmentIndex;
     [self.tableView reloadData];
+    NSLog(@"scrollsToTop: %d", [self.tableView scrollsToTop]);
+    [self.tableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:NO];
     
     switch (self.currentMode) {
         case 0:
@@ -91,7 +93,6 @@
             break;
     }
 }
-
 
 -(NSArray *)searchArray {
     NSString *searchURL = [NSString stringWithFormat:@"http://stredm.com/scripts/mobile/search.php?label=%@", self.searchString];
@@ -198,15 +199,15 @@
             break;
         case 1:
             cell.textLabel.text = [[self.eventArray objectAtIndex:indexPath.row] objectForKey:@"event"];
-            cell.idNum = (NSInteger)[[self.artistArray objectAtIndex:indexPath.row] objectForKey:@"id"];
+            cell.idNum = (NSInteger)[[self.eventArray objectAtIndex:indexPath.row] objectForKey:@"id"];
             break;
         case 2:
             cell.textLabel.text = [[self.radioArray objectAtIndex:indexPath.row] objectForKey:@"radiomix"];
-            cell.idNum = (NSInteger)[[self.artistArray objectAtIndex:indexPath.row] objectForKey:@"id"];
+            cell.idNum = (NSInteger)[[self.radioArray objectAtIndex:indexPath.row] objectForKey:@"id"];
             break;
         case 3:
             cell.textLabel.text = [[self.genreArray objectAtIndex:indexPath.row] objectForKey:@"genre"];
-            cell.idNum = (NSInteger)[[self.artistArray objectAtIndex:indexPath.row] objectForKey:@"id"];
+            cell.idNum = (NSInteger)[[self.genreArray objectAtIndex:indexPath.row] objectForKey:@"id"];
             break;
         default:
             cell.textLabel.text = @"An error occured";
@@ -244,6 +245,53 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 0;
+}
+
+-(NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView {
+    return @[@"A", @"B", @"C", @"D", @"E", @"F", @"G", @"H", @"I", @"J", @"K", @"L", @"M", @"N", @"O", @"P", @"Q", @"R", @"S", @"T", @"U", @"V", @"W", @"X", @"Y", @"Z", ];
+}
+
+- (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index {
+    
+    NSArray* indexArray;
+    NSString* key;
+    switch (self.currentMode) {
+        case 0:
+            indexArray = self.artistArray;
+            key = @"artist";
+            break;
+        case 1:
+            indexArray = self.eventArray;
+            key = @"event";
+            break;
+        case 2:
+            indexArray = self.radioArray;
+            key = @"radiomix";
+            break;
+        case 3:
+            indexArray = self.genreArray;
+            key = @"genre";
+            break;
+        default:
+            break;
+    }
+    NSInteger newRow = [self indexForFirstChar:title inArray:indexArray withKey:key];
+    NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:newRow inSection:0];
+    [tableView scrollToRowAtIndexPath:newIndexPath atScrollPosition:UITableViewScrollPositionTop animated:NO];
+    
+    return index;
+}
+
+- (NSInteger)indexForFirstChar:(NSString *)character inArray:(NSArray *)array withKey:(NSString *)key {
+    for (int i = 0; i < [array count]; ++i) {
+        NSString* str = [[array objectAtIndex:i] objectForKey:key];
+        str = [str substringWithRange:[str rangeOfComposedCharacterSequenceAtIndex:0]];
+        int comp = [str compare:character options:NSCaseInsensitiveSearch];
+        if ((comp >= NSOrderedSame) || i >= [array count]-1) {
+            return i;
+        }
+    }
     return 0;
 }
 
