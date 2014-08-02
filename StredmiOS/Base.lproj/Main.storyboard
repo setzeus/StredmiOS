@@ -378,7 +378,7 @@
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <segments>
                                 <segment title="Artist"/>
-                                <segment title="Festival"/>
+                                <segment title="Event"/>
                                 <segment title="Radio"/>
                                 <segment title="Genre"/>
                             </segments>
@@ -945,6 +945,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="d8d-rb-aqw"/>
+        <segue reference="GDw-Zt-GUf"/>
     </inferredMetricsTieBreakers>
 </document>

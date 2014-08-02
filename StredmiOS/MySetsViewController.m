@@ -35,9 +35,6 @@
 {
     [super viewDidLoad];
     
-    JNAppDelegate* jnad = (JNAppDelegate*) [[UIApplication sharedApplication] delegate];
-    jnad.reloadTable = self.tableView;
-    
     [[Mixpanel sharedInstance] track:@"My Sets Page"];
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -153,7 +150,6 @@
 
 -(void)dealloc {
     JNAppDelegate* jnad = (JNAppDelegate*) [[UIApplication sharedApplication] delegate];
-    jnad.reloadTable = nil;
 }
 
 

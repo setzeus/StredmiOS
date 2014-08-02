@@ -1,4 +1,4 @@
-//
+ //
 //  HomeDrawerView.m
 //  StredmiOS
 //
@@ -15,6 +15,23 @@
 #import <MediaPlayer/MPMediaItem.h>
 
 #import <Mixpanel/Mixpanel.h>
+
+#define FIXED_SPACE_WIDTH 20
+
+@implementation SetListView
+
+-(id)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
+    if (self) {
+        self.label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
+        
+        [self addSubview:self.label];
+    }
+    
+    return self;
+}
+
+@end
 
 @interface PlayerView()
 
@@ -56,8 +73,8 @@
 -(void)openPlayer:(CGSize)size {
     self.isOpen = true;
     
-    self.titleLabel.frame = CGRectMake(10, 20, 300, 60);
-    self.currentTimeLabel.frame = CGRectMake(20, 80, 280, 20);
+    self.titleLabel.frame = CGRectMake(10, 20, self.frame.size.width-20, 60);
+    self.currentTimeLabel.frame = CGRectMake(20, 80, self.frame.size.width-40, 20);
     
     self.eventLabel.alpha = 0.0;
     self.artistLabel.alpha = 0.0;
@@ -70,16 +87,17 @@
     self.playerToolbar.alpha = 0.0;
     
     self.handle.alpha = 0.0;
+    
+    JNAppDelegate *jnad = (JNAppDelegate *)[[UIApplication sharedApplication] delegate];
+    [jnad closePopupMenu];
 }
 
 -(void)closePlayer {
     self.isOpen = false;
     
     self.artwork.frame = CGRectMake(5, 5, 50, 50);
-    self.eventLabel.frame = CGRectMake(65, 10, 200, 22);
-    self.artistLabel.frame = CGRectMake(65, 32, 200, 18);
-    
-    self.artwork.frame = CGRectMake(5, 5, 50, 50);
+    self.eventLabel.frame = CGRectMake(65, 10, self.frame.size.width-55, 22);
+    self.artistLabel.frame = CGRectMake(65, 32, self.frame.size.width-55, 18);
     
     self.eventLabel.alpha = 1.0;
     self.artistLabel.alpha = 1.0;
@@ -123,6 +141,23 @@
     return [NSMutableArray arrayWithObjects:@{@"event" : @"An Error Occured",
                                               @"artist" : @"",
                                               @"match_type" : @"artist"}, nil];
+}
+
+-(NSMutableDictionary *)safeJSONParseDict:(NSString *)url {
+    NSData* data;
+    @try {
+        data = [self dataFromURL:url];
+    }
+    @catch (NSException *exception) {
+        return [NSMutableDictionary dictionaryWithObjectsAndKeys:@"error", exception.description, nil];
+    }
+    NSError *error;
+    if (data) {
+        NSMutableDictionary* dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
+        if (dict) return dict;
+        else if (error) return [NSMutableDictionary dictionaryWithObjectsAndKeys: @"error", error.description, nil];
+    }
+    return [NSMutableDictionary dictionaryWithObjectsAndKeys:@"error", @"Something went wrong", nil];
 }
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
@@ -170,7 +205,23 @@
     int durSeconds = (int)duration%60;
     if (durMinutes < 0.0) durMinutes = 0.0;
     if (durSeconds < 0.0) durSeconds = 0.0;
-    self.currentTimeLabel.text = [NSString stringWithFormat:@"%02d:%02d/%02d:%02d", currMinutes, currSeconds, durMinutes, durSeconds];
+    NSString *currentHalf = [NSString stringWithFormat:@"%02d:%02d", currMinutes, currSeconds];
+    self.currentTimeLabel.text = [NSString stringWithFormat:@"%@/%02d:%02d", currentHalf, durMinutes, durSeconds];
+    
+    NSInteger finalIndex = 0;
+    NSInteger upperLimit = self.startTimes.count;
+    for (NSInteger i = 1; i < upperLimit; ++i) {
+        if ([currentHalf compare:[self.startTimes objectAtIndex:i]] != NSOrderedDescending) {
+            finalIndex = i - 1;
+            break;
+        }
+    }
+    
+    if ([currentHalf compare:[self.startTimes objectAtIndex:upperLimit-1]] == NSOrderedDescending) {
+        finalIndex = upperLimit-1;
+    }
+    
+    [self setTracklistTitle:finalIndex];
 }
 
 -(BOOL)isScrubbing {
@@ -230,11 +281,18 @@
 -(void)updatePlayerToolbar {
     if (self.isPlaying) {
         UIBarButtonItem *playPauseBarItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPause target:self action:@selector(playPush:)];
+        UIBarButtonItem *flex = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+        UIBarButtonItem *fixed = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+        fixed.width = FIXED_SPACE_WIDTH;
         playPauseBarItem.tintColor = [UIColor grayColor];
-        [self.playerToolbar setItems:@[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:@selector(playPush:)], playPauseBarItem]];
+        [self.playerToolbar setItems:@[flex, playPauseBarItem, fixed]];
     } else {
-        UIBarButtonItem *playPauseBarItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPlay target:self action:@selector(playPush:)];            playPauseBarItem.tintColor = [UIColor grayColor];
-        [self.playerToolbar setItems:@[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:@selector(playPush:)], playPauseBarItem]];
+        UIBarButtonItem *playPauseBarItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPlay target:self action:@selector(playPush:)];
+        UIBarButtonItem *flex = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+        UIBarButtonItem *fixed = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+        fixed.width = FIXED_SPACE_WIDTH;
+        playPauseBarItem.tintColor = [UIColor grayColor];
+        [self.playerToolbar setItems:@[flex, playPauseBarItem, fixed]];
     }
 }
 
@@ -258,34 +316,50 @@
 }
 
 -(void)initMethod {
+    JNAppDelegate* jnad = (JNAppDelegate*) [[UIApplication sharedApplication] delegate];
+
     self.backgroundColor = [UIColor whiteColor];
     self.isPlaying = false;
     self.justScrubbed = false;
     
     self.background = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"ios7"] applyLightEffect]];
     self.background.contentMode = UIViewContentModeScaleAspectFill;
-    self.background.frame = CGRectMake(0, 0, 320, self.frame.size.height);
+    self.background.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
     self.background.clipsToBounds = YES;
     [self addSubview:self.background];
     
-    self.swipeDownView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 100)];
-    self.backgroundColor = [UIColor clearColor];
+    self.swipeDownView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, 100)];
+
     [self addSubview:self.swipeDownView];
     
-    self.playerToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 320, 60)];
+    self.playerToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, 60)];
     UIBarButtonItem *playPauseBarItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPlay target:self action:@selector(playPush:)];
+    UIBarButtonItem *flex = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+    UIBarButtonItem *fixed = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    fixed.width = FIXED_SPACE_WIDTH;
     playPauseBarItem.tintColor = [UIColor grayColor];
-    [self.playerToolbar setItems:@[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:@selector(playPush:)], playPauseBarItem]];
+    [self.playerToolbar setItems:@[flex, playPauseBarItem, fixed]];
     [self addSubview:self.playerToolbar];
     
-    self.handle = [[UIView alloc] initWithFrame:CGRectMake(140, 6, 40, 4)];
+    self.handle = [[UIView alloc] initWithFrame:CGRectMake(self.frame.size.width/2-20, 6, 40, 4)];
     self.handle.alpha = 1.0;
     [self.handle setBackgroundColor:[UIColor grayColor]];
     [self.handle.layer setCornerRadius:2.0];
     [self addSubview:self.handle];
     
+    self.setList = [[UIButton alloc] initWithFrame:CGRectMake(0, self.frame.size.height-60, self.frame.size.width, 60)];
+    self.setList.backgroundColor = [UIColor colorWithRed:20/255.0 green:20/255.0 blue:20/255.0 alpha:0.5];
+    [self.setList setTitle:@"Receiving tracklist..." forState:UIControlStateNormal];
+    self.setList.titleLabel.numberOfLines = 2;
+    self.setList.titleLabel.lineBreakMode = NSLineBreakByTruncatingMiddle;
+    self.setList.titleLabel.adjustsFontSizeToFitWidth = true;
+    self.setList.titleLabel.textColor = [UIColor whiteColor];
+    self.setList.titleLabel.textAlignment = NSTextAlignmentCenter;
+    [self.setList addTarget:jnad action:@selector(showTracklist:) forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:self.setList];
     
-    self.bottomToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, self.frame.size.height-60, 320, 60)];
+    NSLog(@"FRAME: %f %f %f %f", self.frame.origin.x, self.frame.origin.y, self.frame.size.width, self.frame.size.height);
+    self.bottomToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, self.frame.size.height-120, self.frame.size.width, 60)];
     UIBarButtonItem *shuffle = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"shuffle_icon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(shuffle)];
     UIBarButtonItem *rewind = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRewind target:self action:@selector(previous)];
     UIBarButtonItem *ffw = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFastForward target:self action:@selector(next)];
@@ -293,11 +367,9 @@
     UIButton* playlistButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [playlistButton setBackgroundImage:[UIImage imageNamed:@"playlist.png"] forState:UIControlStateNormal];
     playlistButton.frame = CGRectMake(0, 0, 20, 20);
-    JNAppDelegate* jnad = (JNAppDelegate*) [[UIApplication sharedApplication] delegate];
     [playlistButton addTarget:jnad action:@selector(showPlaylist:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *playlist = [[UIBarButtonItem alloc] initWithCustomView:playlistButton];
-    UIBarButtonItem *flex = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-    [self.bottomToolbar setItems:@[shuffle, flex, rewind, flex, playlist, flex, ffw, flex, add]];
+    [self.bottomToolbar setItems:@[flex, shuffle, flex, rewind, flex, playlist, flex, ffw, flex, add, flex]];
     [self.bottomToolbar setTintColor:[UIColor whiteColor]];
     [self.bottomToolbar setUserInteractionEnabled:YES];
     [self.bottomToolbar setBackgroundImage:[UIImage new] forToolbarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
@@ -340,7 +412,8 @@
     self.eventLabel.text = @"Ultra Music Festival 2013";
     [self.playerToolbar addSubview:self.eventLabel];
 
-    self.playButton = [[PlayButton alloc] initWithFrame:CGRectMake(40, self.frame.size.height/2-110, 240, 240)];
+    CGFloat playButtonOffsetY = (self.frame.size.height-240)/2;
+    self.playButton = [[PlayButton alloc] initWithFrame:CGRectMake((self.frame.size.width-240)/2, playButtonOffsetY, 240, 240)];
     [self addSubview:self.playButton];
     [self.songScrollView addSubview:self.songTitleLabel];
     self.songScrollView.contentSize = self.songTitleLabel.frame.size;
@@ -463,9 +536,6 @@
                                }
                                
                                NSLog(@"FILE DOWNLOADED: %@", url);
-
-                               JNAppDelegate* jnad = (JNAppDelegate*) [[UIApplication sharedApplication] delegate];
-                               [jnad reloadTable];
                            }];
 }
 
@@ -492,6 +562,45 @@
     return [UIImage imageWithData:[NSData dataWithContentsOfURL:imagePath]];
 }
 
+-(void) buildTracklist:(id)song {
+    [self.setList setTitle:@"Retrieving tracklist..." forState:UIControlStateNormal];
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSLog(@"fetching tracklist");
+        NSMutableDictionary *trackDict = [self safeJSONParseDict:[NSString stringWithFormat:@"http://stredm.com/api/tracklist/%@", [song objectForKey:@"id"]]];
+        NSMutableArray* tracklist = [trackDict objectForKey:@"tracklist"];
+        NSMutableArray* startTimes = [trackDict objectForKey:@"starttimes"];
+        if (tracklist.count != startTimes.count) {
+            NSLog(@"not same length");
+        }
+        if (tracklist) {
+            NSLog(@"tracklist received");
+            self.tracklist = tracklist;
+            self.startTimes = [NSMutableArray arrayWithArray:startTimes];
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                [self setTracklistTitle:0];
+            });
+        } else {
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                [self.setList setTitle:@"No tracklist available" forState:UIControlStateNormal];
+            });
+        }
+    });
+}
+
+-(void) setTracklistTitle:(NSInteger)index {
+    NSString *newText = @"";
+    NSString *songTitle = [self.tracklist objectAtIndex:index];
+    NSInteger tracklistLength = self.tracklist.count;
+    
+    if ([songTitle isEqual: @"Unknown"]) {
+        newText = [NSString stringWithFormat:@"Tracklist available (%lu)", (unsigned long)tracklistLength];
+    } else {
+        newText = [NSString stringWithFormat:@"%@ (%lu)", songTitle, (unsigned long)self.tracklist.count];
+    }
+    [self.setList setTitle:newText forState:UIControlStateNormal];
+}
+
 -(void)playSong:(NSInteger)row {
     if (row < 0 || row >= [self.playlistArray count]) {
         [self random];
@@ -506,8 +615,11 @@
     self.titleLabel.text = [NSString stringWithFormat:@"%@ - %@", self.artistLabel.text, self.eventLabel.text];
     [self.artwork setImage:[self localImageOrPull:[song objectForKey:@"imageURL"]]];
     [self.background setImage:[[self localImageOrPull:[song objectForKey:@"imageURL"]] applyLightEffect]];
+    [self buildTracklist:song];
     self.hidden = NO;
     
+    JNAppDelegate *jnad = (JNAppDelegate *)[[UIApplication sharedApplication] delegate];
+    [jnad closePopupMenu];
     
     [self updateLockscreen];
     
@@ -518,7 +630,6 @@
     if ([[NSFileManager defaultManager] fileExistsAtPath:imageFile]) {
         imagePath = [NSURL fileURLWithPath:imageFile];
     }
-    
     
     _imageURL = imagePath;
     
@@ -551,6 +662,7 @@
     self.timer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(updateProgress) userInfo:nil repeats:YES];
     NSLog(@"playing");
     [self play];
+
 }
 
 -(void)itemDidFinishPlaying:(id)sender {

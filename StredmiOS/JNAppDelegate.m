@@ -10,6 +10,7 @@
 #import "JNMenuViewController.h"
 #import "JNSettingsViewController.h"
 #import "SearchResultViewController.h"
+#import "TracklistTableViewController.h"
 
 #import <AVFoundation/AVFoundation.h>
 #import <AudioToolbox/AudioToolbox.h>
@@ -17,7 +18,7 @@
 #import <Mixpanel/Mixpanel.h>
 
 @interface JNAppDelegate()
-
+@property (nonatomic) BOOL registered;
 @end
 
 @implementation JNAppDelegate
@@ -59,7 +60,28 @@
     
     [self updateVersionInfo];
     
+    // register push notifications
+    if (!self.registered) {
+        [[UIApplication sharedApplication] registerForRemoteNotificationTypes:UIRemoteNotificationTypeBadge|UIRemoteNotificationTypeAlert];
+    }
+    
     return YES;
+}
+
+-(void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    NSLog(@"Successfully registered for push notifications");
+    
+    const void* devTokenBytes = [deviceToken bytes];
+    self.registered = YES;
+    [self sendDeviceToken:devTokenBytes];
+}
+
+-(void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
+    NSLog(@"Could not register for push notifications. %@", error.description);
+}
+
+-(void)sendDeviceToken:(const void*)tokenBytes {
+    
 }
 
 - (void) updateVersionInfo
@@ -127,11 +149,6 @@
             [self.playerView closePlayer];
         }];
         
-        if (self.reloadTable) {
-            [self.reloadTable reloadData];
-        }
-
-        
         [[Mixpanel sharedInstance] track:@"Close Player Tap"];
     }
 }
@@ -149,10 +166,6 @@
             self.playerView.frame = CGRectMake(0, self.window.frame.size.height-60, 320, 60);
             [self.playerView closePlayer];
         }];
-        
-        if (self.reloadTable) {
-            [self.reloadTable reloadData];
-        }
     }
 }
 
@@ -172,31 +185,31 @@
 }
 
 -(void)showPlaylist:(id)sender {
-    if (self.currentVC) {
-        [UIView animateWithDuration:0.25 animations:^(void) {
-            self.playerView.frame = CGRectMake(0, self.window.frame.size.height-60, 320, 60);
-            [self.playerView closePlayer];
-        }];
-        
-        if (self.reloadTable) {
-            [self.reloadTable reloadData];
-        }
-        return;
-    }
-    
     SearchResultViewController* srvc = [[SearchResultViewController alloc] initWithSearch:self.playerView.playlistArray andTitle:@"Playlist"];
     UINavigationController* navi = [[UINavigationController alloc] initWithRootViewController:srvc];
     srvc.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, srvc.view.frame.size.width, 60)];
-    UIBarButtonItem* doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(closePlaylist)];
+    UIBarButtonItem* doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(closePopupMenu)];
     srvc.navigationItem.rightBarButtonItem = doneButton;
     [UIView animateWithDuration:0.25 animations:^(void) {
-        self.playerView.frame = CGRectMake(0, self.window.frame.size.height-60, 320, 60);
+        self.playerView.frame = CGRectMake(0, self.window.frame.size.height-60, self.window.frame.size.width, 60);
         [self.playerView closePlayer];
     }];
     
-    if (self.reloadTable) {
-        [self.reloadTable reloadData];
-    }
+    self.currentVC = navi;
+    
+    [[JNAppDelegate topMostController] presentViewController:navi animated:YES completion:nil];
+}
+
+-(void)showTracklist:(id)sender {
+    TracklistTableViewController* srvc = [[TracklistTableViewController alloc] initWithTracklist:self.playerView.tracklist andStartTimes:self.playerView.startTimes];
+    UINavigationController* navi = [[UINavigationController alloc] initWithRootViewController:srvc];
+    srvc.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, srvc.view.frame.size.width, 60)];
+    UIBarButtonItem* doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(closePopupMenu)];
+    srvc.navigationItem.rightBarButtonItem = doneButton;
+    [UIView animateWithDuration:0.25 animations:^(void) {
+        self.playerView.frame = CGRectMake(0, self.window.frame.size.height-60, self.window.frame.size.width, 60);
+        [self.playerView closePlayer];
+    }];
     
     self.currentVC = navi;
     
@@ -204,20 +217,20 @@
 }
 
 
-
--(void)closePlaylist {
+-(void)closePopupMenu {
     if (self.currentVC) {
         [self.currentVC dismissViewControllerAnimated:YES completion:nil];
+        self.currentVC = nil;
         
-        self.playerView.frame = CGRectMake(0, self.window.frame.size.height-60, 320, self.window.frame.size.height);
+        self.playerView.frame = CGRectMake(0, self.window.frame.size.height-60, self.window.frame.size.width, self.window.frame.size.height);
         [UIView animateWithDuration:0.25 animations:^(void) {
-            [self.playerView openPlayer:CGSizeMake(320, self.window.frame.size.height)];
-            self.playerView.frame = CGRectMake(0, 0, 320, self.window.frame.size.height);
+            [self.playerView openPlayer:CGSizeMake(self.window.frame.size.width, self.window.frame.size.height)];
+            self.playerView.frame = CGRectMake(0, 0, self.window.frame.size.width, self.window.frame.size.height);
         }];
+        
     }
-    
-    self.currentVC = nil;
 }
+
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
