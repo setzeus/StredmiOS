@@ -16,11 +16,12 @@
 
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) PlayerView *playerView;
-@property (strong, nonatomic) UITableView* reloadTable;
 @property (strong, nonatomic) UIViewController* currentVC;
 
 -(void)bringPlayerToFront;
 -(BOOL)isPlaying;
 -(void)showPlaylist:(id)sender;
+-(void)showTracklist:(id)sender;
+-(void)closePopupMenu;
 
 @end

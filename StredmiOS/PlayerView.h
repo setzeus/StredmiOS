@@ -13,6 +13,12 @@
 #import <AudioToolbox/AudioToolbox.h>
 #import "UIImage+ImageEffects.h"
 
+@interface SetListView : UIView
+
+@property (nonatomic, strong) UILabel *label;
+
+@end
+
 @interface PlayerView : UIView <UIScrollViewDelegate, UIToolbarDelegate, UIGestureRecognizerDelegate, NSURLConnectionDataDelegate, UIAlertViewDelegate>
 
 @property (strong, nonatomic) UIScrollView *songScrollView;
@@ -41,6 +47,8 @@
 @property (strong, nonatomic) UIToolbar *playerToolbar;
 @property (strong, nonatomic) UIToolbar *bottomToolbar;
 
+@property (strong, nonatomic) UIButton *setList;
+
 @property (strong, nonatomic) UIView *swipeDownView;
 
 @property (strong, nonatomic) NSMutableArray *playlistArray;
@@ -50,6 +58,9 @@
 @property (strong, nonatomic) NSURL *imageURL;
 
 @property (strong, nonatomic) UILabel* addedSong;
+
+@property (strong, nonatomic) NSMutableArray* tracklist;
+@property (strong, nonatomic) NSMutableArray* startTimes;
 
 -(void)openPlayer:(CGSize)size;
 -(void)closePlayer;

@@ -43,6 +43,7 @@
 		F839315B18FC416500032BFF /* RemoteApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = F839315A18FC416500032BFF /* RemoteApplication.m */; };
 		F84826671901478F00F95A47 /* BrowseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F84826661901478F00F95A47 /* BrowseViewController.m */; };
 		F848266B1901481700F95A47 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F848266A1901481700F95A47 /* SettingsViewController.m */; };
+		F8628D55197EC0F200B62097 /* TracklistTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F8628D54197EC0F200B62097 /* TracklistTableViewController.m */; };
 		F87CDB0018D4E6ED00D0C1A8 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F87CDAFF18D4E6ED00D0C1A8 /* HomeViewController.m */; };
 		F87CDB0318D4F80500D0C1A8 /* PlayButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F87CDB0218D4F80500D0C1A8 /* PlayButton.m */; };
 		F89EA6C018DAD1E60013901A /* HomeView.m in Sources */ = {isa = PBXBuildFile; fileRef = F89EA6BF18DAD1E60013901A /* HomeView.m */; };
@@ -147,6 +148,8 @@
 		F8482668190147C000F95A47 /* BrowseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrowseViewController.h; sourceTree = "<group>"; };
 		F84826691901481700F95A47 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		F848266A1901481700F95A47 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
+		F8628D53197EC07B00B62097 /* TracklistTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TracklistTableViewController.h; sourceTree = "<group>"; };
+		F8628D54197EC0F200B62097 /* TracklistTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TracklistTableViewController.m; sourceTree = "<group>"; };
 		F87CDAFE18D4E6ED00D0C1A8 /* HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeViewController.h; sourceTree = "<group>"; };
 		F87CDAFF18D4E6ED00D0C1A8 /* HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeViewController.m; sourceTree = "<group>"; };
 		F87CDB0118D4F80500D0C1A8 /* PlayButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayButton.h; sourceTree = "<group>"; };
@@ -254,6 +257,8 @@
 				52078D7D18DD52500060F875 /* placeholder.jpg */,
 				9E64CDE418BC8BB90043926E /* JNAppDelegate.h */,
 				9E64CDE518BC8BB90043926E /* JNAppDelegate.m */,
+				F8628D53197EC07B00B62097 /* TracklistTableViewController.h */,
+				F8628D54197EC0F200B62097 /* TracklistTableViewController.m */,
 				F839315918FC416500032BFF /* RemoteApplication.h */,
 				7AB3DD661901DE3B00E0DBA1 /* Settings.bundle */,
 				F839315A18FC416500032BFF /* RemoteApplication.m */,
@@ -564,6 +569,7 @@
 				9E9ABF7318CD1209007A9897 /* JNMenuViewController.m in Sources */,
 				F8D9AB2118D6571E006C1143 /* SearchResultCell.m in Sources */,
 				F83112F818D0CE1C001F3B5E /* BrowseTableCell.m in Sources */,
+				F8628D55197EC0F200B62097 /* TracklistTableViewController.m in Sources */,
 				F8B0C06D1901E30A00FD2615 /* ECActuallySlidingViewController.m in Sources */,
 				F82346DC18D5A54D00E804BD /* SearchResultViewController.m in Sources */,
 				F803A54818DAEADF00FB7AE4 /* PlayerView.m in Sources */,
@@ -699,8 +705,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Jesus Najera (Q55U965294)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jesus Najera (Q55U965294)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -713,7 +719,7 @@
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/StredmiOS/StredmiOS-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "76643AE3-4AA0-4604-9A4B-0D6D4A02ED0B";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
@@ -725,8 +731,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Jesus Najera (7JQM8M6QG2)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Jesus Najera (7JQM8M6QG2)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -735,7 +741,7 @@
 				GCC_PREFIX_HEADER = "StredmiOS/StredmiOS-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/StredmiOS/StredmiOS-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "29E6897E-BB72-4C85-A124-5598C03F9E17";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
