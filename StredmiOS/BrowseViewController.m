@@ -42,7 +42,7 @@
     NSError* error;
     NSData* data = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:&error];
     if (error != nil) {
-        [[Mixpanel sharedInstance] track:@"Data Request Error" properties:@{@"Error" : error.description}];
+//        [[Mixpanel sharedInstance] track:@"Data Request Error" properties:@{@"Error" : error.description}];
         [NSException exceptionWithName:@"Error Requesting Data" reason:error.description userInfo:nil];
     }
     return data;
@@ -58,9 +58,20 @@
     }
     NSError *error;
     NSMutableArray* array;
-    if (data) array = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
-    if (array) return array;
-    else if (error) return [NSMutableArray arrayWithObjects:error.description, nil];
+    NSMutableDictionary* responseDict;
+    if (data) responseDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
+    if (responseDict) {
+        if ([[responseDict objectForKey:@"status"]  isEqual: @"success"]) {
+            NSMutableDictionary *payload = [responseDict objectForKey:@"payload"];
+            if (payload) {
+                NSString *type = [payload objectForKey:@"type"];
+                NSMutableArray *array = [payload objectForKey:type];
+                if (array) return array;
+            }
+        }
+    }
+    NSLog(@"[DiscoverVC]: API Failure");
+    if (error) return [NSMutableArray arrayWithObjects:error.description, nil];
     return [NSMutableArray arrayWithObjects:@{@"event" : @"No Results",
                                               @"artist" : @"",
                                               @"match_type" : @"artist"}, nil];
@@ -74,19 +85,19 @@
     
     switch (self.currentMode) {
         case 0:
-            [[Mixpanel sharedInstance] track:@"Artist Tab"];
+//            [[Mixpanel sharedInstance] track:@"Artist Tab"];
             break;
             
         case 1:
-            [[Mixpanel sharedInstance] track:@"Event Tab"];
+//            [[Mixpanel sharedInstance] track:@"Event Tab"];
             break;
             
         case 2:
-            [[Mixpanel sharedInstance] track:@"Radio  Tab"];
+//            [[Mixpanel sharedInstance] track:@"Radio  Tab"];
             break;
             
         case 3:
-            [[Mixpanel sharedInstance] track:@"Genre Tab"];
+//            [[Mixpanel sharedInstance] track:@"Genre Tab"];
             break;
             
         default:
@@ -95,38 +106,39 @@
 }
 
 -(NSArray *)searchArray {
-    NSString *searchURL = [NSString stringWithFormat:@"http://stredm.com/scripts/mobile/search.php?label=%@", self.searchString];
+    NSString *searchURL = [NSString stringWithFormat:@"http://setmine.com/api/v/7/search?search=%@", self.searchString];
     _searchArray = [self safeJSONParseArray:searchURL];
     return _searchArray;
 }
 
 -(NSArray *)artistArray {
     if ( _artistArray != nil ) return _artistArray;
-    NSString *artistURL = @"http://stredm.com/scripts/mobile/artists.php";
+    NSString *artistURL = @"http://setmine.com/api/v/7/artist";
     _artistArray = [self safeJSONParseArray:artistURL];
     return _artistArray;
 }
 
 -(NSArray *)eventArray {
     if ( _eventArray != nil ) return _eventArray;
-    NSString *eventURL = @"http://stredm.com/scripts/mobile/events.php";
+    NSString *eventURL = @"http://setmine.com/api/v/7/festival";
     _eventArray = [self safeJSONParseArray:eventURL];
     return _eventArray;
 }
 
 -(NSArray *)radioArray {
     if ( _radioArray != nil ) return _radioArray;
-    NSString *radioURL = @"http://stredm.com/scripts/mobile/radiomixes.php";
+    NSString *radioURL = @"http://setmine.com/api/v/7/mix";
     _radioArray = [self safeJSONParseArray:radioURL];
     return _radioArray;
 }
 
 -(NSArray *)genreArray {
     if ( _genreArray != nil ) return _genreArray;
-    NSString *genreURL = @"http://stredm.com/scripts/mobile/genres.php";
+    NSString *genreURL = @"http://setmine.com/api/v/7/genre";
     _genreArray = [self safeJSONParseArray:genreURL];
     return _genreArray;
 }
+
 
 - (void)viewDidLoad
 {
@@ -135,7 +147,7 @@
     self.currentMode = (NSInteger)self.browseSegCont.selectedSegmentIndex;
     [self.browseSegCont addTarget:self action:@selector( changeBrowseMode ) forControlEvents:UIControlEventValueChanged];
     
-    [[Mixpanel sharedInstance] track:@"Browse Page"];
+//    [[Mixpanel sharedInstance] track:@"Browse Page"];
     
     
 //    [self.tableView registerClass: [BrowseTableCell class] forCellReuseIdentifier:@"BrowseTableCell"];

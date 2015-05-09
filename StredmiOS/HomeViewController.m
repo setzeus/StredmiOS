@@ -34,14 +34,14 @@
 -(void)search:(id)sender {
     [self performSegueWithIdentifier:@"SearchSegue" sender:sender];
     
-    [[Mixpanel sharedInstance] track:@"Search Clicked"];
+//    [[Mixpanel sharedInstance] track:@"Search Clicked"];
 }
 
 -(void)random:(id)sender {
     JNAppDelegate *jnad = (JNAppDelegate*)[[UIApplication sharedApplication] delegate];
     [jnad.playerView random];
         
-    [[Mixpanel sharedInstance] track:@"Random Set Play"];
+//    [[Mixpanel sharedInstance] track:@"Random Set Play"];
 }
 
 -(void)handleSwipe:(UISwipeGestureRecognizer *)swipe {
@@ -52,7 +52,7 @@
             self.playerView.frame = CGRectMake(0, 64, 320, self.view.frame.size.height-64);
         }];
         
-        [[Mixpanel sharedInstance] track:@"Open Player Swipe"];
+//        [[Mixpanel sharedInstance] track:@"Open Player Swipe"];
 
     }
     else if (!self.playerView.isScrubbing) {
@@ -62,7 +62,7 @@
             
         }];
         
-        [[Mixpanel sharedInstance] track:@"Close Player Swipe"];
+//        [[Mixpanel sharedInstance] track:@"Close Player Swipe"];
 
     }
 }
@@ -83,7 +83,7 @@
     [self.homeView.searchButton addTarget:self action:@selector(search:) forControlEvents:UIControlEventTouchUpInside];
     [self.homeView.randomButton addTarget:self action:@selector(random:) forControlEvents:UIControlEventTouchUpInside];
     
-    [[Mixpanel sharedInstance] track:@"Home Page"];
+//    [[Mixpanel sharedInstance] track:@"Home Page"];
 }
 
 - (void)didReceiveMemoryWarning

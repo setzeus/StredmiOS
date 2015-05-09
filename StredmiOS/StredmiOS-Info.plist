@@ -3,11 +3,11 @@
 <plist version="1.0">
 <dict>
 	<key>CFBuildDate</key>
-	<string>Sat Aug  2 10:45:58 PDT 2014</string>
+	<string>Fri May  8 15:58:03 EDT 2015</string>
 	<key>CFBuildNumber</key>
-	<string>588</string>
+	<string>647</string>
 	<key>CFBuildVersion</key>
-	<string>2.1.588</string>
+	<string>2.2.647</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -19,17 +19,17 @@
 	<key>CFBundleIcons~ipad</key>
 	<dict/>
 	<key>CFBundleIdentifier</key>
-	<string>com.Jesus.Najera.${PRODUCT_NAME:rfc1034identifier}</string>
+	<string>com.Jesus.Najera.$(PRODUCT_NAME:rfc1034identifier)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.1</string>
+	<string>2.2</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>2.1</string>
+	<string>2.2</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIApplicationExitsOnSuspend</key>

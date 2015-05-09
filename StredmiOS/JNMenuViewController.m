@@ -46,7 +46,7 @@
 }
 
 -(IBAction)unwindToMenuViewController:(UIStoryboardSegue *)segue {
-    [[Mixpanel sharedInstance] track:@"Menu Button"];
+//    [[Mixpanel sharedInstance] track:@"Menu Button"];
 }
 
 -(void)viewDidLoad {

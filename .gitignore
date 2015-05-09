@@ -2,4 +2,9 @@
 # add your user data folders here
 john.xcuserdatad/
 
-StredmiOS.xcworkspace/xcuserdata/christianguerin.xcuserdatad/UserInterfaceState.xcuserstate
+StredmiOS.xcworkspace/xcuserdata/
+StredmiOS.xcodeproj/xcuserdata/
+Pods/Pods.xcodeproj/xcuserdata/
+
+.DS_Store
+

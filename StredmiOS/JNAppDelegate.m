@@ -25,6 +25,11 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    NSDictionary *pnsDict = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+    if(pnsDict != nil){
+        [self handlePushNotification:pnsDict];
+    }
+    
     NSError *setCategoryErr = nil;
     NSError *activationErr  = nil;
     [[AVAudioSession sharedInstance] setDelegate:self];
@@ -55,33 +60,38 @@
 
     [self setupMixpanel];
     
-    
-    [[Mixpanel sharedInstance] track:@"Application Opened"];
-    
     [self updateVersionInfo];
     
     // register push notifications
     if (!self.registered) {
-        [[UIApplication sharedApplication] registerForRemoteNotificationTypes:UIRemoteNotificationTypeBadge|UIRemoteNotificationTypeAlert];
+        // Let the device know we want to receive push notifications
+        // Register for Push Notitications, if running on iOS 8
+        if ([application respondsToSelector:@selector(registerUserNotificationSettings:)]) {
+            UIUserNotificationType userNotificationTypes = (UIUserNotificationTypeAlert | UIUserNotificationTypeBadge | UIUserNotificationTypeSound);
+            UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:userNotificationTypes categories:nil];
+            [application registerUserNotificationSettings:settings];
+            [application registerForRemoteNotifications];
+        } else {
+            // Register for Push Notifications, if running iOS version < 8
+            [application registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound)];
+        }
     }
     
     return YES;
 }
 
+-(void)handlePushNotification:(NSDictionary *)pnsDictionary {
+    
+}
+
 -(void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     NSLog(@"Successfully registered for push notifications");
-    
-    const void* devTokenBytes = [deviceToken bytes];
-    self.registered = YES;
-    [self sendDeviceToken:devTokenBytes];
+    [[[Mixpanel sharedInstance] people] addPushDeviceToken:deviceToken];
+    NSLog(@"Added Push Device Token to Mixpanel");
 }
 
 -(void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
     NSLog(@"Could not register for push notifications. %@", error.description);
-}
-
--(void)sendDeviceToken:(const void*)tokenBytes {
-    
 }
 
 - (void) updateVersionInfo
@@ -111,7 +121,7 @@
 
 - (void)setupMixpanel {
     // Initialize Mixpanel
-    Mixpanel *mixpanel = [Mixpanel sharedInstanceWithToken:@"379197a835a053a920eba4043c6e2c5b"];
+    Mixpanel *mixpanel = [Mixpanel sharedInstanceWithToken:@"3b68b70d647a75a20e2085f258e95e6b"];
 
     
     // Identify
@@ -123,6 +133,14 @@
     }
     
     [mixpanel identify:mixpanelUUID];
+    [mixpanel.people set:@"MixpanelID" to:mixpanelUUID];
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
+        NSString* version = [NSString stringWithFormat:@"Stredm v%@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
+        NSDictionary* properties = [[NSDictionary alloc] initWithObjects:@[version] forKeys:@[@"Client"]];
+        [[Mixpanel sharedInstance] track:@"Application Opened" properties:properties];
+    });
+
 }
 
 -(void)bringPlayerToFront {
@@ -138,7 +156,7 @@
             self.playerView.frame = CGRectMake(0, 0, 320, self.window.frame.size.height);
         }];
         
-        [[Mixpanel sharedInstance] track:@"Open Player Tap"];
+//        [[Mixpanel sharedInstance] track:@"Open Player Tap"];
     }
 }
 
@@ -149,7 +167,7 @@
             [self.playerView closePlayer];
         }];
         
-        [[Mixpanel sharedInstance] track:@"Close Player Tap"];
+//        [[Mixpanel sharedInstance] track:@"Close Player Tap"];
     }
 }
 

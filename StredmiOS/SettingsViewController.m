@@ -31,7 +31,7 @@
 {
     [super viewDidLoad];
     
-    [[Mixpanel sharedInstance] track:@"Settings Page"];
+//    [[Mixpanel sharedInstance] track:@"Settings Page"];
     
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -41,11 +41,11 @@
 }
 
 -(void)pushNot1:(id)sender {
-    [[Mixpanel sharedInstance] track:@"PushNot Download"];
+//    [[Mixpanel sharedInstance] track:@"PushNot Download"];
 }
 
 -(void)pushNot2:(id)sender {
-    [[Mixpanel sharedInstance] track:@"PushNot Vibrate"];
+//    [[Mixpanel sharedInstance] track:@"PushNot Vibrate"];
 }
 
 - (void)didReceiveMemoryWarning
@@ -164,13 +164,13 @@
             
             if (indexPath.row == 0) {
                 cell.textLabel.text = @"Contact";
-                [[Mixpanel sharedInstance] track:@"Contact Us Page"];
+//                [[Mixpanel sharedInstance] track:@"Contact Us Page"];
             } else if (indexPath.row == 1) {
                 cell.textLabel.text = @"Legal";
-                [[Mixpanel sharedInstance] track:@"Legal Page"];
+//                [[Mixpanel sharedInstance] track:@"Legal Page"];
             } else if (indexPath.row == 2) {
                 cell.textLabel.text = @"Share";
-                [[Mixpanel sharedInstance] track:@"Share View"];
+//                [[Mixpanel sharedInstance] track:@"Share View"];
             } else {
                 cell.textLabel.text = @"";
             }

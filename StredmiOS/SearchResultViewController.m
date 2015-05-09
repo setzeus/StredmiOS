@@ -69,7 +69,7 @@
     } else {
         [self.searchQueue cancelAllOperations];
         [self.searchQueue addOperationWithBlock:^{
-            NSArray *results = [self safeJSONParseArray:[NSString stringWithFormat:@"http://stredm.com/scripts/mobile/search.php?label=%@", searchString]];
+            NSArray *results = [self safeJSONParseArray:[NSString stringWithFormat:@"http://setmine.com/api/v/7/search?search=%@", searchString]];
             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                 // Modify your instance variables here on the main
                 // UI thread.
@@ -119,7 +119,7 @@
     
     jnad.currentVC = nil;
     
-    [[Mixpanel sharedInstance] track:@"Specific Set Play"];
+//    [[Mixpanel sharedInstance] track:@"Specific Set Play"];
     
     [self.navigationController popViewControllerAnimated:YES];
     [self dismissViewControllerAnimated:YES completion:nil];
@@ -146,7 +146,7 @@
     
     
     if ([songObject respondsToSelector:@selector(objectForKey:)]) {
-        NSString* url = [NSString stringWithFormat:@"http://stredm.com/uploads/%@", [songObject objectForKey:@"imageURL"]];
+        NSString* url = [NSString stringWithFormat:@"http://s3.amazonaws.com/stredm/namecheap/%@", [songObject objectForKey:@"imageURL"]];
         [cell.imageView setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"placeholder.jpg"]];
         
         NSLog(@"cell at row: %d", indexPath.row);
@@ -169,7 +169,7 @@
 -(UIImage*)localImageOrPull:(NSString*)url {
     NSString* libraryDirectory = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
     
-    NSURL *imagePath = [NSURL URLWithString:[NSString stringWithFormat:@"http://stredm.com/uploads/%@", url]];
+    NSURL *imagePath = [NSURL URLWithString:[NSString stringWithFormat:@"http://s3.amazonaws.com/stredm/namecheap/%@", url]];
     NSString *imageFile = [[libraryDirectory stringByAppendingPathComponent:@"Caches/"] stringByAppendingPathComponent:url];
     if ([[NSFileManager defaultManager] fileExistsAtPath:imageFile])
         return [UIImage imageWithData:[NSData dataWithContentsOfFile:imageFile]];
@@ -209,7 +209,7 @@
     NSError* error;
     NSString *string = [NSString stringWithContentsOfURL:[NSURL URLWithString:url] encoding:NSISOLatin1StringEncoding error:&error];
     if (error != nil){
-        [[Mixpanel sharedInstance] track:@"Data Request Error" properties:@{@"Error" : error.description}];
+//        [[Mixpanel sharedInstance] track:@"Data Request Error" properties:@{@"Error" : error.description}];
         [NSException exceptionWithName:@"Error Requesting Data" reason:error.description userInfo:nil];
     }
      return [string dataUsingEncoding:NSUTF8StringEncoding];
@@ -225,9 +225,20 @@
     }
     NSError *error;
     NSMutableArray* array;
-    if (data) array = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
-    if (array) return array;
-    else if (error) return [NSMutableArray arrayWithObjects:error.description, nil];
+    NSMutableDictionary* responseDict;
+    if (data) responseDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
+    if (responseDict) {
+        if ([[responseDict objectForKey:@"status"]  isEqual: @"success"]) {
+            NSMutableDictionary *payload = [responseDict objectForKey:@"payload"];
+            if (payload) {
+                NSString *type = [payload objectForKey:@"type"];
+                NSMutableArray *array = [payload objectForKey:type];
+                if (array) return array;
+            }
+        }
+    }
+    NSLog(@"[DiscoverVC]: API Failure");
+    if (error) return [NSMutableArray arrayWithObjects:error.description, nil];
     return [NSMutableArray arrayWithObjects:@{@"event" : @"No Results",
                                               @"artist" : @"",
                                               @"match_type" : @"artist"}, nil];

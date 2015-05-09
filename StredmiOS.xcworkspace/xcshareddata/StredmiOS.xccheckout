@@ -10,29 +10,29 @@
 	<string>StredmiOS</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>FE450C3D-18E3-4ACC-9FFE-546E6DA15FE1</key>
+		<key>BAA68706B362721F5AD6195C2599516960F2F00F</key>
 		<string>https://github.com/theprinc/StredmiOS.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>StredmiOS.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>FE450C3D-18E3-4ACC-9FFE-546E6DA15FE1</key>
+		<key>BAA68706B362721F5AD6195C2599516960F2F00F</key>
 		<string>..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/theprinc/StredmiOS.git</string>
 	<key>IDESourceControlProjectVersion</key>
-	<integer>110</integer>
+	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>FE450C3D-18E3-4ACC-9FFE-546E6DA15FE1</string>
+	<string>BAA68706B362721F5AD6195C2599516960F2F00F</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>FE450C3D-18E3-4ACC-9FFE-546E6DA15FE1</string>
+			<string>BAA68706B362721F5AD6195C2599516960F2F00F</string>
 			<key>IDESourceControlWCCName</key>
 			<string>StredmiOS</string>
 		</dict>

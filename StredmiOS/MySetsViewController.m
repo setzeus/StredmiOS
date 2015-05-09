@@ -35,7 +35,7 @@
 {
     [super viewDidLoad];
     
-    [[Mixpanel sharedInstance] track:@"My Sets Page"];
+//    [[Mixpanel sharedInstance] track:@"My Sets Page"];
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
@@ -100,7 +100,7 @@
 -(UIImage*)localImageOrPull:(NSString*)url {
     NSString* libraryDirectory = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
     
-    NSURL *imagePath = [NSURL URLWithString:[NSString stringWithFormat:@"http://stredm.com/uploads/%@", url]];
+    NSURL *imagePath = [NSURL URLWithString:[NSString stringWithFormat:@"http://s3.amazonaws.com/stredm/namecheap/%@", url]];
     NSString *imageFile = [[libraryDirectory stringByAppendingPathComponent:@"Caches/"] stringByAppendingPathComponent:url];
     if ([[NSFileManager defaultManager] fileExistsAtPath:imageFile])
         return [UIImage imageWithData:[NSData dataWithContentsOfFile:imageFile]];

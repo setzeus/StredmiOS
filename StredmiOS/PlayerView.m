@@ -16,8 +16,6 @@
 
 #import <Mixpanel/Mixpanel.h>
 
-#define FIXED_SPACE_WIDTH 20
-
 @implementation SetListView
 
 -(id)initWithFrame:(CGRect)frame {
@@ -120,7 +118,7 @@
     NSError* error;
     NSString *string = [NSString stringWithContentsOfURL:[NSURL URLWithString:url] encoding:NSISOLatin1StringEncoding error:&error];
     if (error != nil){
-        [[Mixpanel sharedInstance] track:@"Data Request Error" properties:@{@"Error" : error.description}];
+//        [[Mixpanel sharedInstance] track:@"Data Request Error" properties:@{@"Error" : error.description}];
         [NSException exceptionWithName:@"Error Requesting Data" reason:error.description userInfo:nil];
     }
     return [string dataUsingEncoding:NSUTF8StringEncoding];
@@ -135,10 +133,22 @@
         return [NSMutableArray arrayWithObjects:exception.description, nil];
     }
     NSError *error;
-    NSMutableArray* array = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
-    if (array) return array;
-    else if (error) return [NSMutableArray arrayWithObjects:error.description, nil];
-    return [NSMutableArray arrayWithObjects:@{@"event" : @"An Error Occured",
+    NSMutableArray* array;
+    NSMutableDictionary* responseDict;
+    if (data) responseDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
+    if (responseDict) {
+        if ([[responseDict objectForKey:@"status"]  isEqual: @"success"]) {
+            NSMutableDictionary *payload = [responseDict objectForKey:@"payload"];
+            if (payload) {
+                NSString *type = [payload objectForKey:@"type"];
+                NSMutableArray *array = [payload objectForKey:type];
+                if (array) return array;
+            }
+        }
+    }
+    NSLog(@"[DiscoverVC]: API Failure");
+    if (error) return [NSMutableArray arrayWithObjects:error.description, nil];
+    return [NSMutableArray arrayWithObjects:@{@"event" : @"No Results",
                                               @"artist" : @"",
                                               @"match_type" : @"artist"}, nil];
 }
@@ -236,12 +246,12 @@
         if (!self.isPlaying) {
             NSLog(@"PLAY");
             [self play];
-            [[Mixpanel sharedInstance] track:@"Play Button"];
+//            [[Mixpanel sharedInstance] track:@"Play Button"];
             
         } else {
             NSLog(@"PAUSE");
             [self pause];
-            [[Mixpanel sharedInstance] track:@"Pause Button"];
+//            [[Mixpanel sharedInstance] track:@"Pause Button"];
         }
     }
     else {
@@ -250,16 +260,16 @@
         
         float duration = CMTimeGetSeconds([[self.playerLayer.player currentItem] duration]);
         int timeScale = self.playerLayer.player.currentItem.asset.duration.timescale;
-        CMTime time = CMTimeMakeWithSeconds(duration * self.playButton.percentageOfSong, timeScale);
+        CMTime time = CMTimeMake(duration * self.playButton.percentageOfSong, timeScale);
         [self.playerLayer.player seekToTime:time completionHandler:^(BOOL complete){
             self.isScrubbing = false;
             [self play];
         }];
         
-        [[Mixpanel sharedInstance] track:@"Scrub" properties:@{@"Artist" : self.artistLabel.text,
-                                                               @"Event" : self.eventLabel.text,
-                                                               @"Current Time" : [NSNumber numberWithDouble:CMTimeGetSeconds([[self.playerLayer.player currentItem] currentTime])],
-                                                               @"Duration" : [NSNumber numberWithDouble:CMTimeGetSeconds([[self.playerLayer.player currentItem] duration])]}];
+//        [[Mixpanel sharedInstance] track:@"Scrub" properties:@{@"Artist" : self.artistLabel.text,
+//                                                               @"Event" : self.eventLabel.text,
+//                                                               @"Current Time" : [NSNumber numberWithDouble:CMTimeGetSeconds([[self.playerLayer.player currentItem] currentTime])],
+//                                                               @"Duration" : [NSNumber numberWithDouble:CMTimeGetSeconds([[self.playerLayer.player currentItem] duration])]}];
     }
 }
 
@@ -282,17 +292,13 @@
     if (self.isPlaying) {
         UIBarButtonItem *playPauseBarItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPause target:self action:@selector(playPush:)];
         UIBarButtonItem *flex = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-        UIBarButtonItem *fixed = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-        fixed.width = FIXED_SPACE_WIDTH;
         playPauseBarItem.tintColor = [UIColor grayColor];
-        [self.playerToolbar setItems:@[flex, playPauseBarItem, fixed]];
+        [self.playerToolbar setItems:@[flex, playPauseBarItem]];
     } else {
         UIBarButtonItem *playPauseBarItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPlay target:self action:@selector(playPush:)];
         UIBarButtonItem *flex = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-        UIBarButtonItem *fixed = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-        fixed.width = FIXED_SPACE_WIDTH;
         playPauseBarItem.tintColor = [UIColor grayColor];
-        [self.playerToolbar setItems:@[flex, playPauseBarItem, fixed]];
+        [self.playerToolbar setItems:@[flex, playPauseBarItem]];
     }
 }
 
@@ -335,10 +341,8 @@
     self.playerToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, 60)];
     UIBarButtonItem *playPauseBarItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPlay target:self action:@selector(playPush:)];
     UIBarButtonItem *flex = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-    UIBarButtonItem *fixed = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-    fixed.width = FIXED_SPACE_WIDTH;
     playPauseBarItem.tintColor = [UIColor grayColor];
-    [self.playerToolbar setItems:@[flex, playPauseBarItem, fixed]];
+    [self.playerToolbar setItems:@[flex, playPauseBarItem]];
     [self addSubview:self.playerToolbar];
     
     self.handle = [[UIView alloc] initWithFrame:CGRectMake(self.frame.size.width/2-20, 6, 40, 4)];
@@ -395,7 +399,7 @@
     [self.titleLabel setFont:[UIFont fontWithName:@"Helvetica Neue" size:24]];
     [self addSubview:self.titleLabel];
     
-    self.artwork = [[UIImageView alloc] initWithImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://stredm.com/uploads/d1e1dba7f8d6739862295ed7cb68d3ee68547544.jpg"]]]];
+    self.artwork = [[UIImageView alloc] initWithImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://s3.amazonaws.com/stredm/namecheap/d1e1dba7f8d6739862295ed7cb68d3ee68547544.jpg"]]]];
     self.artwork.contentMode = UIViewContentModeScaleAspectFill;
     self.artwork.clipsToBounds = YES;
     [self.playerToolbar addSubview:self.artwork];
@@ -516,7 +520,7 @@
         [self downloadSetAsync:_setURL];
     }
 
-    [[Mixpanel sharedInstance] track:@"Set Added"];
+//    [[Mixpanel sharedInstance] track:@"Set Added"];
 }
 
 -(void)downloadAsync:(NSURL*)url {
@@ -543,7 +547,7 @@
 -(void)downloadSetAsync:(NSURL*)url {
     [self downloadAsync:url];
     
-    [[Mixpanel sharedInstance] track:@"Download Completed"];
+//    [[Mixpanel sharedInstance] track:@"Download Completed"];
 }
 
 -(BOOL)fileIsCached:(NSString*)url {
@@ -555,7 +559,7 @@
 -(UIImage*)localImageOrPull:(NSString*)url {
     NSString* libraryDirectory = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
     
-    NSURL *imagePath = [NSURL URLWithString:[NSString stringWithFormat:@"http://stredm.com/uploads/%@", url]];
+    NSURL *imagePath = [NSURL URLWithString:[NSString stringWithFormat:@"http://s3.amazonaws.com/stredm/namecheap/%@", url]];
     NSString *imageFile = [[libraryDirectory stringByAppendingPathComponent:@"Caches/"] stringByAppendingPathComponent:url];
     if ([[NSFileManager defaultManager] fileExistsAtPath:imageFile])
         return [UIImage imageWithData:[NSData dataWithContentsOfFile:imageFile]];
@@ -567,7 +571,7 @@
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSLog(@"fetching tracklist");
-        NSMutableDictionary *trackDict = [self safeJSONParseDict:[NSString stringWithFormat:@"http://stredm.com/api/tracklist/%@", [song objectForKey:@"id"]]];
+        NSMutableDictionary *trackDict = [self safeJSONParseDict:[NSString stringWithFormat:@"http://setmine.com/api/v/7/tracklist/%@", [song objectForKey:@"id"]]];
         NSMutableArray* tracklist = [trackDict objectForKey:@"tracklist"];
         NSMutableArray* startTimes = [trackDict objectForKey:@"starttimes"];
         if (tracklist.count != startTimes.count) {
@@ -581,6 +585,8 @@
                 [self setTracklistTitle:0];
             });
         } else {
+            self.tracklist = [NSMutableArray arrayWithObjects:@"Unknown", nil];
+            self.startTimes = [NSMutableArray arrayWithObjects:@"00:00", nil];
             dispatch_sync(dispatch_get_main_queue(), ^{
                 [self.setList setTitle:@"No tracklist available" forState:UIControlStateNormal];
             });
@@ -607,6 +613,8 @@
         return;
     }
     
+    [[Mixpanel sharedInstance] track:@"Playing track"];
+    
     self.currentRow = row;
     
     id song = [self.playlistArray objectAtIndex:self.currentRow];
@@ -623,7 +631,7 @@
     
     [self updateLockscreen];
     
-    NSURL *imagePath = [NSURL URLWithString:[NSString stringWithFormat:@"http://stredm.com/uploads/%@", [song objectForKey:@"imageURL"]]];
+    NSURL *imagePath = [NSURL URLWithString:[NSString stringWithFormat:@"http://s3.amazonaws.com/stredm/namecheap/%@", [song objectForKey:@"imageURL"]]];
     NSString* libraryDirectory = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
     NSString *imageFile = [[libraryDirectory stringByAppendingPathComponent:@"Caches/"] stringByAppendingPathComponent:[song objectForKey:@"imageURL"]];
     
@@ -637,10 +645,10 @@
     BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:setFile];
     if(fileExists) {
         _setURL = [NSURL fileURLWithPath:setFile];
-        [[Mixpanel sharedInstance] track:@"Playing Local Set"];
+//        [[Mixpanel sharedInstance] track:@"Playing Local Set"];
     }
     else {
-        _setURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://stredm.com/uploads/%@", [song objectForKey:@"songURL"]]];
+        _setURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://s3.amazonaws.com/stredm/namecheap/%@", [song objectForKey:@"songURL"]]];
     }
 
     NSLog(@"_setURL: %@", _setURL);
@@ -668,7 +676,7 @@
 -(void)itemDidFinishPlaying:(id)sender {
     [self next];
     
-    [[Mixpanel sharedInstance] track:@"Finished Playing"];
+//    [[Mixpanel sharedInstance] track:@"Finished Playing"];
 }
 
 -(void)random {
@@ -678,7 +686,7 @@
 
 -(void)shuffle {
     [self random];
-    [[Mixpanel sharedInstance] track:@"Shuffle"];
+//    [[Mixpanel sharedInstance] track:@"Shuffle"];
 }
 
 -(void)next {
@@ -688,7 +696,7 @@
 -(void)lockNext {
     [self next];
     
-    [[Mixpanel sharedInstance] track:@"Lock Screen Next"];
+//    [[Mixpanel sharedInstance] track:@"Lock Screen Next"];
 }
 
 -(void)previous {
@@ -701,7 +709,7 @@
 -(void)lockPrevious {
     [self previous];
     
-    [[Mixpanel sharedInstance] track:@"Lock Screen Previous"];
+//    [[Mixpanel sharedInstance] track:@"Lock Screen Previous"];
 }
 
 

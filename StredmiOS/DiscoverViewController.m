@@ -43,7 +43,7 @@
     NSError* error;
     NSData* data = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:&error];
     if (error != nil){
-        [[Mixpanel sharedInstance] track:@"Data Request Error" properties:@{@"Error" : error.description}];
+//        [[Mixpanel sharedInstance] track:@"Data Request Error" properties:@{@"Error" : error.description}];
         [NSException exceptionWithName:@"Error Requesting Data" reason:error.description userInfo:nil];
     }
     return data;
@@ -59,9 +59,20 @@
     }
     NSError *error;
     NSMutableArray* array;
-    if (data) array = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
-    if (array) return array;
-    else if (error) return [NSMutableArray arrayWithObjects:error.description, nil];
+    NSMutableDictionary* responseDict;
+    if (data) responseDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
+    if (responseDict) {
+        if ([[responseDict objectForKey:@"status"]  isEqual: @"success"]) {
+            NSMutableDictionary *payload = [responseDict objectForKey:@"payload"];
+            if (payload) {
+                NSString *type = [payload objectForKey:@"type"];
+                NSMutableArray *array = [payload objectForKey:type];
+                if (array) return array;
+            }
+        }
+    }
+    NSLog(@"[DiscoverVC]: API Failure");
+    if (error) return [NSMutableArray arrayWithObjects:error.description, nil];
     return [NSMutableArray arrayWithObjects:@{@"event" : @"No Results",
                                               @"artist" : @"",
                                               @"match_type" : @"artist"}, nil];
@@ -75,21 +86,21 @@
 
 -(NSArray *)recentArray {
     if ( _recentArray != nil ) return _recentArray;
-    NSString *searchURL = @"http://stredm.com/scripts/mobile/recent.php";
+    NSString *searchURL = @"http://setmine.com/api/v/7/recent";
     _recentArray = [self safeJSONParseArray:searchURL];
     return _recentArray;
 }
 
 -(NSArray *)featuredArray {
     if ( _featuredArray != nil ) return _featuredArray;
-    NSString *featuredURL = @"http://stredm.com/scripts/mobile/featured.php";
+    NSString *featuredURL = @"http://setmine.com/api/v/7/featured";
     _featuredArray = [self safeJSONParseArray:featuredURL];
     return _featuredArray;
 }
 
 -(NSArray *)popularArray {
     if ( _popularArray != nil ) return _popularArray;
-    NSString *popularURL = @"http://stredm.com/scripts/mobile/popular.php";
+    NSString *popularURL = @"http://setmine.com/api/v/7/popular";
     _popularArray = [self safeJSONParseArray:popularURL];
     return _popularArray;
 }
@@ -101,7 +112,7 @@
     self.currentMode = (NSInteger)self.discoverSegCont.selectedSegmentIndex;
     [self.discoverSegCont addTarget:self action:@selector( changeDiscoverMode ) forControlEvents:UIControlEventValueChanged];
     
-    [[Mixpanel sharedInstance] track:@"Discover Page"];
+//    [[Mixpanel sharedInstance] track:@"Discover Page"];
     
     
     //    [self.tableView registerClass: [BrowseTableCell class] forCellReuseIdentifier:@"BrowseTableCell"];
@@ -170,7 +181,7 @@
         default:
             cell.textLabel.text = @"An error occured";
     }
-    NSString* url = [NSString stringWithFormat:@"%@%@", @"http://stredm.com/uploads/", [songObject objectForKey:@"imageURL"]];
+    NSString* url = [NSString stringWithFormat:@"http://s3.amazonaws.com/stredm/namecheap/%@", [songObject objectForKey:@"imageURL"]];
     cell.textLabel.text = [songObject objectForKey:@"event"];
     cell.detailTextLabel.text = [songObject objectForKey:@"artist"];
     [cell.imageView setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"placeholder.jpg"]];

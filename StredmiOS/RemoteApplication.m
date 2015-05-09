@@ -22,7 +22,7 @@
                 [jnad.playerView pause];
                 [jnad.playerView updateLockscreen];
                 
-                [[Mixpanel sharedInstance] track:@"Lock Screen Pause"];
+//                [[Mixpanel sharedInstance] track:@"Lock Screen Pause"];
 
                 break;
                 
@@ -30,7 +30,7 @@
                 [jnad.playerView play];
                 [jnad.playerView updateLockscreen];
                 
-                [[Mixpanel sharedInstance] track:@"Lock Screen Play"];
+//                [[Mixpanel sharedInstance] track:@"Lock Screen Play"];
                 
                 break;
                 
